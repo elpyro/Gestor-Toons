@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.accesoritoons.gestortoons.ui.home.HomeFragment"
+        android:label="@string/app_name"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_nav_home_to_fragmento_pedido_enviado"
+            app:destination="@id/fragmento_pedido_enviado" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragmento_login"
+        android:name="com.accesoritoons.gestortoons.Fragmento_login"
+        android:label="Login"
+        tools:layout="@layout/fragment_fragmento_login" />
+    <fragment
+        android:id="@+id/fragmento_inventario2"
+        android:name="com.accesoritoons.gestortoons.inventario.Fragmento_inventario"
+        android:label="@string/Invetario"
+        tools:layout="@layout/fragment_fragmento_inventario" >
+        <action
+            android:id="@+id/action_fragmento_inventario2_to_fragmento_nuevo_producto"
+            app:destination="@id/fragmento_nuevo_producto" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmento_nuevo_producto"
+        android:name="com.accesoritoons.gestortoons.inventario.Fragmento_nuevo_producto"
+        android:label="@string/nuevo_producto"
+        tools:layout="@layout/fragment_fragmento_nuevo_producto" >
+        <action
+            android:id="@+id/action_fragmento_nuevo_producto_to_fragmento_foto_apliada"
+            app:destination="@id/fragmento_foto_apliada" />
+    </fragment>
+    <activity
+        android:id="@+id/activity_pruebas"
+        android:name="com.accesoritoons.gestortoons.Activity_pruebas"
+        android:label="Activity_pruebas" />
+    <activity
+        android:id="@+id/activity_simple_foto"
+        android:name="com.accesoritoons.gestortoons.Activity_simple_foto"
+        android:label="@string/Escaner_productos" />
+    <fragment
+        android:id="@+id/fragmento_perfiles"
+        android:name="com.accesoritoons.gestortoons.perfiles.Fragmento_perfiles"
+        android:label="@string/Perfiles"
+        tools:layout="@layout/fragment_fragmento_perfiles" >
+        <action
+            android:id="@+id/action_fragmento_perfiles_to_fragmento_nuevo_perfil"
+            app:destination="@id/fragmento_nuevo_perfil" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmento_nuevo_perfil"
+        android:name="com.accesoritoons.gestortoons.perfiles.Fragmento_nuevo_perfil"
+        android:label="@string/Usuario"
+        tools:layout="@layout/fragment_fragmento_nuevo_perfil" >
+        <action
+            android:id="@+id/action_fragmento_nuevo_perfil_to_fragmento_foto_apliada"
+            app:destination="@id/fragmento_foto_apliada" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmento_foto_apliada"
+        android:name="com.accesoritoons.gestortoons.ViewHolder.Fragmento_foto_apliada"
+        android:label="@string/Imagen"
+        tools:layout="@layout/fragment_fragmento_foto_apliada" />
+    <fragment
+        android:id="@+id/fragmento_vendedores2"
+        android:name="com.accesoritoons.gestortoons.surtir.Fragmento_vendedores"
+        android:label="@string/Vendedores"
+        tools:layout="@layout/fragment_fragmento_vendedores" >
+        <action
+            android:id="@+id/action_fragmento_vendedores2_to_fragmento_foto_apliada"
+            app:destination="@id/fragmento_foto_apliada" />
+        <action
+            android:id="@+id/action_fragmento_vendedores2_to_fragmento_informacion_vendedor"
+            app:destination="@id/fragmento_informacion_vendedor" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmento_informacion_vendedor"
+        android:name="com.accesoritoons.gestortoons.surtir.Fragmento_informacion_vendedor"
+        android:label="@string/Vendedor"
+        tools:layout="@layout/fragment_fragmento_informacion_vendedor" >
+        <action
+            android:id="@+id/action_fragmento_informacion_vendedor_to_fragmento_foto_apliada"
+            app:destination="@id/fragmento_foto_apliada" />
+        <action
+            android:id="@+id/action_fragmento_informacion_vendedor_to_contenedor_agregar_inventario"
+            app:destination="@id/contenedor_agregar_inventario" />
+        <action
+            android:id="@+id/action_fragmento_informacion_vendedor_to_fragmento_pedido_enviado"
+            app:destination="@id/fragmento_pedido_enviado" />
+        <action
+            android:id="@+id/action_fragmento_informacion_vendedor_to_fragmento_inventario_vendedor"
+            app:destination="@id/fragmento_inventario_vendedor" />
+    </fragment>
+    <fragment
+        android:id="@+id/contenedor_agregar_inventario"
+        android:name="com.accesoritoons.gestortoons.pestañas.Contenedor_agregar_inventario"
+        android:label="@string/Surtir"
+        tools:layout="@layout/fragment_contenedor_agregar_inventario" />
+    <fragment
+        android:id="@+id/fragmento_pedido_enviado"
+        android:name="com.accesoritoons.gestortoons.surtir.Fragmento_pedido_enviado"
+        android:label="@string/Pedido_enviado"
+        tools:layout="@layout/fragment_fragmento_pedido" >
+        <action
+            android:id="@+id/action_fragmento_pedido_enviado_to_fragmento_informacion_vendedor"
+            app:destination="@id/fragmento_informacion_vendedor" />
+        <action
+            android:id="@+id/action_fragmento_pedido_enviado_to_fragmento_cambiar_cantidades"
+            app:destination="@id/fragmento_cambiar_cantidades" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmento_inventario_vendedor"
+        android:name="com.accesoritoons.gestortoons.surtir.Fragmento_inventario_vendedor"
+        android:label="@string/Invetario_vendedor"
+        tools:layout="@layout/fragment_fragmento_inventario_vendedor" />
+    <fragment
+        android:id="@+id/fragmento_cambiar_cantidades"
+        android:name="com.accesoritoons.gestortoons.surtir.Fragmento_cambiar_cantidades"
+        android:label="@string/Cambiar_cantidad"
+        tools:layout="@layout/fragment_fragmento_cambiar_cantidades" />
+    <fragment
+        android:id="@+id/fragment_lista_recaudos"
+        android:name="com.accesoritoons.gestortoons.surtir.Fragment_lista_recaudos"
+        android:label="@string/Recaudos" />
+    <fragment
+        android:id="@+id/fragment_detalle_factura"
+        android:name="com.accesoritoons.gestortoons.surtir.Fragment_detalle_factura"
+        android:label="@string/Detalle_factura"
+        tools:layout="@layout/fragment_detalle_factura" />
+    <fragment
+        android:id="@+id/fragment_venta_bodega"
+        android:name="com.accesoritoons.gestortoons.bodega.Fragment_venta_bodega_mayor"
+        android:label="@string/Venta_bodega"
+        tools:layout="@layout/fragment_venta_bodega" />
+    <fragment
+        android:id="@+id/fragment_compra__bodega"
+        android:name="com.accesoritoons.gestortoons.bodega.Fragment_compra__bodega"
+        android:label="@string/Compras_bodega"
+        tools:layout="@layout/fragment_compra__bodega" />
+    <fragment
+        android:id="@+id/contenedor_compras_bodega"
+        android:name="com.accesoritoons.gestortoons.pestañas.Contenedor_compras_bodega"
+        android:label="@string/Compras_bodega"
+        tools:layout="@layout/fragment_contenedor_compras_bodega" />
+    <fragment
+        android:id="@+id/fragment_crear_factura"
+        android:name="com.accesoritoons.gestortoons.bodega.Fragment_crear_factura"
+        android:label="@string/Crear_factura"
+        tools:layout="@layout/fragment_crear_factura" />
+    <fragment
+        android:id="@+id/fragment_facturas_bodega"
+        android:name="com.accesoritoons.gestortoons.bodega.Fragment_facturas_bodega"
+        android:label="@string/Facturas_bodega"
+        tools:layout="@layout/fragment_facturas_bodega" />
+
+    <fragment
+        android:id="@+id/fragment_empresa"
+        android:name="com.accesoritoons.gestortoons.Fragment_empresa"
+        android:label="@string/Empresa"
+        tools:layout="@layout/fragment_empresa" />
+    <fragment
+        android:id="@+id/fragment_configuracion"
+        android:name="com.accesoritoons.gestortoons.Fragment_configuracion"
+        android:label="@string/Ajustes" />
+    <activity
+        android:id="@+id/vista_pdf2"
+        android:name="com.accesoritoons.gestortoons.Vista_pdf"
+        android:label="@string/PDF" />
+    <fragment
+        android:id="@+id/fragment_puntos_de_venta"
+        android:name="com.accesoritoons.gestortoons.recaudos.Fragment_puntos_de_venta"
+        android:label="@string/Vendedores"
+        tools:layout="@layout/fragment_puntos_de_venta" />
+    <fragment
+        android:id="@+id/fragment_recaudado_cliente"
+        android:name="com.accesoritoons.gestortoons.surtir.Fragment_recaudado_cliente"
+        android:label="@string/Recaudos"
+        tools:layout="@layout/fragment_recaudado_cliente" />
+    <fragment
+        android:id="@+id/fragmento_reportes"
+        android:name="com.accesoritoons.gestortoons.reportes.Fragmento_reportes"
+        android:label="@string/Reportes"
+        tools:layout="@layout/fragment_fragmento_reportes" />
+    <fragment
+        android:id="@+id/fragment_recaudos_auditor"
+        android:name="com.accesoritoons.gestortoons.registro_auditor.Fragment_recaudos_auditor"
+        android:label="@string/Recaudado"
+        tools:layout="@layout/fragment_recaudos_auditor" />
+
+
+</navigation>

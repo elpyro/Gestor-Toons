@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".surtir.Fragment_recaudado_cliente">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/textView_total"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:foregroundGravity="center_horizontal"
+                    android:gravity="center"
+                    android:text="@string/Recaudado"
+                    android:textColor="@color/red"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/textView_articulos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:foregroundGravity="center_horizontal"
+                    android:gravity="center"
+                    android:text="@string/Recaudado"
+                    android:textColor="@color/red"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+
+            <androidx.appcompat.widget.SearchView
+                android:id="@+id/searchview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                app:searchHintIcon="@drawable/ic_baseline_search_24"
+                app:searchIcon="@drawable/ic_baseline_search_24"></androidx.appcompat.widget.SearchView>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_recaudos_pendientes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+<!--            <TextView-->
+<!--                android:id="@+id/textView9"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="@string/Devolucion_garantias"-->
+<!--                android:layout_margin="10dp"-->
+<!--                android:foregroundGravity="center_horizontal"-->
+<!--                android:gravity="center"-->
+<!--                android:textColor="@color/red"-->
+<!--                android:textSize="18sp"-->
+<!--                />-->
+
+<!--            <androidx.recyclerview.widget.RecyclerView-->
+<!--                android:id="@+id/recycler_garantias"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content" />-->
+
+        </LinearLayout>
+    </ScrollView>
+</FrameLayout>

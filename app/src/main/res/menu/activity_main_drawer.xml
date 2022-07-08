@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+<!--    <item-->
+<!--        android:id="@+id/nav_home"-->
+<!--        android:icon="@drawable/ic_baseline_newspaper_24"-->
+<!--        android:title="@string/Noticias" />-->
+    <group      android:id="@+id/grupo_administrador"
+        android:visible="false">
+
+        <item android:title="@string/Administrador">
+            <menu>
+
+                <item
+                    android:id="@+id/nav_home"
+                    android:icon="@drawable/ic_baseline_newspaper_24"
+                    android:title="@string/Noticias" />
+                <item
+                    android:id="@+id/fragmento_inventario2"
+                    android:icon="@drawable/ic_baseline_inventory_24"
+                    android:title="@string/Invetario" />
+
+                <item
+                    android:id="@+id/fragmento_perfiles"
+                    android:icon="@drawable/ic_baseline_supervised_user_circle_24"
+                    android:title="@string/Perfiles" />
+
+                <item
+                    android:id="@+id/fragmento_reportes"
+                    android:icon="@drawable/ic_baseline_leaderboard_24"
+                    android:title="@string/Reportes" />
+
+                <item
+                    android:id="@+id/fragment_empresa"
+                    android:icon="@drawable/logo_ojos"
+                    android:title="@string/Empresa" />
+
+                <item
+                    android:id="@+id/fragment_facturas_bodega"
+                    android:icon="@drawable/ic_baseline_point_of_sale_24"
+                    android:title="@string/Facturas" />
+                <item
+                    android:id="@+id/fragment_configuracion"
+                    android:icon="@drawable/ic_baseline_build_24"
+                    android:title="@string/Ajustes" />
+            </menu>
+
+        </item>
+        <item android:title="@string/Bodega">
+            <menu>
+                <item
+                    android:id="@+id/fragment_venta_bodega"
+                    android:icon="@drawable/ic_baseline_sell_24"
+                    android:title="@string/Venta_bodega" />
+                <item
+                    android:id="@+id/contenedor_compras_bodega"
+                    android:icon="@drawable/ic_baseline_shopping_cart_checkout_24"
+                    android:title="@string/Compras_bodega" />
+
+            </menu>
+        </item>
+   </group>
+    <group android:id="@+id/grupo_auditor"
+        android:visible="false">
+        <item android:title="@string/Auditor">
+            <menu>
+                <item
+                    android:id="@+id/fragment_puntos_de_venta"
+                    android:icon="@drawable/ic_baseline_holiday_village_24"
+                    android:title="@string/Punto_de_venta" />
+
+                <item
+                    android:id="@+id/fragment_recaudos_auditor"
+                    android:icon="@drawable/ic_baseline_auto_stories_24"
+                    android:title="@string/Recaudado" />
+
+            </menu>
+        </item>
+    </group>
+
+
+    <item android:title="@string/Configuracion">
+        <menu>
+
+            <item
+                android:id="@+id/fragmento_login"
+                android:icon="@drawable/ic_baseline_logout_24"
+                android:title="Login" />
+
+
+
+        </menu>
+    </item>
+
+</menu>

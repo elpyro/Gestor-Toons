@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:visible="false"
+        android:id="@+id/agregar_producto"
+        android:icon="@drawable/ic_baseline_add_circle_outline_24"
+        android:orderInCategory="100"
+        android:title="@string/nuevo_producto"
+        app:showAsAction="always" />
+    <item
+        android:visible="false"
+        android:id="@+id/nuevo_producto"
+        android:orderInCategory="100"
+        android:title="@string/nuevo_producto"
+        app:showAsAction="always" />
+
+
+    <item
+        android:visible="false"
+        android:id="@+id/nuevo_perfil"
+        android:icon="@drawable/ic_baseline_person_add_alt_1_24"
+        android:orderInCategory="100"
+        android:title="@string/action_settings"
+        app:showAsAction="always" />
+    <item
+        android:visible="false"
+        android:id="@+id/editar_producto"
+        android:icon="@drawable/ic_baseline_save_24"
+        android:orderInCategory="100"
+        android:title="@string/action_settings"
+        app:showAsAction="always" />
+
+
+    <item
+        android:visible="false"
+        android:id="@+id/linterna"
+        android:icon="@drawable/ic_baseline_flashlight_on_24"
+        android:orderInCategory="100"
+        android:title="@string/Linterna"
+        app:showAsAction="always" />
+    <item
+        android:visible="false"
+        android:id="@+id/app_bar_scanner"
+        android:icon="@drawable/ic_baseline_qr_code_scanner_24"
+        android:orderInCategory="100"
+        android:title="@string/Linterna"
+        app:showAsAction="always" />
+    <item
+        android:visible="false"
+        android:id="@+id/crear_pedido"
+        android:orderInCategory="100"
+        android:title="@string/Crear_pedido"
+        app:showAsAction="always" />
+    <item
+        android:visible="false"
+        android:id="@+id/comprar"
+        android:orderInCategory="100"
+        android:title="@string/Comprar"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/app_bar_search"
+        android:visible="false"
+        android:icon="@drawable/ic_search_black_24dp"
+        android:title="@string/Buscar"
+        app:showAsAction="always"
+        app:actionViewClass="android.widget.SearchView" />
+
+    <item
+        android:visible="false"
+        android:id="@+id/agregar_inventario"
+        android:orderInCategory="100"
+        android:title="@string/Agregar_inventario"
+        app:showAsAction="always" />
+    <item
+        android:visible="false"
+        android:id="@+id/cambiar_cantidad"
+        android:orderInCategory="100"
+        android:title="@string/Modificar"
+        app:showAsAction="always" />
+
+    <item
+        android:visible="false"
+        android:id="@+id/factura"
+        android:orderInCategory="100"
+        android:title="@string/Crear_factura"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:visible="false"
+        android:id="@+id/confirmar"
+        android:orderInCategory="100"
+        android:title="@string/Confirmar"
+        app:showAsAction="always" />
+    <item
+        android:visible="false"
+        android:id="@+id/compartir"
+        android:orderInCategory="100"
+        android:title="@string/Compartir"
+        app:showAsAction="always" />
+
+    <item
+        android:visible="false"
+        android:id="@+id/whatapps"
+        android:orderInCategory="100"
+        android:title="@string/Compartir"
+        android:icon="@drawable/whatapp"
+        app:showAsAction="always" />
+
+
+    <item
+        android:visible="false"
+        android:id="@+id/compartir_logo"
+        android:orderInCategory="100"
+        android:title="@string/Compartir"
+        android:icon="@drawable/ic_baseline_share_24"
+        app:showAsAction="always" />
+
+    <item
+        android:visible="false"
+        android:id="@+id/no_internet"
+        android:orderInCategory="100"
+        android:title="@string/Necesitas_internet"
+        android:icon="@drawable/ic_baseline_signal_wifi_connected_no_internet_4_24"
+        app:showAsAction="always" />
+
+    <item
+        android:visible="false"
+        android:id="@+id/realizar_recaudo"
+        android:orderInCategory="100"
+        android:title="@string/Realizar_Recaudo"
+        android:icon="@drawable/recaudo"
+        app:showAsAction="always" />
+</menu>

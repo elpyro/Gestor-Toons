@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1013990361383",
+    "project_id": "gestor-toons-d40bf",
+    "storage_bucket": "gestor-toons-d40bf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1013990361383:android:fa81aeeded087acd93c102",
+        "android_client_info": {
+          "package_name": "com.accesoritoons.gestortoons"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1013990361383-ekcq47ee754est3lj7d0af2lucmjfmmi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.accesoritoons.gestortoons",
+            "certificate_hash": "fec4034c2baf1a94cfe85cf468b93feafd9d2c44"
+          }
+        },
+        {
+          "client_id": "1013990361383-8fkm05f5en2l1clioiblgo90j5lsoqqv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDNF2Z9or1nc4XX0gNOufr9r7Rj5Ebl6qU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1013990361383-8fkm05f5en2l1clioiblgo90j5lsoqqv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

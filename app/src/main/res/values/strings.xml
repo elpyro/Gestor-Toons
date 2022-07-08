@@ -1,0 +1,259 @@
+<resources>
+    <string name="app_name">Gestor Toons</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">ACCCESORY TOONS</string>
+    <string name="nav_header_subtitle">Gestor</string>
+    <string name="nav_header_desc">https://accesorytoons.catalog.to/</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Noticias</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+
+    <string name="Iniciando_sesion">Iniciando Sesión</string>
+    <string name="Bienvenido">Bienvenido</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="Cerrar_sesion">Cerrar Sesión</string>
+    <string name="Administrador">Administrador</string>
+    <string name="Perfiles">Perfiles</string>
+    <string name="Invetario">Inventario</string>
+    <string name="Surtir">Surtir</string>
+    <string name="Reportes">Reportes</string>
+    <string name="Auditor">Auditor</string>
+    <string name="Configuracion">Configuración</string>
+    <string name="Registros">Registros</string>
+    <string name="Punto_de_venta">Punto de Venta</string>
+    <string name="nuevo_producto">Nuevo Producto</string>
+    <string name="nombre">Nombre</string>
+    <string name="Codigo">Codigo</string>
+    <string name="Buscar">Buscar</string>
+    <string name="codigo">Codigo</string>
+    <string name="Precios">Precios</string>
+    <string name="Costo">Costo</string>
+    <string name="Venta">Ventas</string>
+    <string name="agregar_carrito">Agregar al carrito</string>
+    <string name="Rastreo_de_cantidad">Rastreo de Cantidades</string>
+    <string name="Descripcion">Descripción</string>
+    <string name="proveedor">Proveedor</string>
+    <string name="ultima_actulizacion">Ultima Actualización</string>
+    <string name="Eliminar">Eliminar</string>
+    <string name="Cantidad">Cantidad</string>
+    <string name="MonedaMonto">$</string>
+    <string name="Requerido">Requerido</string>
+    <string name="Codigo_existente">Codigo Existente</string>
+    <string name="Problemas_de_conexion">Problemas de conexión</string>
+    <string name="codigo_existente">Codigo Existente</string>
+    <string name="problemas_conexion">Problemas en la conexión</string>
+    <string name="producto_guardado">Producto guardado</string>
+    <string name="Camara">Camara</string>
+    <string name="Galeria">Galeria</string>
+    <string name="Seleccionar_imagen">Seleccionar imagen</string>
+    <string name="Se_requieren_permisos">Se requieren permisos</string>
+    <string name="Se_requieren_permiso_almacenamiento">Se requiere permiso de almacenamiento</string>
+    <string name="Guardando">Guardando</string>
+    <string name="title_activity_main2">MainActivity2</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="Producto_inexistente">Producto inexistente</string>
+    <string name="Linterna">Linterna</string>
+    <string name="Escaner_productos">Escanear codigo</string>
+    <string name="Documento">Documento</string>
+    <string name="Correo">Correo</string>
+    <string name="Telefono">Telefono</string>
+    <string name="Direccion">Dirección</string>
+    <string name="Maximo_credito">Maximo inventario</string>
+    <string name="Vendedor">Vendedor</string>
+    <string name="Imagen">Imagen</string>
+    <string name="Registro_no_guardado">Registro no guardado</string>
+    <string name="correo_existent">Correo Existente</string>
+    <string name="Usuario_guardado">Usuario guardado</string>
+    <string name="Seleccione_perfil">Seleccione perfil</string>
+    <string name="Perfil">Perfil</string>
+    <string name="Usuario">Usuario</string>
+    <string name="Imagen_no_disponible">Imagen no disponible</string>
+    <string name="Usuario_no_registrado">Usuario no registrado</string>
+    <string name="Registro_usuario">Registro de usuario:</string>
+    <string name="Usuario_editado">"Usuario editado:"</string>
+    <string name="producto_editado">Producto editado:</string>
+    <string name="Vendedores">Vendedores</string>
+    <string name="Max_inventario">Max. inventario</string>
+    <string name="Editar">Editar</string>
+    <string name="agregar">Agregar</string>
+    <string name="Carrito">Carrito</string>
+    <string name="Crear_pedido">Crear pedido</string>
+    <string name="Pedido">Pedido</string>
+    <string name="Pedido_enviado">Pedido enviado</string>
+    <string name="Exede_el_max_inventario">El pedido exede el maximo inventario disponible para el vendedor</string>
+    <string name="Ver_ganancia">Ver ganancia</string>
+    <string name="Si">Sí</string>
+    <string name="No">No</string>
+    <string name="Pedidos">Pedidos</string>
+    <string name="Recibido">Recibido</string>
+    <string name="Creado_por">Creado por:</string>
+    <string name="Agregar_inventario">Agregar inventario</string>
+    <string name="Agregado_inventario">Agregado inventario</string>
+    <string name="Invetario_vendedor">Inventario Vendedor</string>
+    <string name="Todos_productos_recibidos">Todos los productos fueron recibidos</string>
+    <string name="Algunos_productos_recibidos">Algunos productos no fueron recibidos</string>
+    <string name="Producto_no_recibido">Producto no recibido</string>
+    <string name="Pedido_recibido">Todo el pedido fue recibido satisfactoriamente</string>
+    <string name="Eliminar_producto">¿Desea eliminar el producto?</string>
+    <string name="Esta_seguro">¿Esta seguro?</string>
+    <string name="Producto_pedido_eliminado">Producto eliminado</string>
+    <string name="Pedido_eliminado">Pedido eliminado</string>
+    <string name="Surtido">Surtido</string>
+    <string name="Cambiar_cantidad">Cambiar cantidad</string>
+    <string name="Modificar">Modificar</string>
+    <string name="Pedido_solicitado">Pedido solicitado</string>
+    <string name="Actualizando">Actualizando</string>
+    <string name="PVP">PVP</string>
+    <string name="Ganancia">Ganancia</string>
+    <string name="Recaudos_pendientes">Recaudos pendientes</string>
+    <string name="Pendiente">Pendiente</string>
+    <string name="Garantia">Garantía</string>
+    <string name="Garantias">Garantías</string>
+    <string name="Recaudo">Recaudo</string>
+    <string name="Recaudos">Recaudos</string>
+    <string name="Devolucion_garantias">Devolución por garantías</string>
+    <string name="Referencia">Referencia</string>
+    <string name="Fecha">Fecha</string>
+    <string name="Total">Total</string>
+    <string name="Devolucion">Devolución</string>
+    <string name="Detalle_factura">Detalle de factura</string>
+    <string name="Plata">Platino</string>
+    <string name="Oro">Oro</string>
+    <string name="Diamante">Diamante</string>
+    <string name="Seleccione_tipo">Seleccione el tipo de vendedor</string>
+    <string name="Compra">Compra</string>
+    <string name="Cant">Cant:</string>
+    <string name="Cant_">Cant.</string>
+    <string name="Tipo">Tipo</string>
+    <string name="Productos_agregados">Productos agregados al inventario:</string>
+    <string name="Venta_bodega">Ventas bodega</string>
+    <string name="Compras_bodega">Compras bodega</string>
+    <string name="Invetario_bodega">Inventario bodega</string>
+    <string name="Comprar">Comprar</string>
+    <string name="NoAplica">No aplica</string>
+    <string name="Venta_Mayor">Venta mayor</string>
+    <string name="Inventario_mayor">Inventario mayor</string>
+    <string name="Crear_factura">Crear factura</string>
+    <string name="Confirmar">Confirmar</string>
+    <string name="Nombre">Nombre</string>
+    <string name="Productos_no_selecionados">Productos no seleccionados</string>
+    <string name="Venta_bodega_mayor">"Ventas  bodega mayorista"</string>
+    <string name="Anonimo">Anonimo</string>
+    <string name="Facturas_bodega">Facturas de bodega</string>
+    <string name="Bodega">Bodega</string>
+    <string name="Precio">Precio</string>
+
+
+    <string-array name="Perfiles">
+        <item>"Perfil"</item>
+        <item>Administrador</item>
+        <item>Auditor</item>
+        <item>Vendedor</item>
+    </string-array>
+
+    <string-array name="Reportes">
+        <item>Ganancías</item>
+        <item>Inventarío</item>
+        <item>Recaudados</item>
+        <item>Por recaudo</item>
+        <item>Compras bodega</item>
+        <item>Pedidos</item>
+        <item>Garantías</item>
+    </string-array>
+
+    <string-array name="Tipo">
+        <item>"Tipo"</item>
+        <item>Platino</item>
+        <item>Oro</item>
+        <item>Diamante</item>
+    </string-array>
+
+    <string-array name="Categoria">
+        <item>"Bodega"</item>
+        <item>"Otros"</item>
+    </string-array>
+    <!-- Preference Titles -->
+    <string name="messages_header">Messages</string>
+    <string name="sync_header">Sync</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Your signature</string>
+    <string name="reply_title">Default reply action</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails
+    </string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="Empresa">Empresa</string>
+    <string name="Logo">Logo</string>
+    <string name="Dominio">Dominio</string>
+    <string name="Telefono1">Telefono1</string>
+    <string name="Telefono2">Telefono2</string>
+    <string name="Enviar_a">Enviar a:</string>
+    <string name="Compartir">Compartir</string>
+    <string name="Ninguno">Ninguno</string>
+    <string name="Factura">Factura</string>
+    <string name="Mostrar_imagenes">Mostrar imagenes</string>
+    <string name="informacion_superior">Informacion superior</string>
+    <string name="informacion_inferior">Informacion inferior</string>
+    <string name="Ajustes">Ajustes</string>
+    <string name="Noticias">Noticias</string>
+    <string name="Login">Login</string>
+    <string name="PDF">PDF</string>
+    <string name="PDF_guardado_con_exito">PDF guardado con exito</string>
+    <string name="Cliente">Cliente</string>
+    <string name="No_puede_compartir_pdf">No puede compartir</string>
+    <string name="Numero_invalido">Numero telefonico invalido</string>
+    <string name="WhatsApp_no_instalado">WhatsApp no instalado</string>
+    <string name="No_aplica">No aplica</string>
+    <string name="Indique_problema">Indique el problema</string>
+    <string name="Producto_agregado">Producto agregado al inventario</string>
+    <string name="Devolucion_bodega">Devolucion bodega</string>
+    <string name="Producto">Producto</string>
+    <string name="al_carrito">Al carrito</string>
+    <string name="codigo_barras">Codigo de barras</string>
+    <string name="Terminos_garantia">Terminos de garantía</string>
+    <string name="Devolucion_proveedor">Devolucion a proveedor</string>
+    <string name="restar_inventario">Restar inventario</string>
+    <string name="Necesitas_internet">Sevidor no disponible. Verifica tu conexion internet</string>
+    <string name="Surtido_independiente">Surtido independiente</string>
+    <string name="Recaudado">Recaudado</string>
+    <string name="Por_Recaudo">Por recaudo</string>
+    <string name="Recaudar">Recaudar</string>
+    <string name="Realizar_Recaudo">Realizar Recaudo</string>
+    <string name="Crear_pdf">Crear PDF</string>
+    <string name="Y">y</string>
+    <string name="Desde">Desde</string>
+    <string name="hasta">Hasta</string>
+    <string name="Todos">Todos</string>
+    <string name="Error_creando_pdf">Error creando PDF</string>
+    <string name="Reporte_de_ganancias">Reporte de Ganacias</string>
+    <string name="Hasta">Hasta</string>
+    <string name="Ref">Ref.</string>
+    <string name="Venta_">Venta</string>
+    <string name="Costos">Costos</string>
+    <string name="Ventas">Ventas</string>
+    <string name="SubTotal">Sub-Total</string>
+    <string name="Monto">Monto</string>
+    <string name="Compras">Compras bodega</string>
+    <string name="Facturas">Facturas</string>
+    <string name="Estado">Estado</string>
+    <string name="Fecha_recaudo">Fecha recaudo</string>
+    <string name="Un_Momento">Un momento...</string>
+    <string name="Creando_reporte">Creando reporte</string>
+    <string name="informacion_adicional">Información adicional</string>
+    <string name="Venta_Diamante">Venta Diamante</string>
+</resources>

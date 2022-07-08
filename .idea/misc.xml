@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/eloy_/AndroidStudioProjects/GestorToons/app/src/main/res/drawable/ic_baseline_add_business_24.xml" value="0.25462962962962965" />
+        <entry key="..\:/Users/eloy_/AndroidStudioProjects/GestorToons/app/src/main/res/drawable/ic_baseline_add_circle_24.xml" value="0.25462962962962965" />
+        <entry key="..\:/Users/eloy_/AndroidStudioProjects/GestorToons/app/src/main/res/drawable/ic_baseline_auto_stories_24.xml" value="0.20260416666666667" />
+        <entry key="..\:/Users/eloy_/AndroidStudioProjects/GestorToons/app/src/main/res/drawable/ic_baseline_delete_forever_24.xml" value="0.2074074074074074" />
+        <entry key="..\:/Users/eloy_/AndroidStudioProjects/GestorToons/app/src/main/res/drawable/ic_baseline_featured_play_list_24.xml" value="0.25462962962962965" />
+        <entry key="..\:/Users/eloy_/AndroidStudioProjects/GestorToons/app/src/main/res/drawable/ic_baseline_featured_video_24.xml" value="0.25462962962962965" />
+        <entry key="..\:/Users/eloy_/AndroidStudioProjects/GestorToons/app/src/main/res/drawable/ic_baseline_search_24.xml" value="0.3101851851851852" />
+        <entry key="..\:/Users/eloy_/AndroidStudioProjects/GestorToons/app/src/main/res/drawable/side_nav_bar.xml" value="0.3536458333333333" />
+        <entry key="..\:/Users/eloy_/AndroidStudioProjects/GestorToons/app/src/main/res/layout/activity_crear_pdf.xml" value="0.25" />
+        <entry key="..\:/Users/eloy_/AndroidStudioProjects/GestorToons/app/src/main/res/layout/activity_login.xml" value="0.1859375" />
+        <entry key="..\:/Users/eloy_/AndroidStudioProjects/GestorToons/app/src/main/res/layout/activity_main.xml" value="0.3375" />
+        <entry key="..\:/Users/eloy_/AndroidStudioProjects/GestorToons/app/src/main/res/layout/activity_main2.xml" value="0.3375" />
+        <entry key="..\:/Users/eloy_/AndroidStudioProjects/GestorToons/app/src/main/res/layout/activity_pruebas.xml" value="0.25" />
+        <entry key="..\:/Users/eloy_/AndroidStudioProjects/GestorToons/app/src/main/res/layout/activity_scanner.xml" value="0.3375" />
+        <entry key="..\:/Users/eloy_/AndroidStudioProjects/GestorToons/app/src/main/res/layout/activity_vista_pdf.xml" value="0.18958333333333333" />
+        <entry key="..\:/Users/eloy_/AndroidStudioProjects/GestorToons/app/src/main/res/layout/app_bar_main.xml" value="0.3375" />
+        <entry key="..\:/Users/eloy_/AndroidStudioProjects/GestorToons/app/src/main/res/layout/content_main.xml" value="0.3375" />
+        <entry key="..\:/Users/eloy_/AndroidStudioProjects/GestorToons/app/src/main/res/layout/content_main2.xml" value="0.3375" />
+        <entry key="..\:/Users/eloy_/AndroidStudioProjects/GestorToons/app/src/main/res/layout/fragment_blank.xml" value="0.3375" />
+        <entry key="..\:/Users/eloy_/AndroidStudioProjects/GestorToons/app/src/main/res/layout/fragment_blank_compra.xml" value="0.1859375" />
+        <entry key="..\:/Users/eloy_/AndroidStudioProjects/GestorToons/app/src/main/res/layout/fragment_compra__bodega.xml" value="0.3375" />
+        <entry key="..\:/Users/eloy_/AndroidStudioProjects/GestorToons/app/src/main/res/layout/fragment_contenedor_agregar_inventario.xml" value="0.18" />
+        <entry key="..\:/Users/eloy_/AndroidStudioProjects/GestorToons/app/src/main/res/layout/fragment_contenedor_compras_bodega.xml" value="0.3375" />
+        <entry key="..\:/Users/eloy_/AndroidStudioProjects/GestorToons/app/src/main/res/layout/fragment_contenedor_ventas_bodega.xml" value="0.15885416666666666" />
+        <entry key="..\:/Users/eloy_/AndroidStudioProjects/GestorToons/app/src/main/res/layout/fragment_contenedor_ventas_bodega_mayor.xml" value="0.3375" />
+        <entry key="..\:/Users/eloy_/AndroidStudioProjects/GestorToons/app/src/main/res/layout/fragment_crear_factura.xml" value="0.25" />
+        <entry key="..\:/Users/eloy_/AndroidStudioProjects/GestorToons/app/src/main/res/layout/fragment_detalle_factura.xml" value="0.23823529411764705" />
+        <entry key="..\:/Users/eloy_/AndroidStudioProjects/GestorToons/app/src/main/res/layout/fragment_empresa.xml" value="0.22" />
+        <entry key="..\:/Users/eloy_/AndroidStudioProjects/GestorToons/app/src/main/res/layout/fragment_facturas_bodega.xml" value="0.16" />
+        <entry key="..\:/Users/eloy_/AndroidStudioProjects/GestorToons/app/src/main/res/layout/fragment_first.xml" value="0.3375" />
+        <entry key="..\:/Users/eloy_/AndroidStudioProjects/GestorToons/app/src/main/res/layout/fragment_fragemento_carrito.xml" value="0.25" />
+        <entry key="..\:/Users/eloy_/AndroidStudioProjects/GestorToons/app/src/main/res/layout/fragment_fragmento_agregar_inventario.xml" value="0.17" />
+        <entry key="..\:/Users/eloy_/AndroidStudioProjects/GestorToons/app/src/main/res/layout/fragment_fragmento_cambiar_cantidades.xml" value="0.25" />
+        <entry key="..\:/Users/eloy_/AndroidStudioProjects/GestorToons/app/src/main/res/layout/fragment_fragmento_foto_apliada.xml" value="0.18" />
+        <entry key="..\:/Users/eloy_/AndroidStudioProjects/GestorToons/app/src/main/res/layout/fragment_fragmento_informacion_vendedor.xml" value="0.23684210526315788" />
+        <entry key="..\:/Users/eloy_/AndroidStudioProjects/GestorToons/app/src/main/res/layout/fragment_fragmento_inventario.xml" value="0.22" />
+        <entry key="..\:/Users/eloy_/AndroidStudioProjects/GestorToons/app/src/main/res/layout/fragment_fragmento_inventario_vendedor.xml" value="0.25" />
+        <entry key="..\:/Users/eloy_/AndroidStudioProjects/GestorToons/app/src/main/res/layout/fragment_fragmento_login.xml" value="0.22" />
+        <entry key="..\:/Users/eloy_/AndroidStudioProjects/GestorToons/app/src/main/res/layout/fragment_fragmento_nuevo_perfil.xml" value="0.33" />
+        <entry key="..\:/Users/eloy_/AndroidStudioProjects/GestorToons/app/src/main/res/layout/fragment_fragmento_nuevo_producto.xml" value="0.1" />
+        <entry key="..\:/Users/eloy_/AndroidStudioProjects/GestorToons/app/src/main/res/layout/fragment_fragmento_pedido.xml" value="0.22" />
+        <entry key="..\:/Users/eloy_/AndroidStudioProjects/GestorToons/app/src/main/res/layout/fragment_fragmento_perfiles.xml" value="0.19505494505494506" />
+        <entry key="..\:/Users/eloy_/AndroidStudioProjects/GestorToons/app/src/main/res/layout/fragment_fragmento_vendedores.xml" value="0.17135416666666667" />
+        <entry key="..\:/Users/eloy_/AndroidStudioProjects/GestorToons/app/src/main/res/layout/fragment_garantia.xml" value="0.3375" />
+        <entry key="..\:/Users/eloy_/AndroidStudioProjects/GestorToons/app/src/main/res/layout/fragment_home.xml" value="0.1" />
+        <entry key="..\:/Users/eloy_/AndroidStudioProjects/GestorToons/app/src/main/res/layout/fragment_lista_recaudos.xml" value="0.3375" />
+        <entry key="..\:/Users/eloy_/AndroidStudioProjects/GestorToons/app/src/main/res/layout/fragment_second.xml" value="0.3375" />
+        <entry key="..\:/Users/eloy_/AndroidStudioProjects/GestorToons/app/src/main/res/layout/fragment_venta_bodega.xml" value="0.3375" />
+        <entry key="..\:/Users/eloy_/AndroidStudioProjects/GestorToons/app/src/main/res/layout/item_agregar_inventario.xml" value="0.33" />
+        <entry key="..\:/Users/eloy_/AndroidStudioProjects/GestorToons/app/src/main/res/layout/item_historial.xml" value="0.25" />
+        <entry key="..\:/Users/eloy_/AndroidStudioProjects/GestorToons/app/src/main/res/layout/item_inventario.xml" value="0.22" />
+        <entry key="..\:/Users/eloy_/AndroidStudioProjects/GestorToons/app/src/main/res/layout/item_inventario_vendedor.xml" value="0.3375" />
+        <entry key="..\:/Users/eloy_/AndroidStudioProjects/GestorToons/app/src/main/res/layout/item_mis_facturas.xml" value="0.25" />
+        <entry key="..\:/Users/eloy_/AndroidStudioProjects/GestorToons/app/src/main/res/layout/item_pedidos.xml" value="0.22" />
+        <entry key="..\:/Users/eloy_/AndroidStudioProjects/GestorToons/app/src/main/res/layout/item_pedidos_enviados.xml" value="0.25" />
+        <entry key="..\:/Users/eloy_/AndroidStudioProjects/GestorToons/app/src/main/res/layout/item_perfiles.xml" value="0.3375" />
+        <entry key="..\:/Users/eloy_/AndroidStudioProjects/GestorToons/app/src/main/res/layout/item_productos.xml" value="0.3375" />
+        <entry key="..\:/Users/eloy_/AndroidStudioProjects/GestorToons/app/src/main/res/layout/item_productos_facturados.xml" value="0.3375" />
+        <entry key="..\:/Users/eloy_/AndroidStudioProjects/GestorToons/app/src/main/res/layout/item_vendedores.xml" value="0.25" />
+        <entry key="..\:/Users/eloy_/AndroidStudioProjects/GestorToons/app/src/main/res/layout/nav_header_main.xml" value="0.3375" />
+        <entry key="..\:/Users/eloy_/AndroidStudioProjects/GestorToons/app/src/main/res/menu/activity_main_drawer.xml" value="0.33" />
+        <entry key="..\:/Users/eloy_/AndroidStudioProjects/GestorToons/app/src/main/res/menu/main.xml" value="0.33" />
+        <entry key="..\:/Users/eloy_/AndroidStudioProjects/GestorToons/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.17864583333333334" />
+        <entry key="..\:/Users/eloy_/AndroidStudioProjects/GestorToons/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.20520833333333333" />
+        <entry key="..\:/Users/eloy_/AndroidStudioProjects/GestorToons/app/src/main/res/xml/root_preferences.xml" value="0.22" />
+        <entry key="..\:/Users/eloy_/GestorToons/app/src/main/res/layout/activity_main.xml" value="0.2972222222222222" />
+        <entry key="..\:/Users/eloy_/GestorToons/app/src/main/res/layout/activity_pdf_ganancias.xml" value="0.2972222222222222" />
+        <entry key="..\:/Users/eloy_/GestorToons/app/src/main/res/layout/activity_pruebas.xml" value="0.2972222222222222" />
+        <entry key="..\:/Users/eloy_/GestorToons/app/src/main/res/layout/activity_vista_pdf.xml" value="0.16875" />
+        <entry key="..\:/Users/eloy_/GestorToons/app/src/main/res/layout/app_bar_main.xml" value="0.2972222222222222" />
+        <entry key="..\:/Users/eloy_/GestorToons/app/src/main/res/layout/content_main.xml" value="0.2972222222222222" />
+        <entry key="..\:/Users/eloy_/GestorToons/app/src/main/res/layout/fragment_compra__bodega.xml" value="0.21296296296296297" />
+        <entry key="..\:/Users/eloy_/GestorToons/app/src/main/res/layout/fragment_contenedor_agregar_inventario.xml" value="0.21296296296296297" />
+        <entry key="..\:/Users/eloy_/GestorToons/app/src/main/res/layout/fragment_contenedor_compras_bodega.xml" value="0.21296296296296297" />
+        <entry key="..\:/Users/eloy_/GestorToons/app/src/main/res/layout/fragment_crear_factura.xml" value="0.17760416666666667" />
+        <entry key="..\:/Users/eloy_/GestorToons/app/src/main/res/layout/fragment_detalle_factura.xml" value="0.2972222222222222" />
+        <entry key="..\:/Users/eloy_/GestorToons/app/src/main/res/layout/fragment_empresa.xml" value="0.21296296296296297" />
+        <entry key="..\:/Users/eloy_/GestorToons/app/src/main/res/layout/fragment_facturas_bodega.xml" value="0.2972222222222222" />
+        <entry key="..\:/Users/eloy_/GestorToons/app/src/main/res/layout/fragment_fragemento_carrito.xml" value="0.21296296296296297" />
+        <entry key="..\:/Users/eloy_/GestorToons/app/src/main/res/layout/fragment_fragmento_agregar_inventario.xml" value="0.2972222222222222" />
+        <entry key="..\:/Users/eloy_/GestorToons/app/src/main/res/layout/fragment_fragmento_clientes.xml" value="0.21296296296296297" />
+        <entry key="..\:/Users/eloy_/GestorToons/app/src/main/res/layout/fragment_fragmento_informacion_vendedor.xml" value="0.2972222222222222" />
+        <entry key="..\:/Users/eloy_/GestorToons/app/src/main/res/layout/fragment_fragmento_inventario.xml" value="0.2972222222222222" />
+        <entry key="..\:/Users/eloy_/GestorToons/app/src/main/res/layout/fragment_fragmento_login.xml" value="0.2972222222222222" />
+        <entry key="..\:/Users/eloy_/GestorToons/app/src/main/res/layout/fragment_fragmento_nuevo_producto.xml" value="0.22" />
+        <entry key="..\:/Users/eloy_/GestorToons/app/src/main/res/layout/fragment_fragmento_reportes.xml" value="0.25" />
+        <entry key="..\:/Users/eloy_/GestorToons/app/src/main/res/layout/fragment_fragmento_vendedores.xml" value="0.16875" />
+        <entry key="..\:/Users/eloy_/GestorToons/app/src/main/res/layout/fragment_home.xml" value="0.22" />
+        <entry key="..\:/Users/eloy_/GestorToons/app/src/main/res/layout/fragment_lista_recaudos.xml" value="0.2972222222222222" />
+        <entry key="..\:/Users/eloy_/GestorToons/app/src/main/res/layout/fragment_recaudado_cliente.xml" value="0.21" />
+        <entry key="..\:/Users/eloy_/GestorToons/app/src/main/res/layout/fragment_recaudos_auditor.xml" value="0.2972222222222222" />
+        <entry key="..\:/Users/eloy_/GestorToons/app/src/main/res/layout/fragment_registro_recaudo.xml" value="0.2972222222222222" />
+        <entry key="..\:/Users/eloy_/GestorToons/app/src/main/res/layout/fragment_registro_recaudos.xml" value="0.2972222222222222" />
+        <entry key="..\:/Users/eloy_/GestorToons/app/src/main/res/layout/fragment_venta_bodega.xml" value="0.2759259259259259" />
+        <entry key="..\:/Users/eloy_/GestorToons/app/src/main/res/layout/item_agregar_inventario.xml" value="0.33" />
+        <entry key="..\:/Users/eloy_/GestorToons/app/src/main/res/layout/item_historial.xml" value="0.21296296296296297" />
+        <entry key="..\:/Users/eloy_/GestorToons/app/src/main/res/layout/item_inventario.xml" value="0.21082089552238806" />
+        <entry key="..\:/Users/eloy_/GestorToons/app/src/main/res/layout/item_inventario_vendedor.xml" value="0.2972222222222222" />
+        <entry key="..\:/Users/eloy_/GestorToons/app/src/main/res/layout/item_mis_facturas.xml" value="0.21296296296296297" />
+        <entry key="..\:/Users/eloy_/GestorToons/app/src/main/res/layout/item_pedidos.xml" value="0.21296296296296297" />
+        <entry key="..\:/Users/eloy_/GestorToons/app/src/main/res/layout/item_pedidos_enviados.xml" value="0.2972222222222222" />
+        <entry key="..\:/Users/eloy_/GestorToons/app/src/main/res/layout/item_perfiles.xml" value="0.22" />
+        <entry key="..\:/Users/eloy_/GestorToons/app/src/main/res/layout/item_producto_recaudado.xml" value="0.33" />
+        <entry key="..\:/Users/eloy_/GestorToons/app/src/main/res/layout/item_productos_facturados.xml" value="0.3375" />
+        <entry key="..\:/Users/eloy_/GestorToons/app/src/main/res/layout/item_vendedores.xml" value="0.21296296296296297" />
+        <entry key="..\:/Users/eloy_/GestorToons/app/src/main/res/layout/nav_header_main.xml" value="0.2972222222222222" />
+        <entry key="..\:/Users/eloy_/GestorToons/app/src/main/res/layout/prueba.xml" value="0.21296296296296297" />
+        <entry key="..\:/Users/eloy_/GestorToons/app/src/main/res/layout/spinner_item.xml" value="0.2972222222222222" />
+        <entry key="..\:/Users/eloy_/GestorToons/app/src/main/res/menu/activity_main_drawer.xml" value="0.3323076923076923" />
+        <entry key="..\:/Users/eloy_/GestorToons/app/src/main/res/menu/main.xml" value="0.2972222222222222" />
+        <entry key="..\:/Users/eloy_/GestorToons/app/src/main/res/xml/root_preferences.xml" value="0.2972222222222222" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
