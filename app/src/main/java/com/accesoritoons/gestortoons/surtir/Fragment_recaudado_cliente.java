@@ -157,7 +157,12 @@ public class Fragment_recaudado_cliente extends Fragment {
                 if(objeto.getEstado().equals(context.getString(R.string.Garantia))) {
                     garantias = garantias + 1;
                 }else{
-                    total=total+ (Integer.parseInt(objeto.getCosto())*Integer.parseInt(objeto.getCantidad()));
+                    String validacion_oro=objeto.getRecaudo().substring(0,5);
+                    if (validacion_oro.equals("Oro, ")){
+                        total=total+ (Integer.parseInt(objeto.getVenta())*Integer.parseInt(objeto.getCantidad()));
+                    }else{
+                        total=total+ (Integer.parseInt(objeto.getCosto())*Integer.parseInt(objeto.getCantidad()));
+                    }
                 }
                 filtro.add(objeto);
             }

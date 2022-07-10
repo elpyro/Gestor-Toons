@@ -2,6 +2,7 @@ package com.accesoritoons.gestortoons.reportes_pdf;
 
 import static android.content.ContentValues.TAG;
 
+import static com.accesoritoons.gestortoons.MainActivity.Usuario;
 import static com.accesoritoons.gestortoons.MainActivity.progressDialog;
 
 import androidx.annotation.NonNull;
@@ -38,6 +39,7 @@ import com.accesoritoons.gestortoons.modelos.Modelo_reporte_ganancias;
 import com.accesoritoons.gestortoons.modelos.Modelo_reporte_ganancias_lista_pdf;
 import com.accesoritoons.gestortoons.modelos.Modelo_usuario;
 
+import com.accesoritoons.gestortoons.modelos.Modelo_usuario_activo;
 import com.accesoritoons.gestortoons.recyclerViewAdaptador.RecyclerViewAdaptador_producto_enviado;
 import com.github.barteksc.pdfviewer.PDFView;
 import com.google.firebase.database.DataSnapshot;
@@ -67,6 +69,7 @@ public class Activity_vista_pdf extends AppCompatActivity implements PDFUtility_
     int subtotal =0;
     int total_costos=0;
     int total_registro =0;
+    int tamaño=0; int contador=0;
     String tipo_vendedor, nombre_vendedor;
     public static GraphView grafico=null;
     public static String desde, hasta, vendedor, id_vendedor, tipo_reporte;
@@ -150,7 +153,6 @@ public class Activity_vista_pdf extends AppCompatActivity implements PDFUtility_
 
 
         DatabaseReference myRefe = FirebaseDatabase.getInstance().getReference();
-
         Query dataQuery = myRefe.child("Usuarios").orderByChild("id").equalTo(id_vendedor).limitToFirst(1);
         dataQuery.addValueEventListener(new ValueEventListener() {
             @Override
@@ -545,32 +547,75 @@ public class Activity_vista_pdf extends AppCompatActivity implements PDFUtility_
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     lista_recaudados.clear();
+                    tamaño = 0;
+                    contador=0;
                     for(DataSnapshot ds:snapshot.getChildren()){
+                        if( ds.getValue(Modelo_producto_facturacion_app_vendedor.class).getRecaudo()!=null)
+                        if( ds.getValue(Modelo_producto_facturacion_app_vendedor.class).getRecaudo().equals("Pendiente"))   tamaño= tamaño +1;
+                    }
+                    if (tamaño==0){
+                        finish();
+                        Toast.makeText(context, "No hay por recaudar", Toast.LENGTH_SHORT).show();
+                    }
+
+                    for(DataSnapshot ds:snapshot.getChildren()){
+
                         if(ds.getValue(Modelo_producto_facturacion_app_vendedor.class).getEstado().equals("Ventas") || ds.getValue(Modelo_producto_facturacion_app_vendedor.class).getEstado().equals("Ventas bodega")|| ds.getValue(Modelo_producto_facturacion_app_vendedor.class).getEstado().equals("Garantía")){
                             if(ds.getValue(Modelo_producto_facturacion_app_vendedor.class).getRecaudo().equals("Pendiente")){
                                 String fecha=ds.getValue(Modelo_producto_facturacion_app_vendedor.class).getFecha();
                                 String ref=ds.getValue(Modelo_producto_facturacion_app_vendedor.class).getId_pedido().substring(0,5);
                                 String nombre=ds.getValue(Modelo_producto_facturacion_app_vendedor.class).getNombre();
-                                int cantidad= Integer.parseInt(ds.getValue(Modelo_producto_facturacion_app_vendedor.class).getCantidad());
+                                final int[] cantidad = {Integer.parseInt(ds.getValue(Modelo_producto_facturacion_app_vendedor.class).getCantidad())};
                                 if(ds.getValue(Modelo_producto_facturacion_app_vendedor.class).getEstado().equals("Garantía")){
-                                    lista_por_recaudo.add(new Modelo_registro_por_recaudo(fecha,ref, nombre, cantidad+"", "0","0",ds.getValue(Modelo_producto_facturacion_app_vendedor.class).getId_referencia_vendedor(),ds.getValue(Modelo_producto_facturacion_app_vendedor.class).getNombre_vendedor()));
+                                    lista_por_recaudo.add(new Modelo_registro_por_recaudo(fecha,ref, nombre, cantidad[0] +"", "0","0",ds.getValue(Modelo_producto_facturacion_app_vendedor.class).getId_referencia_vendedor(),ds.getValue(Modelo_producto_facturacion_app_vendedor.class).getNombre_vendedor()));
                                 }else{
-                                    cantidad= Integer.parseInt(ds.getValue(Modelo_producto_facturacion_app_vendedor.class).getCantidad());
-                                    int recaudo= Integer.parseInt(ds.getValue(Modelo_producto_facturacion_app_vendedor.class).getCosto());
-                                    int subtotal= cantidad*recaudo;
-                                    lista_por_recaudo.add(new Modelo_registro_por_recaudo(fecha,ref, nombre, cantidad+"", recaudo+"",subtotal+"",ds.getValue(Modelo_producto_facturacion_app_vendedor.class).getId_referencia_vendedor(),ds.getValue(Modelo_producto_facturacion_app_vendedor.class).getNombre_vendedor()));
+
+                                    Query referencia= FirebaseDatabase.getInstance().getReference().child("Usuarios").orderByChild("id").equalTo(ds.getValue(Modelo_producto_facturacion_app_vendedor.class).getId_referencia_vendedor()).limitToFirst(1);
+                                    if(referencia!=null){
+
+                                        int finalTamaño = tamaño;
+                                        int finalContador = contador;
+                                        referencia.addValueEventListener(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                                if (dataSnapshot.exists()) {
+                                                    for (DataSnapshot userSnapshot: dataSnapshot.getChildren()) {
+                                                        Modelo_usuario usuario = userSnapshot.getValue(Modelo_usuario.class);
+                                                        perfil_cliente = usuario.getTipo();
+
+                                                        if (perfil_cliente.equals("Oro")) {
+                                                            cantidad[0] = Integer.parseInt(ds.getValue(Modelo_producto_facturacion_app_vendedor.class).getCantidad());
+                                                            int recaudo = Integer.parseInt(ds.getValue(Modelo_producto_facturacion_app_vendedor.class).getVenta());
+                                                            int subtotal = cantidad[0] * recaudo;
+                                                            lista_por_recaudo.add(new Modelo_registro_por_recaudo(fecha, ref, nombre, cantidad[0] + "", recaudo + "", subtotal + "", ds.getValue(Modelo_producto_facturacion_app_vendedor.class).getId_referencia_vendedor(), ds.getValue(Modelo_producto_facturacion_app_vendedor.class).getNombre_vendedor()));
+
+                                                        } else {
+                                                            cantidad[0] = Integer.parseInt(ds.getValue(Modelo_producto_facturacion_app_vendedor.class).getCantidad());
+                                                            int recaudo = Integer.parseInt(ds.getValue(Modelo_producto_facturacion_app_vendedor.class).getCosto());
+                                                            int subtotal = cantidad[0] * recaudo;
+                                                            lista_por_recaudo.add(new Modelo_registro_por_recaudo(fecha, ref, nombre, cantidad[0] + "", recaudo + "", subtotal + "", ds.getValue(Modelo_producto_facturacion_app_vendedor.class).getId_referencia_vendedor(), ds.getValue(Modelo_producto_facturacion_app_vendedor.class).getNombre_vendedor()));
+
+                                                        }
+                                                        contador=contador+1;
+
+                                                        if (tamaño == contador)
+                                                            crear_pdf();
+                                                    }
+                                                }
+                                            }
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError error) {
+//                        Toast.makeText(context, "Error en conexion", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                                    }
+
                                 }
 
                             }
                         }
+                    }
 
-                    }
-                    if (lista_por_recaudo.size()==0){
-                        finish();
-                        Toast.makeText(context, "No hay por recaudar", Toast.LENGTH_SHORT).show();
-                    }else{
-                        crear_pdf();
-                    }
 
 
                 }
@@ -639,7 +684,13 @@ public class Activity_vista_pdf extends AppCompatActivity implements PDFUtility_
                                             if (nombre_vendedor.equals("Bodega")) {
                                                 recaudo = Integer.parseInt(ds.getValue(Modelo_producto_facturacion_app_vendedor.class).getVenta());
                                             } else {
-                                                recaudo = Integer.parseInt(ds.getValue(Modelo_producto_facturacion_app_vendedor.class).getCosto());
+                                                String validacion_oro=ds.getValue(Modelo_producto_facturacion_app_vendedor.class).getRecaudo().substring(0,5);
+                                                if (validacion_oro.equals("Oro, ")){
+                                                    recaudo = Integer.parseInt(ds.getValue(Modelo_producto_facturacion_app_vendedor.class).getVenta());
+                                                }else{
+                                                    recaudo = Integer.parseInt(ds.getValue(Modelo_producto_facturacion_app_vendedor.class).getCosto());
+                                                }
+
                                             }
                                         }
                                         int cantidad = Integer.parseInt(ds.getValue(Modelo_producto_facturacion_app_vendedor.class).getCantidad());
@@ -740,7 +791,7 @@ public class Activity_vista_pdf extends AppCompatActivity implements PDFUtility_
                                                 int finalCosto = costo;
                                                 dataQuery.keepSynced(true);
                                                 try {
-                                                    Thread.sleep(1 * 1000);
+                                                    Thread.sleep(1 * 500);
                                                 } catch (InterruptedException e) {
                                                     e.printStackTrace();
                                                 }

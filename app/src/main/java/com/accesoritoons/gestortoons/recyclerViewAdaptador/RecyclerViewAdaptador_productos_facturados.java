@@ -68,8 +68,13 @@ public class RecyclerViewAdaptador_productos_facturados extends RecyclerView.Ada
         holder.id_producto_pedido.setText(list.get(position).getId_producto_pedido());
         holder.TextView_referencia_producto.setText(list.get(position).getId_referencia_producto());
         if(MainActivity.vista_recaudo==true){
-            holder.textView_precio.setText(list.get(position).getCosto());
-             precio= Integer.parseInt(list.get(position).getCosto());
+            if (MainActivity.tipo_vendedor.equals("Oro")){
+                holder.textView_precio.setText(list.get(position).getVenta());
+                precio= Integer.parseInt(list.get(position).getVenta());
+            }else{
+                holder.textView_precio.setText(list.get(position).getCosto());
+                precio= Integer.parseInt(list.get(position).getCosto());
+            }
              cantidad= Integer.parseInt(list.get(position).getCantidad());
              total=precio*cantidad;
         }else{
@@ -285,6 +290,8 @@ public class RecyclerViewAdaptador_productos_facturados extends RecyclerView.Ada
                 if(Fragment_lista_recaudos.Lista_productos_seleccionados.get(x).getPrecio().equals("0")){
                     garantias=garantias+1;
                 }else{
+
+
                     precio= Integer.parseInt( Fragment_lista_recaudos.Lista_productos_seleccionados.get(x).getPrecio());
                     cantidad= Integer.parseInt( Fragment_lista_recaudos.Lista_productos_seleccionados.get(x).getCantidad());
                     total=total+(precio*cantidad);

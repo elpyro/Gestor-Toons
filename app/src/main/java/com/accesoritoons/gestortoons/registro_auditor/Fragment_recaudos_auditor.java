@@ -156,7 +156,13 @@ public class Fragment_recaudos_auditor extends Fragment {
                     garantias = garantias + 1;
                 }else{
                     if(objeto.getEstado().equals("Ventas")){
-                        total=total+ (Integer.parseInt(objeto.getCosto())*Integer.parseInt(objeto.getCantidad()));
+                        String validacion_oro=objeto.getRecaudo().substring(0,5);
+                        if (validacion_oro.equals("Oro, ")){
+                            total=total+ (Integer.parseInt(objeto.getVenta())*Integer.parseInt(objeto.getCantidad()));
+                        }else{
+                            total=total+ (Integer.parseInt(objeto.getCosto())*Integer.parseInt(objeto.getCantidad()));
+                        }
+
                     }else if(objeto.getEstado().equals("Ventas bodega")){
                         total=total+ (Integer.parseInt(objeto.getVenta())*Integer.parseInt(objeto.getCantidad()));
                     }

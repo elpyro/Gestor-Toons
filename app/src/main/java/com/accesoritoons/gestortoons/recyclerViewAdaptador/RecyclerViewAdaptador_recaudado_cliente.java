@@ -64,9 +64,16 @@ public class RecyclerViewAdaptador_recaudado_cliente extends RecyclerView.Adapte
         holder.id_producto_pedido.setText(list.get(position).getId_producto_pedido());
         holder.textView_fecha.setText(list.get(position).getFecha_recaudo());
         holder.TextView_referencia_producto.setText(list.get(position).getId_referencia_producto());
+
         if(MainActivity.vista_recaudo==true){
-            holder.textView_precio.setText(list.get(position).getCosto());
-             precio= Integer.parseInt(list.get(position).getCosto());
+            String validacion_oro=list.get(position).getRecaudo().substring(0,5);
+            if (validacion_oro.equals("Oro, ")){
+                holder.textView_precio.setText(list.get(position).getVenta());
+                precio= Integer.parseInt(list.get(position).getVenta());
+            }else{
+                holder.textView_precio.setText(list.get(position).getCosto());
+                precio= Integer.parseInt(list.get(position).getCosto());
+            }
              cantidad= Integer.parseInt(list.get(position).getCantidad());
              total=precio*cantidad;
         }else{

@@ -146,7 +146,12 @@ public class Fragment_lista_recaudos extends Fragment {
                             for (DataSnapshot ds : snapshot.getChildren()) {
 
                                 Modelo_producto_facturacion_app_vendedor producto = ds.getValue(Modelo_producto_facturacion_app_vendedor.class);
-                                producto.setRecaudo(MainActivity.Usuario);
+                                if (MainActivity.tipo_vendedor.equals("Oro")){
+                                    producto.setRecaudo("Oro, "+MainActivity.Usuario);
+                                }else{
+                                    producto.setRecaudo(MainActivity.Usuario);
+                                }
+
                                 String fecha=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss aa").format(new Date());
                                 producto.setFecha_recaudo(fecha.substring(0,10));
                                 producto.setId_administrador_recaudo(MainActivity.Id_Usuario);
@@ -205,11 +210,20 @@ public class Fragment_lista_recaudos extends Fragment {
                                     }
                                 }
 
-                                Lista_productos_seleccionados.add(new Modelo_recaudos_seleccionados(ds.getValue(Modelo_producto_facturacion_app_vendedor.class).getId_producto_pedido(),ds.getValue(Modelo_producto_facturacion_app_vendedor.class).getCosto(),ds.getValue(Modelo_producto_facturacion_app_vendedor.class).getCantidad()));
+
                                 lista_productos.add(ds.getValue(Modelo_producto_facturacion_app_vendedor.class));
-                                int precio= Integer.parseInt(ds.getValue(Modelo_producto_facturacion_app_vendedor.class).getCosto());
-                                int cantidad= Integer.parseInt(ds.getValue(Modelo_producto_facturacion_app_vendedor.class).getCantidad());
-                                int total=precio*cantidad;
+
+                                int precio, cantidad, total;
+                                if (MainActivity.tipo_vendedor.equals("Oro")){
+                                    Lista_productos_seleccionados.add(new Modelo_recaudos_seleccionados(ds.getValue(Modelo_producto_facturacion_app_vendedor.class).getId_producto_pedido(),ds.getValue(Modelo_producto_facturacion_app_vendedor.class).getVenta(),ds.getValue(Modelo_producto_facturacion_app_vendedor.class).getCantidad()));
+                                     precio= Integer.parseInt(ds.getValue(Modelo_producto_facturacion_app_vendedor.class).getVenta());
+                                }else{
+                                    Lista_productos_seleccionados.add(new Modelo_recaudos_seleccionados(ds.getValue(Modelo_producto_facturacion_app_vendedor.class).getId_producto_pedido(),ds.getValue(Modelo_producto_facturacion_app_vendedor.class).getCosto(),ds.getValue(Modelo_producto_facturacion_app_vendedor.class).getCantidad()));
+                                     precio= Integer.parseInt(ds.getValue(Modelo_producto_facturacion_app_vendedor.class).getCosto());
+                                }
+
+                                cantidad= Integer.parseInt(ds.getValue(Modelo_producto_facturacion_app_vendedor.class).getCantidad());
+                                total=precio*cantidad;
                                 cuenta_total_factura=cuenta_total_factura+total;
 
                             }else if (factura.getRecaudo().equals(context.getString(R.string.Pendiente))&& factura.getEstado().equals(context.getString(R.string.Garantia))) {
@@ -224,11 +238,12 @@ public class Fragment_lista_recaudos extends Fragment {
                                 lista_garantias.add(ds.getValue(Modelo_producto_facturacion_app_vendedor.class));
                             }
 
-                            //ordenar por fecha
-                            lista_productos.sort(Comparator.comparing(Modelo_producto_facturacion_app_vendedor::getId_pedido));
-                            lista_garantias.sort(Comparator.comparing(Modelo_producto_facturacion_app_vendedor::getId_pedido));
+
                             }
                     }
+                    //ordenar por fecha
+                    lista_productos.sort(Comparator.comparing(Modelo_producto_facturacion_app_vendedor::getId_pedido));
+                    lista_garantias.sort(Comparator.comparing(Modelo_producto_facturacion_app_vendedor::getId_pedido));
 
                     calcular_total();
                     RecyclerViewAdaptador_productos_facturados adaptador= new RecyclerViewAdaptador_productos_facturados(lista_productos);
@@ -255,6 +270,7 @@ public class Fragment_lista_recaudos extends Fragment {
             if(Fragment_lista_recaudos.Lista_productos_seleccionados.get(x).getPrecio().equals("0")){
                 garantias=garantias+1;
             }else{
+
                 precio= Integer.parseInt( Fragment_lista_recaudos.Lista_productos_seleccionados.get(x).getPrecio());
                 cantidad= Integer.parseInt( Fragment_lista_recaudos.Lista_productos_seleccionados.get(x).getCantidad());
                 total=total+(precio*cantidad);

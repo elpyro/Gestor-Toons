@@ -182,9 +182,14 @@ public class Fragment_detalle_factura extends Fragment implements PDFUtility_fac
             Query referencia;
             productos_para_pdf.clear();
             referencia = FirebaseDatabase.getInstance().getReference().child("Factura_productos").orderByChild("id_pedido").equalTo(id_factura);
+            try {
+                Thread.sleep(1 * 1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
 
             if (referencia != null) {
-                referencia.addValueEventListener(new ValueEventListener() {
+                referencia.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         cuenta_total_factura = 0;

@@ -65,6 +65,7 @@ public class RecyclerViewAdaptador_recaudado_auditor extends RecyclerView.Adapte
         Picasso.with(context).load(list.get(position).getUrl()).into(holder.imageView_foto_producto);
 
         if(list.get(position).getEstado().equals(context.getString(R.string.Venta))||list.get(position).getEstado().equals(context.getString(R.string.Venta_bodega))){
+
             holder.linearLayout_usuario.setBackgroundColor(context.getColor(R.color.trasparente));
             holder.textView_precio.setVisibility(View.VISIBLE);
             holder.textView_total.setVisibility(View.VISIBLE);
@@ -74,8 +75,16 @@ public class RecyclerViewAdaptador_recaudado_auditor extends RecyclerView.Adapte
 
             //sumar segun el recuado es de venta de bodega o punto de venta sumar
             if(list.get(position).getEstado().equals(context.getString(R.string.Venta))){
-                holder.textView_precio.setText(list.get(position).getCosto());
-                precio= Integer.parseInt(list.get(position).getCosto());
+
+                String validacion_oro=list.get(position).getRecaudo().substring(0,5);
+                if (validacion_oro.equals("Oro, ")){
+                    holder.textView_precio.setText(list.get(position).getVenta());
+                    precio= Integer.parseInt(list.get(position).getVenta());
+                }else{
+                    holder.textView_precio.setText(list.get(position).getCosto());
+                    precio= Integer.parseInt(list.get(position).getCosto());
+                }
+        
                 cantidad= Integer.parseInt(list.get(position).getCantidad());
                 total=precio*cantidad;
                 holder.textView_recaudo.setText(list.get(position).getVendedor());
