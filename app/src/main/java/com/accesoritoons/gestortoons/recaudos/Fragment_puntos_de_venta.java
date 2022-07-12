@@ -104,6 +104,7 @@ public class Fragment_puntos_de_venta extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+        referencia=null;
         vista=null;
     }
 }

@@ -49,7 +49,7 @@ public class Fragment_lista_recaudos extends Fragment {
     public static TextView textView_total_recaudos;
     ArrayList<Modelo_producto_facturacion_app_vendedor> lista_productos;
     ArrayList<Modelo_producto_facturacion_app_vendedor> lista_garantias;
-
+    Query referencia;
     public static ArrayList<Modelo_recaudos_seleccionados> Lista_productos_seleccionados=new ArrayList<>();
 
 
@@ -133,7 +133,7 @@ public class Fragment_lista_recaudos extends Fragment {
             Query referencia_id_producto = FirebaseDatabase.getInstance().getReference().child("Factura_productos").orderByChild("id_producto_pedido").equalTo(Fragment_lista_recaudos.Lista_productos_seleccionados.get(x).getId());
             referencia_id_producto.keepSynced(true);
             try {
-                Thread.sleep(1 * 1000);
+                Thread.sleep(1 * 500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -186,7 +186,7 @@ public class Fragment_lista_recaudos extends Fragment {
     private void cargar_productos_facturados() {
        cuenta_total_factura=0;
         textView_total_recaudos.setText(context.getString(R.string.Recaudos_pendientes)+": "+cuenta_total_factura);
-        Query referencia;
+
         referencia= FirebaseDatabase.getInstance().getReference().child("Factura_productos").orderByChild("id_referencia_vendedor").equalTo(MainActivity.id_vendedor);
 
         if(referencia!=null){
@@ -288,6 +288,7 @@ public class Fragment_lista_recaudos extends Fragment {
         Fragment_lista_recaudos.Lista_productos_seleccionados.clear();
         MainActivity.opcion_realizar_recaudo.setVisible(false);
         MainActivity.vista_recaudo=false;
+        referencia=null;
         vista=null;
     }
 }

@@ -108,7 +108,13 @@ public class Fragment_empresa extends Fragment {
 
         DatabaseReference myRefe = FirebaseDatabase.getInstance().getReference();
         Query dataQuery = myRefe.child("Empresa").orderByChild("id").equalTo("1").limitToFirst(1);
-        dataQuery.addValueEventListener(new ValueEventListener() {
+        dataQuery.keepSynced(true);
+        try {
+            Thread.sleep(1 * 500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        dataQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {

@@ -37,8 +37,10 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Locale;
 
 
 public class Fragmento_inventario_vendedor extends Fragment {
@@ -51,6 +53,9 @@ String id_usuario_fragmento;
 RecyclerViewAdaptador_inventario_vendedor adapador;
 LinearLayout scrollView_scroll;
 SearchView searchView_perfiles;
+    Query referencia_productos2;
+    Query referencia_productos;
+    Query dataQuery;
 
     public static int total_inventario=0;
     ArrayList<Modelo_producto_facturacion_app_vendedor> lista_inventario;
@@ -89,7 +94,7 @@ scrollView_scroll.setOnClickListener(new View.OnClickListener() {
 
         //verificar tipo de vendedor y cargar inventario
         DatabaseReference myRefe = FirebaseDatabase.getInstance().getReference();
-        Query dataQuery = myRefe.child("Usuarios").orderByChild("id").equalTo(id_usuario_fragmento).limitToFirst(1);
+        dataQuery = myRefe.child("Usuarios").orderByChild("id").equalTo(id_usuario_fragmento).limitToFirst(1);
         dataQuery.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -119,10 +124,10 @@ scrollView_scroll.setOnClickListener(new View.OnClickListener() {
 
             lista_inventario=new ArrayList<>();
 
-            Query referencia_productos= FirebaseDatabase.getInstance().getReference().child("Inventarios").orderByChild("estado").equalTo("Inventario"+"-"+id_usuario_fragmento);
+            referencia_productos= FirebaseDatabase.getInstance().getReference().child("Inventarios").orderByChild("estado").equalTo("Inventario"+"-"+id_usuario_fragmento);
         referencia_productos.keepSynced(true);   
         try {
-            Thread.sleep(1 * 1000);
+            Thread.sleep(1 * 500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -136,9 +141,9 @@ scrollView_scroll.setOnClickListener(new View.OnClickListener() {
                         total_inventario=0;
                         lista_productos=new ArrayList<>();
                         for (int x = 0; x < lista_inventario.size(); x++) {
-                            Query referencia_productos2;
+
                             referencia_productos2 = FirebaseDatabase.getInstance().getReference().child("Productos").orderByChild("id").equalTo(lista_inventario.get(x).getId_referencia_producto());
-                            referencia_productos2.keepSynced(true);
+
                             if (referencia_productos2 != null) {
                                 int finalX = x;
 
@@ -167,8 +172,6 @@ scrollView_scroll.setOnClickListener(new View.OnClickListener() {
                                                             total_inventario=total_inventario-(cantidad*costo);
                                                             lista_productos.remove(x);
 
-
-
                                                         break;
                                                     }
                                                 }
@@ -191,11 +194,13 @@ scrollView_scroll.setOnClickListener(new View.OnClickListener() {
 
                                         }
                                             //ordenar
+                                            referencia_productos2=null;
                                             lista_productos.sort(Comparator.comparing(Modelo_producto_facturacion_app_vendedor::getCliente_mis_productos));
                                             adapador= new RecyclerViewAdaptador_inventario_vendedor(lista_productos);
                                             recview_inventario.setAdapter(adapador);
                                         }
-                                        textView_inventario.setText(context.getString(R.string.Invetario)+": "+total_inventario);
+                                        NumberFormat formatoImporte = NumberFormat.getIntegerInstance(new Locale("es","ES"));
+                                        textView_inventario.setText(context.getString(R.string.Invetario)+": "+formatoImporte.format(total_inventario));
                                     }
                                     @Override
                                     public void onCancelled(@NonNull DatabaseError error) {
@@ -243,6 +248,9 @@ scrollView_scroll.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onDetach() {
         super.onDetach();
+        dataQuery=null;
+        referencia_productos2=null;
+        referencia_productos=null;
         vista=null;
     }
 }

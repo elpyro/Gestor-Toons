@@ -115,7 +115,7 @@ public class Fragmento_cambiar_cantidades extends Fragment {
                 Query referencia= FirebaseDatabase.getInstance().getReference().child("Pedidos").orderByChild("id_producto_pedido").equalTo(id_producto).limitToFirst(1);
                         referencia.keepSynced(true);               
         try {
-            Thread.sleep(1 * 1000);
+            Thread.sleep(1 * 500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         };
@@ -174,7 +174,7 @@ public class Fragmento_cambiar_cantidades extends Fragment {
         Query referencia= FirebaseDatabase.getInstance().getReference().child("Pedidos").orderByChild("id_producto_pedido").equalTo(id_producto).limitToFirst(1);
                 referencia.keepSynced(true);               
         try {
-            Thread.sleep(1 * 1000);
+            Thread.sleep(1 * 500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         };
@@ -195,7 +195,7 @@ public class Fragmento_cambiar_cantidades extends Fragment {
                             String id_producto_buscado=lista_producto_pedido.get(x).getReferencia_producto();
                             referencia2.keepSynced(true);
                             try {
-                                Thread.sleep(1 * 1000);
+                                Thread.sleep(1 * 500);
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }

@@ -146,7 +146,7 @@ public class Contenedor_compras_bodega extends Fragment {
 
             referencia_id_producto.keepSynced(true);
             try {
-                Thread.sleep(1 * 1000);
+                Thread.sleep(1 * 500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

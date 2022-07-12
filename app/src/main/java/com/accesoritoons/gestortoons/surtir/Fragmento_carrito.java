@@ -159,6 +159,7 @@ public class Fragmento_carrito extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+        referencia=null;
         vista=null;
     }
 

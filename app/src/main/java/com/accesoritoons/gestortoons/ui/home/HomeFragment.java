@@ -68,6 +68,7 @@ public class HomeFragment extends Fragment {
     //https://www.youtube.com/watch?v=IwdjCApjIzA&t=442s autenticacion
     FirebaseAuth firebaseAutenticacion;
     FirebaseAuth.AuthStateListener authStateListener;
+    Query dataQuery;
 
     public static final int REQUEST_CODE=1234;
     List<AuthUI.IdpConfig> provinder= Arrays.asList(
@@ -118,7 +119,7 @@ public class HomeFragment extends Fragment {
 
                     //verificar perfil segun el correo
                     DatabaseReference myRefe = FirebaseDatabase.getInstance().getReference();
-                    Query dataQuery = myRefe.child("Usuarios").orderByChild("correo").equalTo(Correo).limitToFirst(1);
+                    dataQuery = myRefe.child("Usuarios").orderByChild("correo").equalTo(Correo).limitToFirst(1);
                     dataQuery.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
@@ -301,6 +302,9 @@ public class HomeFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        dataQuery=null;
+        referencia=null;
         binding = null;
+
     }
 }

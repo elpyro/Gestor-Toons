@@ -96,6 +96,7 @@ public class Fragmento_nuevo_perfil extends Fragment {
     private Spinner spinner_perfil,spinner_tipo;
     private CheckBox checkBox_ver_ganancia;
     String id_exitente="", id_usuario;
+    Query dataQuery;
 
     private LinearLayout linearlayout_ultima_modificacion;
 
@@ -242,7 +243,7 @@ public class Fragmento_nuevo_perfil extends Fragment {
 
         DatabaseReference myRefe = FirebaseDatabase.getInstance().getReference();
 
-        Query dataQuery = myRefe.child("Usuarios").orderByChild("id").equalTo(id_usuario).limitToFirst(1);
+        dataQuery = myRefe.child("Usuarios").orderByChild("id").equalTo(id_usuario).limitToFirst(1);
         dataQuery.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -339,8 +340,8 @@ public class Fragmento_nuevo_perfil extends Fragment {
 
         if (!correo_existente.equals(editText_correo.getText().toString().trim())) {
             //verificar correo
-            Query dataQuery = myRefe.child("Usuarios").orderByChild("correo").equalTo(editText_correo.getText().toString().trim().toLowerCase()).limitToFirst(1);
-            dataQuery.keepSynced(false);
+            dataQuery = myRefe.child("Usuarios").orderByChild("correo").equalTo(editText_correo.getText().toString().trim().toLowerCase()).limitToFirst(1);
+
             dataQuery.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -576,6 +577,7 @@ public class Fragmento_nuevo_perfil extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         opcion_editar_producto.setVisible(false);
+        dataQuery=null;
         opcion_nuevo_perfil.setVisible(false);
         vista=null;
     }

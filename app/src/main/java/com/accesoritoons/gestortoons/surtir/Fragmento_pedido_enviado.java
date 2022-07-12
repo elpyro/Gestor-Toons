@@ -177,7 +177,7 @@ public class Fragmento_pedido_enviado extends Fragment {
         Query dataQuery = myRefe.child("Usuarios").orderByChild("id").equalTo(id_vendedor).limitToFirst(1);
         dataQuery.keepSynced(true);
         try {
-            Thread.sleep(1 * 1000);
+            Thread.sleep(1 * 500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -217,7 +217,7 @@ public class Fragmento_pedido_enviado extends Fragment {
 
                                 referencia_id_producto.keepSynced(true);
                                 try {
-                                    Thread.sleep(1 * 1000);
+                                    Thread.sleep(1 * 500);
                                 } catch (InterruptedException e) {
                                     e.printStackTrace();
                                 }
@@ -338,14 +338,6 @@ public class Fragmento_pedido_enviado extends Fragment {
         cargar_pedido_enviado(id_pedido);
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        MainActivity.opcion_compartir_logo.setVisible(false);
-        MainActivity.opcion_agregar_inventario.setVisible(false);
-        vista=null;
-    }
-
     public void cargar_pedido_enviado(String id_pedido) {
 
         try {
@@ -353,7 +345,7 @@ public class Fragmento_pedido_enviado extends Fragment {
 
             cargado = 0;
             //cargar id pedidos y cantidades
-            Query referencia = FirebaseDatabase.getInstance().getReference().child("Pedidos").orderByChild("id_pedido").equalTo(id_pedido);
+            referencia = FirebaseDatabase.getInstance().getReference().child("Pedidos").orderByChild("id_pedido").equalTo(id_pedido);
 
             if (referencia != null) {
                 referencia.addValueEventListener(new ValueEventListener() {
@@ -393,7 +385,7 @@ public class Fragmento_pedido_enviado extends Fragment {
                                 Query referencia2 = FirebaseDatabase.getInstance().getReference().child("Productos").orderByChild("id").equalTo(lista_producto_pedido.get(x).getReferencia_producto()).limitToFirst(1);
                                 referencia2.keepSynced(true);
                                 try {
-                                    Thread.sleep(1 * 1000);
+                                    Thread.sleep(1 * 500);
                                 } catch (InterruptedException e) {
                                     e.printStackTrace();
                                 }
@@ -445,6 +437,15 @@ public class Fragmento_pedido_enviado extends Fragment {
             Toast.makeText(context, "Error "+e, Toast.LENGTH_SHORT).show();
         }
 
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        referencia=null;
+        MainActivity.opcion_compartir_logo.setVisible(false);
+        MainActivity.opcion_agregar_inventario.setVisible(false);
+        vista=null;
     }
 
 

@@ -82,7 +82,9 @@ public class Fragmento_nuevo_producto extends Fragment {
     LinearLayout linearLayout_ulitma_modificacion;
     String id_exitente="", url_producto;
     String codigo_barras="";
+    DatabaseReference myRefe;
     Button button_scanner;
+    Query dataQuery;
     Context context;
     View vista;
     private String id_producto;
@@ -120,14 +122,6 @@ public class Fragmento_nuevo_producto extends Fragment {
         textView_usuario_actualizacion=vista.findViewById(R.id.textView_actulizacion_usuario);
         linearLayout_ulitma_modificacion=vista.findViewById(R.id.linearLayout_ulitma_modificacion);
         button_scanner=vista.findViewById(R.id.button_scanner);
-
-        //Fuente: https://www.iteramos.com/pregunta/19021/como-puedo-ocultar-un-elemento-del-menu-en-la-barra-de-accion
-        //formato 2 decimales
-//        txtBillingMount_detal =  vista.findViewById(R.id.editText_detal);
-//        txtBillingMount_detal.addTextChangedListener(this.amount(txtBillingMount_detal));
-//
-//        txtBillingMount_platino =  vista.findViewById(R.id.editText_costo);
-//        txtBillingMount_platino.addTextChangedListener(this.amount(txtBillingMount_platino));
 
 
         MainActivity.opcion_nuevo_producto.setVisible(false);
@@ -205,9 +199,9 @@ public class Fragmento_nuevo_producto extends Fragment {
         id_producto =getArguments().getString("id_producto");
         opcion_editar_producto.setVisible(true);
 
-        DatabaseReference myRefe = FirebaseDatabase.getInstance().getReference();
+        myRefe = FirebaseDatabase.getInstance().getReference();
 
-        Query dataQuery = myRefe.child("Productos").orderByChild("id").equalTo(id_producto).limitToFirst(1);
+        dataQuery = myRefe.child("Productos").orderByChild("id").equalTo(id_producto).limitToFirst(1);
         dataQuery.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -498,7 +492,7 @@ public class Fragmento_nuevo_producto extends Fragment {
     private void verificar_codigo_barras(View vista,  DatabaseReference myRefe) {
 
         if (!codigo_barras.equals(editText_codigo_barras.getText().toString().trim())) {
-            Query dataQuery = myRefe.child("Productos").orderByChild("codigo").equalTo(editText_codigo_barras.getText().toString().trim().toLowerCase()).limitToFirst(1);
+            dataQuery = myRefe.child("Productos").orderByChild("codigo").equalTo(editText_codigo_barras.getText().toString().trim().toLowerCase()).limitToFirst(1);
             dataQuery.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -535,6 +529,8 @@ public class Fragmento_nuevo_producto extends Fragment {
 
     public void onDetach() {
         super.onDetach();
+        myRefe=null;
+        dataQuery=null;
         opcion_agregar_producto.setVisible(false);
         opcion_editar_producto.setVisible(false);
         imageuri=null;

@@ -36,6 +36,7 @@ public class Fragmento_foto_apliada extends Fragment {
     Context context;
     TextView textView_descripcion,textView_porcentaje,textView_ganacia,textView_nombre,textView_proveedor,textView_platino,textView_oro,textView_diamante,textView_venta,textView_compra;
     LinearLayout linearLayout_detalles;
+    DatabaseReference myRefe;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -74,10 +75,11 @@ public class Fragmento_foto_apliada extends Fragment {
 
 
 
-        DatabaseReference myRefe = FirebaseDatabase.getInstance().getReference();
+        myRefe = FirebaseDatabase.getInstance().getReference();
 
         Query dataQuery = myRefe.child("Productos").orderByChild("url").equalTo(url_imagen).limitToFirst(1);
-        dataQuery.addValueEventListener(new ValueEventListener() {
+        dataQuery.keepSynced(true);
+        dataQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {

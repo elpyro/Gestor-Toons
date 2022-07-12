@@ -53,7 +53,7 @@ public class Fragmento_reportes extends Fragment {
 
     ArrayList<Modelo_spinner_vendedores> vendedores =new ArrayList<>();
     ArrayList<Modelo_spinner_vendedores> administradores =new ArrayList<>();
-
+    Query referencia;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -241,7 +241,7 @@ public class Fragmento_reportes extends Fragment {
 
     private void cargar_vendedores() {
 
-        Query referencia= FirebaseDatabase.getInstance().getReference().child("Usuarios").orderByChild("perfil");
+        referencia= FirebaseDatabase.getInstance().getReference().child("Usuarios").orderByChild("perfil");
         if(referencia!=null){
             referencia.addValueEventListener(new ValueEventListener() {
                 @Override
@@ -283,7 +283,9 @@ public class Fragmento_reportes extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+        referencia=null;
         vista=null;
+
     }
 
 }

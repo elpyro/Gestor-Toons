@@ -93,7 +93,7 @@ public class Fragmento_agregar_inventario extends Fragment {
 
         referencia.keepSynced(true);
         try {
-            Thread.sleep(1 * 1000);
+            Thread.sleep(1 * 500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

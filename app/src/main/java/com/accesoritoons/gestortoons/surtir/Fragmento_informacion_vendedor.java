@@ -48,7 +48,8 @@ public class Fragmento_informacion_vendedor extends Fragment {
     String id_exitente="", url_avatar;
     TextView  textView_telefono, textView_maximo_inventario, textView_direccion, textview_tipo, textview_inventario;
     TextView textView_nombre;
- 
+    Query dataQuery;
+
 
     ImageView imageView_avatar, imageView_enviar;
     LinearLayout linearLayout_datos_usuario;
@@ -168,7 +169,7 @@ public class Fragmento_informacion_vendedor extends Fragment {
 
     private void cargar_pedidos() {
         try {
-            referencia=null;
+
             referencia= FirebaseDatabase.getInstance().getReference().child("Pedidos").orderByChild("referencia_vendedor").equalTo(id_usuario);
 
             if(referencia!=null){
@@ -250,7 +251,7 @@ public class Fragmento_informacion_vendedor extends Fragment {
 
         DatabaseReference myRefe = FirebaseDatabase.getInstance().getReference();
 
-        Query dataQuery = myRefe.child("Usuarios").orderByChild("id").equalTo(id_usuario).limitToFirst(1);
+        dataQuery = myRefe.child("Usuarios").orderByChild("id").equalTo(id_usuario).limitToFirst(1);
         dataQuery.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -287,6 +288,8 @@ public class Fragmento_informacion_vendedor extends Fragment {
         Fragmento_inventario_vendedor.total_inventario=0;
         MainActivity.opcion_crear_pedido.setVisible(false);
         MainActivity.id_vendedor=null;
+        referencia=null;
+        dataQuery=null;
         vista=null;
     }
 }

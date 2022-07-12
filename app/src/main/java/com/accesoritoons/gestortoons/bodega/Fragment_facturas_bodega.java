@@ -35,7 +35,7 @@ public class Fragment_facturas_bodega extends Fragment {
     RecyclerView recyclerView_facturas;
     SearchView searchview;
     ArrayList<Modelo_factura_cliente> lista_facturas;
-
+    Query referencia;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -58,7 +58,7 @@ public class Fragment_facturas_bodega extends Fragment {
     private void cargar_facturas() {
 
 
-        Query referencia;
+
         referencia= FirebaseDatabase.getInstance().getReference().child("Factura_cliente").orderByChild("id_vendedor");
 
         if(referencia!=null){
@@ -120,6 +120,7 @@ public class Fragment_facturas_bodega extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+        referencia=null;
         vista=null;
     }
 }

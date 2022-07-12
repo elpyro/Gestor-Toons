@@ -135,6 +135,7 @@ public class Fragmento_inventario extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+        referencia=null;
         MainActivity.opcion_nuevo_producto.setVisible(false);
         vista=null;
     }

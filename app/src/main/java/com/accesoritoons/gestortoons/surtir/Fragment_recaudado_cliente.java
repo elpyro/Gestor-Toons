@@ -45,6 +45,7 @@ public class Fragment_recaudado_cliente extends Fragment {
     TextView textView_articulos,textView_total;
     String id_vendedor="";
     NumberFormat formatoImporte = NumberFormat.getIntegerInstance(new Locale("es","ES"));
+    Query referencia;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -74,7 +75,7 @@ public class Fragment_recaudado_cliente extends Fragment {
     private void cargar_recaudos() {
 
 
-        Query referencia;
+
         referencia= FirebaseDatabase.getInstance().getReference().child("Factura_productos").orderByChild("id_referencia_vendedor").equalTo(id_vendedor);
 
         if(referencia!=null){
@@ -178,6 +179,7 @@ public class Fragment_recaudado_cliente extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+        referencia=null;
         MainActivity.vista_recaudo=false;
         vista=null;
     }

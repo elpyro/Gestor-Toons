@@ -139,7 +139,7 @@ public class Fragment_crear_factura extends Fragment implements PDFUtility_factu
 
                         referencia_id_producto.keepSynced(true);
                         try {
-                            Thread.sleep(1 * 1000);
+                            Thread.sleep(1 * 500);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -354,7 +354,7 @@ public class Fragment_crear_factura extends Fragment implements PDFUtility_factu
         Query referencia_productos= FirebaseDatabase.getInstance().getReference().child("Productos").orderByChild("cliente_mis_productos").equalTo("Accesory Toons");
         referencia_productos.keepSynced(true);   
         try {
-            Thread.sleep(1 * 1000);
+            Thread.sleep(1 * 500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

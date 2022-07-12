@@ -184,7 +184,7 @@ public class Activity_vista_pdf extends AppCompatActivity implements PDFUtility_
                                             Query referencia2 = FirebaseDatabase.getInstance().getReference().child("Productos").orderByChild("id").equalTo(lista_producto_pedido.get(x).getReferencia_producto()).limitToFirst(1);
                                             referencia2.keepSynced(true);
                                             try {
-                                                Thread.sleep(1 * 1000);
+                                                Thread.sleep(1 * 500);
                                             } catch (InterruptedException e) {
                                                 e.printStackTrace();
                                             }
@@ -270,7 +270,7 @@ public class Activity_vista_pdf extends AppCompatActivity implements PDFUtility_
 
         referencia_productos.keepSynced(true);   
         try {
-            Thread.sleep(1 * 1000);
+            Thread.sleep(1 * 500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -362,7 +362,7 @@ public class Activity_vista_pdf extends AppCompatActivity implements PDFUtility_
 
                 referencia.keepSynced(true);               
         try {
-            Thread.sleep(1 * 1000);
+            Thread.sleep(1 * 500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         };
@@ -385,7 +385,7 @@ public class Activity_vista_pdf extends AppCompatActivity implements PDFUtility_
                             Query referencia2 = FirebaseDatabase.getInstance().getReference().child("Productos").orderByChild("id").equalTo(lista_producto_pedido.get(x).getReferencia_producto()).limitToFirst(1);
                             referencia2.keepSynced(true);
                             try {
-                                Thread.sleep(1 * 1000);
+                                Thread.sleep(1 * 500);
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
@@ -439,7 +439,7 @@ public class Activity_vista_pdf extends AppCompatActivity implements PDFUtility_
 
         referencia_productos.keepSynced(true);   
         try {
-            Thread.sleep(1 * 1000);
+            Thread.sleep(1 * 500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -537,7 +537,7 @@ public class Activity_vista_pdf extends AppCompatActivity implements PDFUtility_
         }
         referencia_productos.keepSynced(true);   
         try {
-            Thread.sleep(1 * 1000);
+            Thread.sleep(1 * 500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -615,9 +615,7 @@ public class Activity_vista_pdf extends AppCompatActivity implements PDFUtility_
                             }
                         }
                     }
-
-
-
+                    
                 }
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
@@ -639,7 +637,7 @@ public class Activity_vista_pdf extends AppCompatActivity implements PDFUtility_
         }
         referencia_productos.keepSynced(true);
         try {
-            Thread.sleep(1 * 1000);
+            Thread.sleep(1 * 500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -733,7 +731,7 @@ public class Activity_vista_pdf extends AppCompatActivity implements PDFUtility_
 
         referencia_productos.keepSynced(true);   
         try {
-            Thread.sleep(1 * 1000);
+            Thread.sleep(1 * 500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -758,7 +756,7 @@ public class Activity_vista_pdf extends AppCompatActivity implements PDFUtility_
                         referencia_productos2 = FirebaseDatabase.getInstance().getReference().child("Productos").orderByChild("id").equalTo(lista_inventario.get(x).getId_referencia_producto());
                         referencia_productos2.keepSynced(true);
                         try {
-                            Thread.sleep(1 * 1000);
+                            Thread.sleep(1 * 500);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -845,7 +843,7 @@ public class Activity_vista_pdf extends AppCompatActivity implements PDFUtility_
             Query referencia=FirebaseDatabase.getInstance().getReference().child("Productos").orderByChild("cliente_mis_productos").equalTo("Accesory Toons");
                 referencia.keepSynced(true);               
         try {
-            Thread.sleep(1 * 1000);
+            Thread.sleep(1 * 500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         };
@@ -889,7 +887,7 @@ public class Activity_vista_pdf extends AppCompatActivity implements PDFUtility_
                 referencia.keepSynced(true);               
 
         try {
-            Thread.sleep(1 * 1000);
+            Thread.sleep(1 * 500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -900,7 +898,7 @@ public class Activity_vista_pdf extends AppCompatActivity implements PDFUtility_
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                             referencia.keepSynced(true);               
         try {
-            Thread.sleep(1 * 1000);
+            Thread.sleep(1 * 500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         };

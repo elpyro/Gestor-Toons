@@ -144,7 +144,7 @@ public class Contenedor_agregar_inventario extends Fragment {
                     Query referencia_id_producto= FirebaseDatabase.getInstance().getReference().child("Productos").orderByChild("id").equalTo(productos.getId());
                     referencia_id_producto.keepSynced(true);
                     try {
-                        Thread.sleep(1 * 1000);
+                        Thread.sleep(1 * 500);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }

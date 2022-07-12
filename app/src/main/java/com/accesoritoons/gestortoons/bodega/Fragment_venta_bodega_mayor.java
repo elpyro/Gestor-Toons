@@ -195,6 +195,7 @@ try{
         venta_bodega_mayor=false;
         MainActivity.opcion_factura.setVisible(false);
         MainActivity.opcion_scanner.setVisible(false);
+        referencia=null;
         vista=null;
     }
 }

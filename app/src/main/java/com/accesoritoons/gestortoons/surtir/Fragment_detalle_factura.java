@@ -182,8 +182,9 @@ public class Fragment_detalle_factura extends Fragment implements PDFUtility_fac
             Query referencia;
             productos_para_pdf.clear();
             referencia = FirebaseDatabase.getInstance().getReference().child("Factura_productos").orderByChild("id_pedido").equalTo(id_factura);
+            referencia.keepSynced(true);
             try {
-                Thread.sleep(1 * 1000);
+                Thread.sleep(1 * 500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -294,7 +295,7 @@ public class Fragment_detalle_factura extends Fragment implements PDFUtility_fac
         Query referencia= FirebaseDatabase.getInstance().getReference().child("Factura_cliente").orderByChild("id").equalTo(id_factura).limitToFirst(1);
         referencia.keepSynced(true);
                         try {
-                    Thread.sleep(1 * 1000);
+                    Thread.sleep(1 * 500);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

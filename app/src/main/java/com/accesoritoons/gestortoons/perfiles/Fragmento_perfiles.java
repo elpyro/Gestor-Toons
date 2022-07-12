@@ -132,6 +132,7 @@ public class Fragmento_perfiles extends Fragment {
     public void onDetach() {
         MainActivity.opcion_nuevo_perfil.setVisible(false);
         super.onDetach();
+        referencia=null;
         vista=null;
     }
 }
