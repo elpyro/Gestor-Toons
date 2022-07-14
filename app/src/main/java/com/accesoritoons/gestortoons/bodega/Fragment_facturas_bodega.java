@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.accesoritoons.gestortoons.R;
 import com.accesoritoons.gestortoons.modelos.Modelo_factura_cliente;
 import com.accesoritoons.gestortoons.recyclerViewAdaptador.RecyclerView_mis_facturas;
+import com.bumptech.glide.Glide;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -36,6 +37,7 @@ public class Fragment_facturas_bodega extends Fragment {
     SearchView searchview;
     ArrayList<Modelo_factura_cliente> lista_facturas;
     Query referencia;
+    ValueEventListener oyente;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -62,7 +64,7 @@ public class Fragment_facturas_bodega extends Fragment {
         referencia= FirebaseDatabase.getInstance().getReference().child("Factura_cliente").orderByChild("id_vendedor");
 
         if(referencia!=null){
-            referencia.addValueEventListener(new ValueEventListener() {
+            oyente=referencia.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     lista_facturas=new ArrayList<>();
@@ -120,6 +122,8 @@ public class Fragment_facturas_bodega extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+        referencia.removeEventListener(oyente);
+        Glide.get(context).clearMemory();//clear memory
         referencia=null;
         vista=null;
     }

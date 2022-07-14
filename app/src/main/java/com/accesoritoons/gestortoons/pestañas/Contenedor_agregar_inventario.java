@@ -142,15 +142,15 @@ public class Contenedor_agregar_inventario extends Fragment {
 
                     //RESTA INVENTARIO
                     Query referencia_id_producto= FirebaseDatabase.getInstance().getReference().child("Productos").orderByChild("id").equalTo(productos.getId());
-                    referencia_id_producto.keepSynced(true);
-                    try {
-                        Thread.sleep(1 * 500);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+//                    referencia_id_producto.keepSynced(true);
+//                    try {
+//                        Thread.sleep(1 * 500);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
                     if(referencia_id_producto!=null) {
                         int finalX1 = x;
-                        referencia_id_producto.addListenerForSingleValueEvent(new  ValueEventListener() {
+                        referencia_id_producto.addValueEventListener(new  ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot snapshot) {
                                 if(snapshot.exists()) {
@@ -170,6 +170,7 @@ public class Contenedor_agregar_inventario extends Fragment {
                                             myRefe.child("Pedidos").child(pedido.getId_producto_pedido()).setValue(pedido);
                                         }
                                     }
+                                    referencia_id_producto.removeEventListener(this);
                                 }
                             }
                             @Override

@@ -34,7 +34,7 @@ public class Fragment_puntos_de_venta extends Fragment {
     SearchView searchView_perfiles;
     Query referencia;
     ArrayList<Modelo_usuario> lista;
-
+    ValueEventListener oyente;
 
 
     @Override
@@ -57,7 +57,7 @@ public class Fragment_puntos_de_venta extends Fragment {
         super.onStart();
 
         if(referencia!=null){
-            referencia.addValueEventListener(new ValueEventListener() {
+           oyente= referencia.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if (snapshot.exists()){
@@ -104,6 +104,7 @@ public class Fragment_puntos_de_venta extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+        referencia.removeEventListener(oyente);
         referencia=null;
         vista=null;
     }

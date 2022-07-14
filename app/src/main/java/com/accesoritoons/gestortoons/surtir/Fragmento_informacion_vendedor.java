@@ -49,7 +49,7 @@ public class Fragmento_informacion_vendedor extends Fragment {
     TextView  textView_telefono, textView_maximo_inventario, textView_direccion, textview_tipo, textview_inventario;
     TextView textView_nombre;
     Query dataQuery;
-
+    ValueEventListener oyente2;
 
     ImageView imageView_avatar, imageView_enviar;
     LinearLayout linearLayout_datos_usuario;
@@ -58,6 +58,7 @@ public class Fragmento_informacion_vendedor extends Fragment {
 
     RecyclerView recview_pedidos;
     Query referencia;
+    ValueEventListener oyente;
     ArrayList<Modelo_pedido> lista_pedidos;
 
 
@@ -173,7 +174,7 @@ public class Fragmento_informacion_vendedor extends Fragment {
             referencia= FirebaseDatabase.getInstance().getReference().child("Pedidos").orderByChild("referencia_vendedor").equalTo(id_usuario);
 
             if(referencia!=null){
-                referencia.addValueEventListener(new ValueEventListener() {
+                oyente=referencia.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         lista_pedidos=new ArrayList<>();
@@ -252,7 +253,7 @@ public class Fragmento_informacion_vendedor extends Fragment {
         DatabaseReference myRefe = FirebaseDatabase.getInstance().getReference();
 
         dataQuery = myRefe.child("Usuarios").orderByChild("id").equalTo(id_usuario).limitToFirst(1);
-        dataQuery.addValueEventListener(new ValueEventListener() {
+        oyente2=dataQuery.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
@@ -288,6 +289,8 @@ public class Fragmento_informacion_vendedor extends Fragment {
         Fragmento_inventario_vendedor.total_inventario=0;
         MainActivity.opcion_crear_pedido.setVisible(false);
         MainActivity.id_vendedor=null;
+        referencia.removeEventListener(oyente);
+        dataQuery.removeEventListener(oyente2);
         referencia=null;
         dataQuery=null;
         vista=null;

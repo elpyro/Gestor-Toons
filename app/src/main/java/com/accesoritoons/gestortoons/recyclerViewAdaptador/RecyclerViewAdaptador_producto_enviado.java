@@ -41,6 +41,7 @@ import java.util.ArrayList;
 //https://www.youtube.com/watch?v=M8sKwoVjqU0&ab_channel=Foxandroid firebase con recyclerview
 public class RecyclerViewAdaptador_producto_enviado extends RecyclerView.Adapter<RecyclerViewAdaptador_producto_enviado.MyViewHolder>{
     Context context;
+    Fragmento_pedido_enviado lista_productos_recibidos = new Fragmento_pedido_enviado();
     ArrayList<Modelo_producto_facturacion_app_vendedor> list;
     public RecyclerViewAdaptador_producto_enviado(ArrayList<Modelo_producto_facturacion_app_vendedor> list){
         this.list=list;
@@ -69,6 +70,20 @@ public class RecyclerViewAdaptador_producto_enviado extends RecyclerView.Adapter
             holder.checkBox_recibido.setChecked(true);
             holder.checkBox_recibido.setEnabled(false);
         }
+
+
+        for (int x = 0; x < lista_productos_recibidos.lista_productos_recibidos.size(); x++) {
+            Modelo_producto_facturacion_app_vendedor producto_recibido =  lista_productos_recibidos.lista_productos_recibidos.get(x);
+            if (producto_recibido.getId_referencia_producto().equals(list.get(position).getId_referencia_producto())) {
+                holder.checkBox_recibido.setChecked(true);
+                holder.imageButton_eliminar.setVisibility(View.VISIBLE);
+                break;
+            }else{
+                holder.imageButton_eliminar.setVisibility(View.GONE);
+                holder.checkBox_recibido.setChecked(false);
+            }
+        }
+
         if(MainActivity.Perfil.equals(context.getString(R.string.Vendedor))){
             holder.imageView_foto_producto.setVisibility(View.GONE);
         }
@@ -102,20 +117,23 @@ public class RecyclerViewAdaptador_producto_enviado extends RecyclerView.Adapter
             linearLayout_usuario=(LinearLayout)itemView.findViewById(R.id.layout_principal);
             imageButton_eliminar=(ImageButton)itemView.findViewById(R.id.imageButton_eliminar);
 
-            if(!MainActivity.Perfil.equals("Administrador"))checkBox_recibido.setVisibility(View.GONE);
 
-            linearLayout_usuario.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (textView_cantidad.getText().toString().equals("1"))return;
-                    Bundle bundle = new Bundle();
-                    bundle.putString("url",textView_url_producto.getText().toString() );
-                    bundle.putString("nombre",textView_nombre_producto.getText().toString() );
-                    bundle.putString("cantidad",textView_cantidad.getText().toString() );
-                    bundle.putString("id_producto_pedido",id_producto_pedido.getText().toString() );
-                    Navigation.findNavController(view).navigate(R.id.fragmento_cambiar_cantidades,bundle);
-                }
-            });
+            if(!MainActivity.Perfil.equals("Administrador"))checkBox_recibido.setVisibility(View.GONE); else checkBox_recibido.setVisibility(View.VISIBLE);
+
+//            linearLayout_usuario.setOnLongClickListener(new View.OnLongClickListener() {
+//                @Override
+//                public boolean onLongClick(View view) {
+//                    if (textView_cantidad.getText().toString().equals("1"))return false;
+//                    Bundle bundle = new Bundle();
+//                    bundle.putString("url",textView_url_producto.getText().toString() );
+//                    bundle.putString("nombre",textView_nombre_producto.getText().toString() );
+//                    bundle.putString("cantidad",textView_cantidad.getText().toString() );
+//                    bundle.putString("id_producto_pedido",id_producto_pedido.getText().toString() );
+//                    Navigation.findNavController(view).navigate(R.id.fragmento_cambiar_cantidades,bundle);
+//
+//                    return false;
+//                }
+//            });
 
             imageButton_eliminar.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -132,10 +150,16 @@ public class RecyclerViewAdaptador_producto_enviado extends RecyclerView.Adapter
             public void onClick(DialogInterface dialog, int which) {
 
                 Guardar_firebase eliminar =new Guardar_firebase();
+                //eliminar del array
+                for (int x = 0; x < lista_productos_recibidos.lista_productos_recibidos.size(); x++) {
+                    Modelo_producto_facturacion_app_vendedor producto_recibido = lista_productos_recibidos.lista_productos_recibidos.get(x);
+                    if (producto_recibido.getId_referencia_producto().equals(TextView_referencia_producto.getText().toString())) {
+                        lista_productos_recibidos.lista_productos_recibidos.remove(x);
+                        break;
+                    }
+                }
                 eliminar.eliminar_producto_pedido(id_producto_pedido.getText().toString(),textView_referencia_pedido.getText().toString(),TextView_referencia_producto.getText().toString(),textView_cantidad.getText().toString());
                 eliminar.guardar_historial("",context.getString(R.string.Pedido_eliminado),context.getString(R.string.Administrador), Fragmento_informacion_vendedor.nombre_vendedor +": "+textView_nombre_producto.getText()+" X"+textView_cantidad.getText(),context);
-
-
             }
         });
         builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -151,7 +175,7 @@ public class RecyclerViewAdaptador_producto_enviado extends RecyclerView.Adapter
             checkBox_recibido.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Fragmento_pedido_enviado lista_productos_recibidos = new Fragmento_pedido_enviado();
+
                     if(checkBox_recibido.isChecked()) {
 
                         if(!MainActivity.Perfil.equals(context.getString(R.string.Vendedor))){

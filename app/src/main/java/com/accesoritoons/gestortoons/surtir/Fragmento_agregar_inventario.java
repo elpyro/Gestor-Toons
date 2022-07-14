@@ -26,6 +26,7 @@ import com.accesoritoons.gestortoons.modelos.Modelo_producto;
 import com.accesoritoons.gestortoons.pestañas.Contenedor_compras_bodega;
 import com.accesoritoons.gestortoons.recyclerViewAdaptador.RecyclerViewAdaptador_agregar_inventario;
 import com.accesoritoons.gestortoons.recyclerViewAdaptador.RecyclerViewAdaptador_compras_bodega;
+import com.bumptech.glide.Glide;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -42,11 +43,13 @@ public class Fragmento_agregar_inventario extends Fragment {
     RecyclerView recview;
     SearchView searchView_produtos;
     Query referencia;
+    private ValueEventListener oyente;
     ArrayList<Modelo_producto> lista ;
     public static ArrayList<Modelo_producto> lista_produtos_completa ;
     View vista;
     Context context;
     public static TextView textView_monto_seleccionado_carrito;
+
     NumberFormat formatoImporte = NumberFormat.getIntegerInstance(new Locale("es","ES"));
 
     @Override
@@ -77,7 +80,7 @@ public class Fragmento_agregar_inventario extends Fragment {
 
         }catch (Exception E){}
 
-        referencia= FirebaseDatabase.getInstance().getReference().child("Productos").orderByChild("cliente_mis_productos").equalTo("Accesory Toons");
+
         return vista;
     }
 
@@ -85,23 +88,19 @@ public class Fragmento_agregar_inventario extends Fragment {
     public void onResume() {
         super.onResume();
 
+
         if(MainActivity.lista_seleccion.size()>0){
             MainActivity.opcion_crear_pedido.setEnabled(true);
         }else{
             MainActivity.opcion_crear_pedido.setEnabled(false);
         }
 
-        referencia.keepSynced(true);
-        try {
-            Thread.sleep(1 * 500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        referencia= FirebaseDatabase.getInstance().getReference().child("Productos").orderByChild("cliente_mis_productos").equalTo("Accesory Toons");
         if(referencia!=null){
-            referencia.addListenerForSingleValueEvent(new ValueEventListener() {
+            oyente=referencia.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        referencia.keepSynced(true);               
+
 
                     if (snapshot.exists()){
                         lista=new ArrayList<>();
@@ -114,7 +113,7 @@ public class Fragmento_agregar_inventario extends Fragment {
                             }
                         }
 
-                        Toast.makeText(context, "Productos disponibles "+lista.size(), Toast.LENGTH_SHORT).show();
+                   //     Toast.makeText(context, "Productos disponibles "+lista.size(), Toast.LENGTH_SHORT).show();
                         lista_produtos_completa=lista;
                         if(Contenedor_compras_bodega.compra_activa==true){
 
@@ -129,6 +128,7 @@ public class Fragmento_agregar_inventario extends Fragment {
                             RecyclerViewAdaptador_agregar_inventario adapador= new RecyclerViewAdaptador_agregar_inventario(lista);
                             recview.setAdapter(adapador);
                         }
+//                        referencia.removeEventListener(this);
 
                     }
                 }
@@ -178,7 +178,9 @@ public class Fragmento_agregar_inventario extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-
+        referencia.removeEventListener(oyente);
+        Glide.get(context).clearMemory();//clear memory
+        referencia=null;
 
         InputMethodManager input = (InputMethodManager) (getActivity().getSystemService(getContext().INPUT_METHOD_SERVICE));
         input.hideSoftInputFromWindow(vista.getWindowToken(), 0);

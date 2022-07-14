@@ -5,7 +5,6 @@ import static com.accesoritoons.gestortoons.MainActivity.progressDialog;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,7 +13,6 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -25,8 +23,6 @@ import android.widget.Toast;
 
 import com.accesoritoons.gestortoons.MainActivity;
 import com.accesoritoons.gestortoons.R;
-import com.accesoritoons.gestortoons.Vista_pdf;
-import com.accesoritoons.gestortoons.bodega.Fragment_crear_factura;
 import com.accesoritoons.gestortoons.metodos.Guardar_firebase;
 import com.accesoritoons.gestortoons.modelos.Modelo_factura_cliente;
 import com.accesoritoons.gestortoons.modelos.Modelo_pedido;
@@ -36,8 +32,7 @@ import com.accesoritoons.gestortoons.modelos.Modelo_producto_facturacion_app_ven
 import com.accesoritoons.gestortoons.modelos.Modelo_usuario;
 import com.accesoritoons.gestortoons.recyclerViewAdaptador.RecyclerViewAdaptador_producto_enviado;
 import com.accesoritoons.gestortoons.reportes_pdf.Activity_vista_pdf;
-import com.accesoritoons.gestortoons.reportes_pdf.PDFUtility_factura_bodega;
-import com.google.android.material.snackbar.Snackbar;
+import com.bumptech.glide.Glide;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -45,17 +40,14 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.google.gson.Gson;
 import com.romainpiel.shimmer.Shimmer;
 import com.romainpiel.shimmer.ShimmerTextView;
-import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 public class Fragmento_pedido_enviado extends Fragment {
     public  View vista;
@@ -70,6 +62,8 @@ public class Fragmento_pedido_enviado extends Fragment {
     String actividad, visibilidad, agregando_inventario;
     Guardar_firebase metodo = new Guardar_firebase();
     ShimmerTextView myShimmerTextView;
+    ValueEventListener oyente;
+
 
 
    public ArrayList<Modelo_pedido> lista_producto_pedido;
@@ -170,8 +164,6 @@ public class Fragmento_pedido_enviado extends Fragment {
 
     public void registrar_como_venta_bodega() {
 
-
-
         DatabaseReference myRefe = FirebaseDatabase.getInstance().getReference();
 
         Query dataQuery = myRefe.child("Usuarios").orderByChild("id").equalTo(id_vendedor).limitToFirst(1);
@@ -268,12 +260,8 @@ public class Fragmento_pedido_enviado extends Fragment {
                                                     productos.setVendedor(MainActivity.Usuario);
 
                                                     referencia.child("Factura_productos").child(productos.getId_producto_pedido()).setValue(productos);
-
-
-//
+                                                    //
 //                                                    descripcion_compra= descripcion_compra + "\n" +"x"+cantidad_seleccionada+" $"+costo_compra+" "+nombre;
-
-
 
 
                                                 }
@@ -287,19 +275,6 @@ public class Fragmento_pedido_enviado extends Fragment {
                                     });
                                 }
                             }
-
-
-
-
-
-
-
-
-
-
-
-
-
                         }
                     }
                 } else {
@@ -348,21 +323,24 @@ public class Fragmento_pedido_enviado extends Fragment {
             referencia = FirebaseDatabase.getInstance().getReference().child("Pedidos").orderByChild("id_pedido").equalTo(id_pedido);
 
             if (referencia != null) {
-                referencia.addValueEventListener(new ValueEventListener() {
+                oyente =referencia.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                         cargado = cargado + 1;
                         if (cargado > 1) {
-                            referencia.removeEventListener(this);
-                            lista_productos.clear();
+                            try{
+                                referencia.removeEventListener(this);
+                                lista_productos.clear();
 
-                            recview_pedidos.setVisibility(View.VISIBLE);
-                            textView_recibido.setVisibility(View.VISIBLE);
-                            myShimmerTextView.setVisibility(View.GONE);
+                                recview_pedidos.setVisibility(View.VISIBLE);
+                                textView_recibido.setVisibility(View.VISIBLE);
+                                myShimmerTextView.setVisibility(View.GONE);
 
-                            RecyclerViewAdaptador_producto_enviado adapador = new RecyclerViewAdaptador_producto_enviado(lista_productos);
-                            recview_pedidos.setAdapter(adapador);
+                                RecyclerViewAdaptador_producto_enviado adapador = new RecyclerViewAdaptador_producto_enviado(lista_productos);
+                                recview_pedidos.setAdapter(adapador);
+
+                            }catch (Exception e){}
 
                             try {
                                 Thread.sleep(1 * 500);
@@ -383,25 +361,31 @@ public class Fragmento_pedido_enviado extends Fragment {
                             //cargar datos del producto
                             for (int x = 0; x < lista_producto_pedido.size(); x++) {
                                 Query referencia2 = FirebaseDatabase.getInstance().getReference().child("Productos").orderByChild("id").equalTo(lista_producto_pedido.get(x).getReferencia_producto()).limitToFirst(1);
-                                referencia2.keepSynced(true);
-                                try {
-                                    Thread.sleep(1 * 500);
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                }
+//                                referencia2.keepSynced(true);
+//                                try {
+//                                    Thread.sleep(1 * 500);
+//                                } catch (InterruptedException e) {
+//                                    e.printStackTrace();
+//                                }
                                 String id_producto_buscado = lista_producto_pedido.get(x).getReferencia_producto();
                                 if (referencia2 != null) {
                                     int finalX = x;
-                                    referencia2.addListenerForSingleValueEvent(new ValueEventListener() {
+
+                                  referencia2.addValueEventListener(new ValueEventListener() {
 
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                                             if (snapshot.exists()) {
-                                                for (DataSnapshot ds : snapshot.getChildren()) {
-                                                    lista_productos.add(new Modelo_producto_facturacion_app_vendedor(ds.getValue(Modelo_producto.class).getNombre(), "", ds.getValue(Modelo_producto.class).getP_detal(), ds.getValue(Modelo_producto.class).getUrl(), lista_producto_pedido.get(finalX).getCantidad(), lista_producto_pedido.get(finalX).getId_pedido(), lista_producto_pedido.get(finalX).getId_producto_pedido(), id_producto_buscado, lista_producto_pedido.get(finalX).getEstado(), lista_producto_pedido.get(finalX).getReferencia_vendedor(), lista_producto_pedido.get(finalX).getReferencia_vendedor() + "-" + id_producto_buscado, "", "", ds.getValue(Modelo_producto.class).getCliente_mis_productos(), ds.getValue(Modelo_producto.class).getMis_productos(), ds.getValue(Modelo_producto.class).getCodigo(), MainActivity.Usuario, "", "", "", ""));
-                                                }
-                                                RecyclerViewAdaptador_producto_enviado adapador = new RecyclerViewAdaptador_producto_enviado(lista_productos);
-                                                recview_pedidos.setAdapter(adapador);
+                                                try {
+                                                    for (DataSnapshot ds : snapshot.getChildren()) {
+                                                        lista_productos.add(new Modelo_producto_facturacion_app_vendedor(ds.getValue(Modelo_producto.class).getNombre(), "", ds.getValue(Modelo_producto.class).getP_detal(), ds.getValue(Modelo_producto.class).getUrl(), lista_producto_pedido.get(finalX).getCantidad(), lista_producto_pedido.get(finalX).getId_pedido(), lista_producto_pedido.get(finalX).getId_producto_pedido(), id_producto_buscado, lista_producto_pedido.get(finalX).getEstado(), lista_producto_pedido.get(finalX).getReferencia_vendedor(), lista_producto_pedido.get(finalX).getReferencia_vendedor() + "-" + id_producto_buscado, "", "", ds.getValue(Modelo_producto.class).getCliente_mis_productos(), ds.getValue(Modelo_producto.class).getMis_productos(), ds.getValue(Modelo_producto.class).getCodigo(), MainActivity.Usuario, "", "", "", ""));
+                                                    }
+                                                    referencia2.removeEventListener(this);
+                                                    lista_productos.sort(Comparator.comparing(Modelo_producto_facturacion_app_vendedor::getNombre));
+                                                    RecyclerViewAdaptador_producto_enviado adapador = new RecyclerViewAdaptador_producto_enviado(lista_productos);
+                                                    recview_pedidos.setAdapter(adapador);
+                                                }catch (Exception e){}
+
                                             }
                                         }
 
@@ -439,9 +423,19 @@ public class Fragmento_pedido_enviado extends Fragment {
 
     }
 
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
+
     @Override
     public void onDetach() {
         super.onDetach();
+
+        referencia.removeEventListener(oyente);
+        Glide.get(context).clearMemory();//clear memory
         referencia=null;
         MainActivity.opcion_compartir_logo.setVisible(false);
         MainActivity.opcion_agregar_inventario.setVisible(false);

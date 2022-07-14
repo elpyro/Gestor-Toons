@@ -27,6 +27,7 @@ import com.accesoritoons.gestortoons.modelos.Modelo_producto;
 import com.accesoritoons.gestortoons.recyclerViewAdaptador.RecyclerViewAdaptador_agregar_inventario;
 import com.accesoritoons.gestortoons.recyclerViewAdaptador.RecyclerViewAdaptador_compras_bodega;
 import com.accesoritoons.gestortoons.recyclerViewAdaptador.RecyclerViewAdaptador_ventas_bodega;
+import com.bumptech.glide.Glide;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -52,6 +53,7 @@ public class Fragment_venta_bodega_mayor extends Fragment {
     public static ArrayList<Modelo_producto>lista_produtos_completa=new ArrayList<>();
     public static boolean venta_bodega_mayor=false;
     String id_factura;
+    ValueEventListener oyente;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -141,7 +143,7 @@ try{
             MainActivity.opcion_crear_pedido.setEnabled(false);
         }
         if(referencia!=null){
-            referencia.addValueEventListener(new ValueEventListener() {
+            oyente=referencia.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     lista_produtos_completa.clear();
@@ -195,6 +197,8 @@ try{
         venta_bodega_mayor=false;
         MainActivity.opcion_factura.setVisible(false);
         MainActivity.opcion_scanner.setVisible(false);
+        Glide.get(context).clearMemory();//clear memory
+        referencia.removeEventListener(oyente);
         referencia=null;
         vista=null;
     }

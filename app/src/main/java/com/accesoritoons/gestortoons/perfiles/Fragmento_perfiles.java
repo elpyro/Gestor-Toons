@@ -40,7 +40,7 @@ public class Fragmento_perfiles extends Fragment {
     ArrayList<Modelo_usuario> lista;
     View vista;
     Context context;
-
+    ValueEventListener oyente;
 
 
     @Override
@@ -77,7 +77,7 @@ public class Fragmento_perfiles extends Fragment {
         super.onStart();
 
         if(referencia!=null){
-            referencia.addValueEventListener(new ValueEventListener() {
+           oyente= referencia.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if (snapshot.exists()){
@@ -130,8 +130,10 @@ public class Fragmento_perfiles extends Fragment {
 
     @Override
     public void onDetach() {
-        MainActivity.opcion_nuevo_perfil.setVisible(false);
+
         super.onDetach();
+        MainActivity.opcion_nuevo_perfil.setVisible(false);
+        referencia.removeEventListener(oyente);
         referencia=null;
         vista=null;
     }

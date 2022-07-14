@@ -138,8 +138,9 @@ public class Fragment_crear_factura extends Fragment implements PDFUtility_factu
                         Query referencia_id_producto= FirebaseDatabase.getInstance().getReference().child("Productos").orderByChild("id").equalTo(id_referencia_producto);
 
                         referencia_id_producto.keepSynced(true);
+
                         try {
-                            Thread.sleep(1 * 500);
+                            Thread.sleep(1 * 250);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }

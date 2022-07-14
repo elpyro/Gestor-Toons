@@ -62,7 +62,7 @@ public class Guardar_firebase extends Application {
 
             referencia_id_producto.keepSynced(true);
             try {
-                Thread.sleep(1 * 500);
+                Thread.sleep(1 * 200);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -158,7 +158,7 @@ public class Guardar_firebase extends Application {
             referencia=null;
             referencia= FirebaseDatabase.getInstance().getReference().child("Pedidos").orderByChild("id_producto_pedido").equalTo(lista_productos_recibidos.get(x).getId_producto_pedido()).limitToFirst(1);
                             try {
-                    Thread.sleep(1 * 500);
+                    Thread.sleep(1 * 200);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -227,7 +227,7 @@ public class Guardar_firebase extends Application {
             referencia= FirebaseDatabase.getInstance().getReference().child("Pedidos").orderByChild("id_producto_pedido").equalTo(id_producto_pedido).limitToFirst(1);
                            referencia.keepSynced(true);
                             try {
-                    Thread.sleep(1 * 500);
+                    Thread.sleep(1 * 200);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -254,7 +254,7 @@ public class Guardar_firebase extends Application {
         Query referencia_id_producto= FirebaseDatabase.getInstance().getReference().child("Productos").orderByChild("id").equalTo(id_producto);
         referencia_id_producto.keepSynced(true);
         try {
-            Thread.sleep(1 * 500);
+            Thread.sleep(1 * 200);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -288,9 +288,9 @@ public class Guardar_firebase extends Application {
         Query referencia= null;
 
         referencia= FirebaseDatabase.getInstance().getReference().child("Factura_productos").orderByChild("id_producto_pedido").equalTo(id_producto_factura).limitToFirst(1);
-                referencia.keepSynced(true);               
+                referencia.keepSynced(true);
         try {
-            Thread.sleep(1 * 500);
+            Thread.sleep(1 * 200);
         } catch (InterruptedException e) {
             e.printStackTrace();
         };
@@ -317,7 +317,7 @@ public class Guardar_firebase extends Application {
         Query referencia_id_producto= FirebaseDatabase.getInstance().getReference().child("Productos").orderByChild("id").equalTo(id_producto);
         referencia_id_producto.keepSynced(true);
         try {
-            Thread.sleep(1 * 500);
+            Thread.sleep(1 * 200);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -364,7 +364,7 @@ public class Guardar_firebase extends Application {
 
             referencia_id_producto.keepSynced(true);
             try {
-                Thread.sleep(1 * 500);
+                Thread.sleep(1 * 200);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -452,7 +452,7 @@ public class Guardar_firebase extends Application {
             Query referencia_id_producto= FirebaseDatabase.getInstance().getReference().child("Productos").orderByChild("id").equalTo(id_referencia_producto);
             referencia_id_producto.keepSynced(true);
             try {
-                Thread.sleep(1 * 500);
+                Thread.sleep(1 * 200);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -533,7 +533,7 @@ public class Guardar_firebase extends Application {
         Query dataQuery = myRefe.child("Empresa").orderByChild("id").equalTo("1").limitToFirst(1);
         dataQuery.keepSynced(true);
         try {
-            Thread.sleep(1 * 500);
+            Thread.sleep(1 * 200);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -564,7 +564,7 @@ public class Guardar_firebase extends Application {
         Query referencia_id_producto= FirebaseDatabase.getInstance().getReference().child("Factura_cliente").orderByChild("id").equalTo(id_factura);
         referencia_id_producto.keepSynced(true);
         try {
-            Thread.sleep(1 * 500);
+            Thread.sleep(1 * 200);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

@@ -44,6 +44,7 @@ import com.accesoritoons.gestortoons.R;
 import com.accesoritoons.gestortoons.modelos.Modelo_historial;
 import com.accesoritoons.gestortoons.modelos.Modelo_producto;
 import com.accesoritoons.gestortoons.surtir.Fragmento_carrito;
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -87,6 +88,7 @@ public class Fragmento_nuevo_producto extends Fragment {
     Query dataQuery;
     Context context;
     View vista;
+    ValueEventListener oyente, oyente2;
     private String id_producto;
     public static  ImageView image_foto1;
     public static Uri imageuri;
@@ -202,7 +204,13 @@ public class Fragmento_nuevo_producto extends Fragment {
         myRefe = FirebaseDatabase.getInstance().getReference();
 
         dataQuery = myRefe.child("Productos").orderByChild("id").equalTo(id_producto).limitToFirst(1);
-        dataQuery.addValueEventListener(new ValueEventListener() {
+        dataQuery.keepSynced(true);
+        try {
+            Thread.sleep(1 * 500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        dataQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
@@ -493,7 +501,13 @@ public class Fragmento_nuevo_producto extends Fragment {
 
         if (!codigo_barras.equals(editText_codigo_barras.getText().toString().trim())) {
             dataQuery = myRefe.child("Productos").orderByChild("codigo").equalTo(editText_codigo_barras.getText().toString().trim().toLowerCase()).limitToFirst(1);
-            dataQuery.addValueEventListener(new ValueEventListener() {
+            dataQuery.keepSynced(true);
+            try {
+                Thread.sleep(1 * 500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            dataQuery.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (dataSnapshot.exists()) {
@@ -530,7 +544,10 @@ public class Fragmento_nuevo_producto extends Fragment {
     public void onDetach() {
         super.onDetach();
         myRefe=null;
+
+
         dataQuery=null;
+        Glide.get(context).clearMemory();//clear memory
         opcion_agregar_producto.setVisible(false);
         opcion_editar_producto.setVisible(false);
         imageuri=null;

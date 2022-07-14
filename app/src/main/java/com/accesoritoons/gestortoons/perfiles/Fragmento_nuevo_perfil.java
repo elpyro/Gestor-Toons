@@ -48,6 +48,7 @@ import com.accesoritoons.gestortoons.inventario.Fragmento_nuevo_producto;
 import com.accesoritoons.gestortoons.modelos.Modelo_historial;
 import com.accesoritoons.gestortoons.modelos.Modelo_producto;
 import com.accesoritoons.gestortoons.modelos.Modelo_usuario;
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -97,6 +98,7 @@ public class Fragmento_nuevo_perfil extends Fragment {
     private CheckBox checkBox_ver_ganancia;
     String id_exitente="", id_usuario;
     Query dataQuery;
+    ValueEventListener oyente;
 
     private LinearLayout linearlayout_ultima_modificacion;
 
@@ -244,7 +246,7 @@ public class Fragmento_nuevo_perfil extends Fragment {
         DatabaseReference myRefe = FirebaseDatabase.getInstance().getReference();
 
         dataQuery = myRefe.child("Usuarios").orderByChild("id").equalTo(id_usuario).limitToFirst(1);
-        dataQuery.addValueEventListener(new ValueEventListener() {
+        oyente=dataQuery.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
@@ -342,7 +344,7 @@ public class Fragmento_nuevo_perfil extends Fragment {
             //verificar correo
             dataQuery = myRefe.child("Usuarios").orderByChild("correo").equalTo(editText_correo.getText().toString().trim().toLowerCase()).limitToFirst(1);
 
-            dataQuery.addValueEventListener(new ValueEventListener() {
+            oyente=dataQuery.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (dataSnapshot.exists()) {
@@ -576,6 +578,8 @@ public class Fragmento_nuevo_perfil extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        dataQuery.removeEventListener(oyente);
+        Glide.get(context).clearMemory();//clear memory
         opcion_editar_producto.setVisible(false);
         dataQuery=null;
         opcion_nuevo_perfil.setVisible(false);

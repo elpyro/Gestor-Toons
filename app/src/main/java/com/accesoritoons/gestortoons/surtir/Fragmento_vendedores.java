@@ -65,6 +65,7 @@ public class Fragmento_vendedores extends Fragment {
                         for(DataSnapshot ds:snapshot.getChildren()){
                             lista.add(ds.getValue(Modelo_usuario.class));
                         }
+                        referencia.removeEventListener(this);
                         RecyclerViewAdaptador_vendedores adapador= new RecyclerViewAdaptador_vendedores(lista);
                         recview.setAdapter(adapador);
                     }

@@ -29,6 +29,7 @@ import com.accesoritoons.gestortoons.modelos.Modelo_producto;
 
 import com.accesoritoons.gestortoons.modelos.Modelo_producto_facturacion_app_vendedor;
 import com.accesoritoons.gestortoons.recyclerViewAdaptador.RecyclerViewAdaptador_producto_enviado;
+import com.bumptech.glide.Glide;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -51,6 +52,8 @@ public class Fragmento_cambiar_cantidades extends Fragment {
     ImageView imageView_foto;
     ImageButton button_incrementar, button_disminuir;
     TextView textView_catidad, textView_nombre_producto;
+    ValueEventListener oyente, oyente2;
+    Query referencia2;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -166,74 +169,71 @@ public class Fragmento_cambiar_cantidades extends Fragment {
     }
 
 
-
-    public void cargar_pedido_enviado(String id_pedido) {
-
-
-        //cargar id pedidos y cantidades
-        Query referencia= FirebaseDatabase.getInstance().getReference().child("Pedidos").orderByChild("id_producto_pedido").equalTo(id_producto).limitToFirst(1);
-                referencia.keepSynced(true);               
-        try {
-            Thread.sleep(1 * 500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        };
-        if(referencia!=null){
-            referencia.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    ArrayList<Modelo_pedido> lista_producto_pedido=new ArrayList<>();
-                    if (snapshot.exists()){
-                        for(DataSnapshot ds:snapshot.getChildren()){
-                            lista_producto_pedido.add(ds.getValue(Modelo_pedido.class));
-                        }
-
-                        ArrayList<Modelo_producto_facturacion_app_vendedor> lista_productos = new ArrayList<>();
-                        //cargar datos del producto
-                        for (int x = 0; x < lista_producto_pedido.size(); x++) {
-                            Query referencia2 = FirebaseDatabase.getInstance().getReference().child("Productos").orderByChild("id").equalTo(lista_producto_pedido.get(x).getReferencia_producto()).limitToFirst(1);
-                            String id_producto_buscado=lista_producto_pedido.get(x).getReferencia_producto();
-                            referencia2.keepSynced(true);
-                            try {
-                                Thread.sleep(1 * 500);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                            if (referencia2 != null) {
-                                int finalX = x;
-                                referencia2.addListenerForSingleValueEvent(new ValueEventListener() {
-
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                        if (snapshot.exists()) {
-                                            for (DataSnapshot ds : snapshot.getChildren()) {
-                                                Modelo_producto_facturacion_app_vendedor producto = snapshot.getValue(Modelo_producto_facturacion_app_vendedor.class);
-                                                textView_nombre_producto.setText(producto.getNombre());
-
-                                            }
-
-                                        }
-                                    }
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError error) {
-                                        Toast.makeText(getContext(), "Error en conexion", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                            }
-                        }
-                    }
-                }
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-                    Toast.makeText(getContext(), "Error en conexion", Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
-    }
+//
+//    public void cargar_pedido_enviado(String id_pedido) {
+//
+//
+//        //cargar id pedidos y cantidades
+//        Query referencia= FirebaseDatabase.getInstance().getReference().child("Pedidos").orderByChild("id_producto_pedido").equalTo(id_producto).limitToFirst(1);
+//                referencia.keepSynced(true);
+//        try {
+//            Thread.sleep(1 * 500);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        };
+//        if(referencia!=null){
+//            referencia.addListenerForSingleValueEvent(new ValueEventListener() {
+//                @Override
+//                public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                    ArrayList<Modelo_pedido> lista_producto_pedido=new ArrayList<>();
+//                    if (snapshot.exists()){
+//                        for(DataSnapshot ds:snapshot.getChildren()){
+//                            lista_producto_pedido.add(ds.getValue(Modelo_pedido.class));
+//                        }
+//
+//                        ArrayList<Modelo_producto_facturacion_app_vendedor> lista_productos = new ArrayList<>();
+//                        //cargar datos del producto
+//                        for (int x = 0; x < lista_producto_pedido.size(); x++) {
+//                            referencia2 = FirebaseDatabase.getInstance().getReference().child("Productos").orderByChild("id").equalTo(lista_producto_pedido.get(x).getReferencia_producto()).limitToFirst(1);
+//                            String id_producto_buscado=lista_producto_pedido.get(x).getReferencia_producto();
+//
+//
+//                            if (referencia2 != null) {
+//                                int finalX = x;
+//                                oyente=referencia2.addValueEventListener(new ValueEventListener() {
+//
+//                                    @Override
+//                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                                        if (snapshot.exists()) {
+//                                            for (DataSnapshot ds : snapshot.getChildren()) {
+//                                                Modelo_producto_facturacion_app_vendedor producto = snapshot.getValue(Modelo_producto_facturacion_app_vendedor.class);
+//                                                textView_nombre_producto.setText(producto.getNombre());
+//
+//                                            }
+//
+//                                        }
+//                                    }
+//                                    @Override
+//                                    public void onCancelled(@NonNull DatabaseError error) {
+//                                        Toast.makeText(getContext(), "Error en conexion", Toast.LENGTH_SHORT).show();
+//                                    }
+//                                });
+//                            }
+//                        }
+//                    }
+//                }
+//                @Override
+//                public void onCancelled(@NonNull DatabaseError error) {
+//                    Toast.makeText(getContext(), "Error en conexion", Toast.LENGTH_SHORT).show();
+//                }
+//            });
+//        }
+//    }
 
     @Override
     public void onDetach() {
         super.onDetach();
+        Glide.get(context).clearMemory();//clear memory
         MainActivity.opcion_cambiar_cantidad.setVisible(false);
         vista=null;
     }

@@ -242,8 +242,14 @@ public class Fragmento_reportes extends Fragment {
     private void cargar_vendedores() {
 
         referencia= FirebaseDatabase.getInstance().getReference().child("Usuarios").orderByChild("perfil");
+        referencia.keepSynced(true);
+        try {
+            Thread.sleep(1 * 500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         if(referencia!=null){
-            referencia.addValueEventListener(new ValueEventListener() {
+            referencia.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     //AGREGAR PREDETERMINADO <TODOS Y BODEGA A LISTA DE VENDEDORES

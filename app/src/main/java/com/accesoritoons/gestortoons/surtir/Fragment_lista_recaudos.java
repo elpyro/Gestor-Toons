@@ -50,6 +50,7 @@ public class Fragment_lista_recaudos extends Fragment {
     ArrayList<Modelo_producto_facturacion_app_vendedor> lista_productos;
     ArrayList<Modelo_producto_facturacion_app_vendedor> lista_garantias;
     Query referencia;
+    ValueEventListener oyente;
     public static ArrayList<Modelo_recaudos_seleccionados> Lista_productos_seleccionados=new ArrayList<>();
 
 
@@ -190,7 +191,7 @@ public class Fragment_lista_recaudos extends Fragment {
         referencia= FirebaseDatabase.getInstance().getReference().child("Factura_productos").orderByChild("id_referencia_vendedor").equalTo(MainActivity.id_vendedor);
 
         if(referencia!=null){
-            referencia.addValueEventListener(new ValueEventListener() {
+           oyente= referencia.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     lista_productos=new ArrayList<>();
@@ -288,6 +289,7 @@ public class Fragment_lista_recaudos extends Fragment {
         Fragment_lista_recaudos.Lista_productos_seleccionados.clear();
         MainActivity.opcion_realizar_recaudo.setVisible(false);
         MainActivity.vista_recaudo=false;
+        referencia.removeEventListener(oyente);
         referencia=null;
         vista=null;
     }

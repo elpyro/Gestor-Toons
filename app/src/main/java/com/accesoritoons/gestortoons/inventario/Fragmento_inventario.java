@@ -26,6 +26,7 @@ import com.accesoritoons.gestortoons.modelos.Modelo_producto;
 import com.accesoritoons.gestortoons.modelos.Modelo_producto_facturacion_app_vendedor;
 import com.accesoritoons.gestortoons.recyclerViewAdaptador.RecyclerViewAdaptador_productos;
 
+import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerAdapter_LifecycleAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -49,7 +50,7 @@ public class Fragmento_inventario extends Fragment {
     ArrayList<Modelo_producto> lista;
     View vista;
     private Context contex;
-
+    ValueEventListener oyente;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -84,7 +85,7 @@ public class Fragmento_inventario extends Fragment {
         super.onStart();
         referencia=FirebaseDatabase.getInstance().getReference().child("Productos").orderByChild("cliente_mis_productos").equalTo("Accesory Toons");
         if(referencia!=null){
-            referencia.addValueEventListener(new ValueEventListener() {
+            oyente=referencia.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if (snapshot.exists()){
@@ -135,6 +136,8 @@ public class Fragmento_inventario extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+        referencia.removeEventListener(oyente);
+        Glide.get(contex).clearMemory();//clear memory
         referencia=null;
         MainActivity.opcion_nuevo_producto.setVisible(false);
         vista=null;

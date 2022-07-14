@@ -29,6 +29,7 @@ import com.accesoritoons.gestortoons.modelos.Modelo_producto_facturacion_app_ven
 import com.accesoritoons.gestortoons.modelos.Modelo_usuario;
 import com.accesoritoons.gestortoons.recyclerViewAdaptador.RecyclerViewAdaptador_inventario_vendedor;
 import com.accesoritoons.gestortoons.recyclerViewAdaptador.RecyclerViewAdaptador_perfiles;
+import com.bumptech.glide.Glide;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -56,6 +57,8 @@ SearchView searchView_perfiles;
     Query referencia_productos2;
     Query referencia_productos;
     Query dataQuery;
+    ValueEventListener oyente;
+    ValueEventListener oyente2;
 
     public static int total_inventario=0;
     ArrayList<Modelo_producto_facturacion_app_vendedor> lista_inventario;
@@ -95,7 +98,7 @@ scrollView_scroll.setOnClickListener(new View.OnClickListener() {
         //verificar tipo de vendedor y cargar inventario
         DatabaseReference myRefe = FirebaseDatabase.getInstance().getReference();
         dataQuery = myRefe.child("Usuarios").orderByChild("id").equalTo(id_usuario_fragmento).limitToFirst(1);
-        dataQuery.addValueEventListener(new ValueEventListener() {
+        oyente= dataQuery.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
@@ -147,7 +150,7 @@ scrollView_scroll.setOnClickListener(new View.OnClickListener() {
                             if (referencia_productos2 != null) {
                                 int finalX = x;
 
-                                referencia_productos2.addValueEventListener(new ValueEventListener() {
+                               oyente2= referencia_productos2.addValueEventListener(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot snapshot) {
 
@@ -194,7 +197,7 @@ scrollView_scroll.setOnClickListener(new View.OnClickListener() {
 
                                         }
                                             //ordenar
-                                            referencia_productos2=null;
+
                                             lista_productos.sort(Comparator.comparing(Modelo_producto_facturacion_app_vendedor::getCliente_mis_productos));
                                             adapador= new RecyclerViewAdaptador_inventario_vendedor(lista_productos);
                                             recview_inventario.setAdapter(adapador);
@@ -248,7 +251,10 @@ scrollView_scroll.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onDetach() {
         super.onDetach();
+        dataQuery.removeEventListener(oyente);
         dataQuery=null;
+        if(referencia_productos2!=null) referencia_productos2.removeEventListener(oyente2);
+        Glide.get(context).clearMemory();//clear memory
         referencia_productos2=null;
         referencia_productos=null;
         vista=null;

@@ -67,6 +67,8 @@ public class Fragment_detalle_factura extends Fragment implements PDFUtility_fac
     ArrayList<Modelo_productos_para_facturar> productos_para_pdf = new ArrayList<>();
     public static ArrayList<Modelo_producto_facturacion_app_vendedor> lista_productos_facturados;
     String path="";
+    Query referencia;
+    ValueEventListener oyente;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -179,18 +181,14 @@ public class Fragment_detalle_factura extends Fragment implements PDFUtility_fac
         try {
 
 
-            Query referencia;
+
             productos_para_pdf.clear();
             referencia = FirebaseDatabase.getInstance().getReference().child("Factura_productos").orderByChild("id_pedido").equalTo(id_factura);
-            referencia.keepSynced(true);
-            try {
-                Thread.sleep(1 * 500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+
+
 
             if (referencia != null) {
-                referencia.addListenerForSingleValueEvent(new ValueEventListener() {
+               oyente= referencia.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         cuenta_total_factura = 0;
@@ -342,6 +340,7 @@ public class Fragment_detalle_factura extends Fragment implements PDFUtility_fac
     @Override
     public void onDetach() {
         super.onDetach();
+        referencia.removeEventListener(oyente);
         total_factura=null;
         Fragment_detalle_factura.producto_scaneado=null;
         Fragment_detalle_factura.textView_actividad=null;

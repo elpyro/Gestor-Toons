@@ -21,6 +21,7 @@ import com.accesoritoons.gestortoons.R;
 
 import com.accesoritoons.gestortoons.modelos.Modelo_producto_facturacion_app_vendedor;
 import com.accesoritoons.gestortoons.recyclerViewAdaptador.RecyclerViewAdaptador_recaudado_cliente;
+import com.bumptech.glide.Glide;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -44,6 +45,7 @@ public class Fragment_recaudado_cliente extends Fragment {
     SearchView searchview;
     TextView textView_articulos,textView_total;
     String id_vendedor="";
+    ValueEventListener oyente;
     NumberFormat formatoImporte = NumberFormat.getIntegerInstance(new Locale("es","ES"));
     Query referencia;
     @Override
@@ -79,7 +81,7 @@ public class Fragment_recaudado_cliente extends Fragment {
         referencia= FirebaseDatabase.getInstance().getReference().child("Factura_productos").orderByChild("id_referencia_vendedor").equalTo(id_vendedor);
 
         if(referencia!=null){
-            referencia.addValueEventListener(new ValueEventListener() {
+            oyente=referencia.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     lista_productos=new ArrayList<>();
@@ -114,6 +116,7 @@ public class Fragment_recaudado_cliente extends Fragment {
                     }
 
                    // ordenar por fecha
+
                     lista_productos.sort(Comparator.comparing(Modelo_producto_facturacion_app_vendedor::getFecha_recaudo));
                     Collections.reverse(lista_productos);
                     RecyclerViewAdaptador_recaudado_cliente adaptador= new RecyclerViewAdaptador_recaudado_cliente(lista_productos);
@@ -179,7 +182,9 @@ public class Fragment_recaudado_cliente extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+        referencia.removeEventListener(oyente);
         referencia=null;
+        Glide.get(context).clearMemory();//clear memory
         MainActivity.vista_recaudo=false;
         vista=null;
     }

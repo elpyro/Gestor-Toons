@@ -43,6 +43,7 @@ public class Fragmento_carrito extends Fragment {
     public static TextView textView_monto_seleccionado_carrito;
     ArrayList<Modelo_producto> lista ;
     public static ArrayList<Modelo_producto> lista_produtos_completa ;
+    ValueEventListener oyente;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -85,7 +86,7 @@ public class Fragmento_carrito extends Fragment {
             }
 
             if(referencia!=null){
-                referencia.addValueEventListener(new ValueEventListener() {
+                oyente=referencia.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if (snapshot.exists()){
@@ -159,6 +160,7 @@ public class Fragmento_carrito extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+        referencia.removeEventListener(oyente);
         referencia=null;
         vista=null;
     }
