@@ -34,6 +34,7 @@ import com.accesoritoons.gestortoons.databinding.FragmentHomeBinding;
 import com.accesoritoons.gestortoons.modelos.Modelo_historial;
 import com.accesoritoons.gestortoons.modelos.Modelo_usuario_activo;
 import com.accesoritoons.gestortoons.recyclerViewAdaptador.RecyclerViewAdaptador_historial;
+import com.bumptech.glide.Glide;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -217,6 +218,7 @@ public class HomeFragment extends Fragment {
             InputMethodManager input = (InputMethodManager) (getActivity().getSystemService(context.INPUT_METHOD_SERVICE));
             input.hideSoftInputFromWindow(root.getWindowToken(), 0);
 
+            Glide.get(context).clearMemory();//clear memory
         }catch (Exception e){
 
         }

@@ -130,7 +130,7 @@ scrollView_scroll.setOnClickListener(new View.OnClickListener() {
             referencia_productos= FirebaseDatabase.getInstance().getReference().child("Inventarios").orderByChild("estado").equalTo("Inventario"+"-"+id_usuario_fragmento);
         referencia_productos.keepSynced(true);   
         try {
-            Thread.sleep(1 * 500);
+            Thread.sleep(1 * 200);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -145,7 +145,7 @@ scrollView_scroll.setOnClickListener(new View.OnClickListener() {
                         lista_productos=new ArrayList<>();
                         for (int x = 0; x < lista_inventario.size(); x++) {
 
-                            referencia_productos2 = FirebaseDatabase.getInstance().getReference().child("Productos").orderByChild("id").equalTo(lista_inventario.get(x).getId_referencia_producto());
+                            referencia_productos2 = FirebaseDatabase.getInstance().getReference().child("Productos").orderByChild("id").equalTo(lista_inventario.get(x).getId_referencia_producto()).limitToFirst(1);
 
                             if (referencia_productos2 != null) {
                                 int finalX = x;

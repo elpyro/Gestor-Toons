@@ -245,6 +245,7 @@ public class MainActivity extends AppCompatActivity {
                     MainActivity.opcion_realizar_recaudo.setEnabled(false);
                     MainActivity.opcion_cambiar_cantidad.setEnabled(false);
                     MainActivity.opcion_agregar_inventario.setEnabled(false);
+
                     ; } }
             @Override public void onCancelled(DatabaseError error) {
                 System.err.println("Listener was cancelled"); } });

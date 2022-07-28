@@ -89,6 +89,7 @@ public class Fragmento_nuevo_producto extends Fragment {
     Context context;
     View vista;
     ValueEventListener oyente, oyente2;
+    boolean bandera_guardar=false;
     private String id_producto;
     public static  ImageView image_foto1;
     public static Uri imageuri;
@@ -206,7 +207,7 @@ public class Fragmento_nuevo_producto extends Fragment {
         dataQuery = myRefe.child("Productos").orderByChild("id").equalTo(id_producto).limitToFirst(1);
         dataQuery.keepSynced(true);
         try {
-            Thread.sleep(1 * 500);
+            Thread.sleep(1 * 200);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -336,162 +337,208 @@ public class Fragmento_nuevo_producto extends Fragment {
     }
 
     public void guardando_firebase(View vista, DatabaseReference myRefe){
-        MainActivity.progressDialog = ProgressDialog.show(context, getString(R.string.nuevo_producto),
-                getString(R.string.Guardando), true);
 
-        //https://lightsthing.net/blog/subir-imagen-firebase-storage-android-studio-java
-        //subir foto https://firebase.google.com/docs/storage/android/upload-files?hl=es-419
-        String ID;
-        if (id_exitente.equals("")){
-             ID = UUID.randomUUID().toString();//ENTREGA UN ID DISTINTO
+        Context context2=context;
+        String nombre=(editText_incluir_nombre_producto.getText().toString());
+        String codigo=(editText_codigo_barras.getText().toString().trim().toLowerCase());
+        String compra=(txtBillingMount_compra.getText().toString());
+        String platino=(txtBillingMount_platino.getText().toString());
+        String oro=(txtBillingMount_oro.getText().toString());
+        String diamante=(txtBillingMount_diamante.getText().toString());
+        String detal=(txtBillingMount_detal.getText().toString());
+        String cantidad=editTextNumber_cantidad.getText().toString().trim();
+        String descripcion=(editTextText_descripcion.getText().toString());
+        String Proveedor=(editTextText_proveedor.getText().toString());
 
-        }else{
-             ID = id_exitente;
+
+        if (editTextNumber_cantidad.getText().toString().equals(""))  cantidad="0";
+        if (txtBillingMount_platino.getText().toString().equals("")) {
+             platino="0";
+        }
+        if (txtBillingMount_oro.getText().toString().equals("")) {
+            oro="0";
+        }
+        if (txtBillingMount_diamante.getText().toString().equals("")) {
+            diamante="0";
+        }
+        if (txtBillingMount_compra.getText().toString().equals("")) {
+           compra="0";
+        }
+        if (txtBillingMount_detal.getText().toString().equals("")) {
+            detal="0";
         }
 
+        String estado="";
+        if (switch_visible.isChecked()) {
+          estado="true";
+        } else {
+          estado="false";
+        }
 
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        // Create a storage reference from our app
-        StorageReference storageRef = storage.getReference();
+        if(!bandera_guardar) {
+            bandera_guardar=true;
+
+            String finalCompra = compra;
+            String finalPlatino = platino;
+            String finalOro = oro;
+            String finalDiamante = diamante;
+            String finalDetal = detal;
+            String finalCantidad = cantidad;
+            String finalEstado = estado;
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+
+                    //https://lightsthing.net/blog/subir-imagen-firebase-storage-android-studio-java
+                    //subir foto https://firebase.google.com/docs/storage/android/upload-files?hl=es-419
+                    String ID;
+                    if (id_exitente.equals("")) {
+                        ID = UUID.randomUUID().toString();//ENTREGA UN ID DISTINTO
+
+                    } else {
+                        ID = id_exitente;
+                    }
+
+
+                    FirebaseStorage storage = FirebaseStorage.getInstance();
+                    // Create a storage reference from our app
+                    StorageReference storageRef = storage.getReference();
 
 // Create a reference to "mountains.jpg"
-        StorageReference mountainsRef = storageRef.child("imagen_productos/"+ID);
+                    StorageReference mountainsRef = storageRef.child("imagen_productos/" + ID);
+
+
+                    // [START upload_memory]
+                    // Get the data from an ImageView as bytes
+
+                    image_foto1.setDrawingCacheEnabled(true);
+                    image_foto1.buildDrawingCache();
+                    byte[] data = null;
+                    try {
+                        Bitmap bitmap = ((BitmapDrawable) image_foto1.getDrawable()).getBitmap();
+                        ByteArrayOutputStream baos = new ByteArrayOutputStream(4);
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 20, baos);
+                        data = baos.toByteArray();
+
+
+                        UploadTask uploadTask = mountainsRef.putBytes(data);
+                        uploadTask.addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception exception) {
+                                // Handle unsuccessful uploads
+                                progressDialog.cancel();
+                            }
+                        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                                //guardando la url para la imagen
+                                Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
+                                while (!uriTask.isSuccessful()) ;
+                                Uri downloadUri = uriTask.getResult();
+
+                                //guardando los datos
+                                String fecha = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss aa").format(new Date());
+                                Modelo_producto producto = new Modelo_producto();
+                                producto.setId(ID);
+                                producto.setNombre(nombre);
+                                producto.setCodigo(codigo);
+                                producto.setP_compra(finalCompra);
+                                producto.setP_plantino(finalPlatino);
+                                producto.setP_oro(finalOro);
+                                producto.setP_diamante(finalDiamante);
+                                producto.setP_detal(finalDetal);
+//                                if (editTextNumber_cantidad.getText().toString().equals(""))
+//                                    editTextNumber_cantidad.setText("0");
+                                producto.setCantidad(finalCantidad);
+                                producto.setDescripcion(descripcion);
+                                producto.setProveedor(Proveedor);
+                                producto.setMis_productos("Accesory Toons");
+                                producto.setCliente_mis_productos("Accesory Toons");
+                                producto.setFecha_ultima_modificacion(fecha);
+                                //producto.setFecha_y_hora_modificacion( java.text.DateFormat.getDateTimeInstance().format(Calendar.getInstance().getTime()));
+                                producto.setUsuario_ultima_modificacion(MainActivity.Usuario);
+                                producto.setUrl(downloadUri.toString());
+                                producto.setEstado(finalEstado);
+
+                                myRefe.child("Productos").child(producto.getId()).setValue(producto);
+
+//                                getActivity().runOnUiThread(new Runnable() {
+//                                    @Override
+//                                    public void run() {
+//                                        Toast.makeText(context, getString(R.string.producto_guardado), Toast.LENGTH_SHORT).show();
+//                                    }
+//                                });
 
 
 
-        // [START upload_memory]
-        // Get the data from an ImageView as bytes
+                                //guardando HISTORIAL
+                                Modelo_historial historial = new Modelo_historial();
+                                historial.setId(UUID.randomUUID().toString());
+                                historial.setReferencia(ID);
+                                historial.setActividad(context2.getString(R.string.Invetario));
+                                historial.setVisible(context2.getString(R.string.Administrador));
+                                historial.setFecha(fecha);
+                                // historial.setFecha_y_hora(java.text.DateFormat.getDateTimeInstance().format(Calendar.getInstance().getTime()));
+                                historial.setUsuario(MainActivity.Usuario);
+                                if (id_exitente == "") {
+                                    historial.setDescripcion(context2.getString(R.string.nuevo_producto) + ": " + editText_incluir_nombre_producto.getText().toString().toString());
+                                } else {
+                                    historial.setDescripcion(context2.getString(R.string.producto_editado) + ": " + editText_incluir_nombre_producto.getText().toString().toString());
+                                }
+                                myRefe.child("Historial").child(historial.getId()).setValue(historial);
 
-            image_foto1.setDrawingCacheEnabled(true);
-            image_foto1.buildDrawingCache();
-        byte[] data=null;
-            try {
-                Bitmap bitmap = ((BitmapDrawable) image_foto1.getDrawable()).getBitmap();
-                ByteArrayOutputStream baos = new ByteArrayOutputStream(4);
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 20, baos);
-                 data = baos.toByteArray();
+
+                                for (int x = 0; x < MainActivity.lista_seleccion_compra.size(); x++) {
+                                    Modelo_producto productos = MainActivity.lista_seleccion_compra.get(x);
+                                    if (productos.getId().equals(ID)) {
+                                        MainActivity.lista_seleccion_compra.remove(x);
+                                        Toast.makeText(context2, "Producto deseleccionado", Toast.LENGTH_SHORT).show();
+                                        break;
+                                    }
+                                }
+
+                                for (int x = 0; x < MainActivity.lista_seleccion_venta_mayor_bodega.size(); x++) {
+                                    Modelo_producto productos = MainActivity.lista_seleccion_venta_mayor_bodega.get(x);
+                                    if (productos.getId().equals(ID)) {
+                                        MainActivity.lista_seleccion_venta_mayor_bodega.remove(x);
+                                        Toast.makeText(context2, "Producto deseleccionado", Toast.LENGTH_SHORT).show();
+                                        break;
+                                    }
+                                }
+
+                                for (int x = 0; x < MainActivity.lista_seleccion.size(); x++) {
+                                    Modelo_producto productos = MainActivity.lista_seleccion.get(x);
+                                    if (productos.getId().equals(ID)) {
+                                        MainActivity.lista_seleccion.remove(x);
+                                        Toast.makeText(context2, "Producto deseleccionado", Toast.LENGTH_SHORT).show();
+                                        break;
+                                    }
+                                }
 
 
-                UploadTask uploadTask = mountainsRef.putBytes(data);
-                uploadTask.addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
-                        // Handle unsuccessful uploads
-                        progressDialog.cancel();
+
+
+
+                            }
+                        });
+                    } catch (Exception e) {
+
+                        Toast.makeText(context2, getString(R.string.problemas_conexion), Toast.LENGTH_SHORT).show();
+                        return;
                     }
-                }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
-                        //guardando la url para la imagen
-                        Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
-                        while(!uriTask.isSuccessful());
-                        Uri downloadUri = uriTask.getResult();
-                        if(txtBillingMount_platino.getText().toString().equals("")){
-                            txtBillingMount_platino.setText("0");
-                        }
-                        if(txtBillingMount_oro.getText().toString().equals("")){
-                            txtBillingMount_oro.setText("0");
-                        }
-                        if(txtBillingMount_diamante.getText().toString().equals("")){
-                            txtBillingMount_diamante.setText("0");
-                        }
-                        if(txtBillingMount_compra.getText().toString().equals("")){
-                            txtBillingMount_compra.setText("0");
-                        }
-                        if(txtBillingMount_detal.getText().toString().equals("")){
-                            txtBillingMount_detal.setText("0");
-                        }
-                        //guardando los datos
-                        String fecha =   new SimpleDateFormat("yyyy-MM-dd HH:mm:ss aa").format(new Date());
-                        Modelo_producto producto= new Modelo_producto();
-                        producto.setId(ID);
-                        producto.setNombre(editText_incluir_nombre_producto.getText().toString());
-                        producto.setCodigo(editText_codigo_barras.getText().toString().trim().toLowerCase());
-                        producto.setP_compra(txtBillingMount_compra.getText().toString());
-                        producto.setP_plantino(txtBillingMount_platino.getText().toString());
-                        producto.setP_oro(txtBillingMount_oro.getText().toString());
-                        producto.setP_diamante(txtBillingMount_diamante.getText().toString());
-                        producto.setP_detal(txtBillingMount_detal.getText().toString());
-                        if(editTextNumber_cantidad.getText().toString().equals(""))editTextNumber_cantidad.setText("0");
-                        producto.setCantidad(editTextNumber_cantidad.getText().toString());
-                        producto.setDescripcion(editTextText_descripcion.getText().toString());
-                        producto.setProveedor(editTextText_proveedor.getText().toString());
-                        producto.setMis_productos("Accesory Toons");
-                        producto.setCliente_mis_productos("Accesory Toons");
-                        producto.setFecha_ultima_modificacion( fecha);
-                        //producto.setFecha_y_hora_modificacion( java.text.DateFormat.getDateTimeInstance().format(Calendar.getInstance().getTime()));
-                        producto.setUsuario_ultima_modificacion(MainActivity.Usuario);
-                        producto.setUrl(downloadUri.toString());
-                        if (switch_visible.isChecked()){
-                            producto.setEstado("true");
-                        }else{
-                            producto.setEstado("false");
-                        }
-                        myRefe.child("Productos").child(producto.getId()).setValue(producto);
-                        Toast.makeText(context, getString(R.string.producto_guardado), Toast.LENGTH_SHORT).show();
 
 
+                }
+            }).start();
+        }
 
-                        //guardando HISTORIAL
-                        Modelo_historial historial = new Modelo_historial();
-                        historial.setId(UUID.randomUUID().toString());
-                        historial.setReferencia(ID);
-                        historial.setActividad(getString(R.string.Invetario));
-                        historial.setVisible(getString(R.string.Administrador));
-                        historial.setFecha(fecha);
-                       // historial.setFecha_y_hora(java.text.DateFormat.getDateTimeInstance().format(Calendar.getInstance().getTime()));
-                        historial.setUsuario(MainActivity.Usuario);
-                        if (id_exitente==""){
-                            historial.setDescripcion(getString(R.string.nuevo_producto)+": "+editText_incluir_nombre_producto.getText().toString().toString());
-                        }else{
-                            historial.setDescripcion(getString(R.string.producto_editado)+": "+editText_incluir_nombre_producto.getText().toString().toString());
-                        }
-                        myRefe.child("Historial").child(historial.getId()).setValue(historial);
-
-
-                        for (int x = 0; x < MainActivity.lista_seleccion_compra.size(); x++) {
-                            Modelo_producto productos =  MainActivity.lista_seleccion_compra.get(x);
-                            if (productos.getId().equals(ID)) {
-                                    MainActivity.lista_seleccion_compra.remove(x);
-                                Toast.makeText(context, "Producto deseleccionado", Toast.LENGTH_SHORT).show();
-                                break;
-                            }
-                        }
-
-                        for (int x = 0; x < MainActivity.lista_seleccion_venta_mayor_bodega.size(); x++) {
-                            Modelo_producto productos =  MainActivity.lista_seleccion_venta_mayor_bodega.get(x);
-                            if (productos.getId().equals(ID)) {
-                                MainActivity.lista_seleccion_venta_mayor_bodega.remove(x);
-                                Toast.makeText(context, "Producto deseleccionado", Toast.LENGTH_SHORT).show();
-                                break;
-                            }
-                        }
-
-                        for (int x = 0; x < MainActivity.lista_seleccion.size(); x++) {
-                            Modelo_producto productos =  MainActivity.lista_seleccion.get(x);
-                            if (productos.getId().equals(ID)) {
-                                MainActivity.lista_seleccion.remove(x);
-                                Toast.makeText(context, "Producto deseleccionado", Toast.LENGTH_SHORT).show();
-                                break;
-                            }
-                        }
-
-
-                        //ocultar teclado en fragmento
-                        InputMethodManager input = (InputMethodManager) (getActivity().getSystemService(context.INPUT_METHOD_SERVICE));
-                        input.hideSoftInputFromWindow(vista.getWindowToken(), 0);
-                        //cerrar el fragmento y volver al anterior
-                        progressDialog.cancel();
-                        Navigation.findNavController(vista).navigateUp();
-                    }
-                });
-            }catch (Exception e){
-                progressDialog.cancel();
-                Toast.makeText(context, getString(R.string.problemas_conexion), Toast.LENGTH_SHORT).show();
-                return;
-            }
-
+                                        //ocultar teclado en fragmento
+                                InputMethodManager input = (InputMethodManager) (getActivity().getSystemService(context2.INPUT_METHOD_SERVICE));
+                                input.hideSoftInputFromWindow(vista.getWindowToken(), 0);
+                                //cerrar el fragmento y volver al anterior
+        Toast.makeText(context2, "Producto Guardado", Toast.LENGTH_SHORT).show();
+        Navigation.findNavController(vista).navigateUp();
 
     }
 
@@ -503,7 +550,7 @@ public class Fragmento_nuevo_producto extends Fragment {
             dataQuery = myRefe.child("Productos").orderByChild("codigo").equalTo(editText_codigo_barras.getText().toString().trim().toLowerCase()).limitToFirst(1);
             dataQuery.keepSynced(true);
             try {
-                Thread.sleep(1 * 500);
+                Thread.sleep(1 * 200);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

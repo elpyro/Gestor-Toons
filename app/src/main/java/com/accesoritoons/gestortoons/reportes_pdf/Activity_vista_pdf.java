@@ -267,7 +267,7 @@ public class Activity_vista_pdf extends AppCompatActivity implements PDFUtility_
 
         referencia_productos.keepSynced(true);   
         try {
-            Thread.sleep(1 * 500);
+            Thread.sleep(1 * 200);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -359,7 +359,7 @@ public class Activity_vista_pdf extends AppCompatActivity implements PDFUtility_
 
                 referencia.keepSynced(true);
         try {
-            Thread.sleep(1 * 500);
+            Thread.sleep(1 * 200);
         } catch (InterruptedException e) {
             e.printStackTrace();
         };
@@ -433,7 +433,7 @@ public class Activity_vista_pdf extends AppCompatActivity implements PDFUtility_
 
         referencia_productos.keepSynced(true);
         try {
-            Thread.sleep(1 * 500);
+            Thread.sleep(1 * 200);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -531,7 +531,7 @@ public class Activity_vista_pdf extends AppCompatActivity implements PDFUtility_
         }
         referencia_productos.keepSynced(true);
         try {
-            Thread.sleep(1 * 500);
+            Thread.sleep(1 * 200);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -633,7 +633,7 @@ public class Activity_vista_pdf extends AppCompatActivity implements PDFUtility_
         }
         referencia_productos.keepSynced(true);
         try {
-            Thread.sleep(1 * 500);
+            Thread.sleep(1 * 200);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -727,7 +727,7 @@ public class Activity_vista_pdf extends AppCompatActivity implements PDFUtility_
 
         referencia_productos.keepSynced(true);
         try {
-            Thread.sleep(1 * 500);
+            Thread.sleep(1 * 200);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -833,7 +833,7 @@ public class Activity_vista_pdf extends AppCompatActivity implements PDFUtility_
             Query referencia=FirebaseDatabase.getInstance().getReference().child("Productos").orderByChild("cliente_mis_productos").equalTo("Accesory Toons");
                 referencia.keepSynced(true);
         try {
-            Thread.sleep(1 * 500);
+            Thread.sleep(1 * 200);
         } catch (InterruptedException e) {
             e.printStackTrace();
         };
@@ -877,7 +877,7 @@ public class Activity_vista_pdf extends AppCompatActivity implements PDFUtility_
                 referencia.keepSynced(true);
 
         try {
-            Thread.sleep(1 * 500);
+            Thread.sleep(1 * 200);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

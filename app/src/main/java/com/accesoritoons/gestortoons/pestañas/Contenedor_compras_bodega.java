@@ -127,6 +127,7 @@ public class Contenedor_compras_bodega extends Fragment {
 
     public void registrar_compra() {
 
+        Context context=getContext();
         if (id_factura != null) {
             //agregar productos a factura existente
             Guardar_firebase agregar = new Guardar_firebase();
@@ -138,119 +139,129 @@ public class Contenedor_compras_bodega extends Fragment {
         String fecha = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss aa").format(new Date());
         String id_factura = UUID.randomUUID().toString();
         descripcion_compra = context.getString(R.string.Productos_agregados);
-        for (int x = 0; x < MainActivity.lista_seleccion_compra.size(); x++) {
 
-            String id_referencia_producto = MainActivity.lista_seleccion_compra.get(x).getId();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for (int x = 0; x < MainActivity.lista_seleccion_compra.size(); x++) {
 
-            Query referencia_id_producto = FirebaseDatabase.getInstance().getReference().child("Productos").orderByChild("id").equalTo(id_referencia_producto);
+                    String id_referencia_producto = MainActivity.lista_seleccion_compra.get(x).getId();
 
-            referencia_id_producto.keepSynced(true);
-            try {
-                Thread.sleep(1 * 500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            if (referencia_id_producto != null) {
+                    Query referencia_id_producto = FirebaseDatabase.getInstance().getReference().child("Productos").orderByChild("id").equalTo(id_referencia_producto);
 
-                int finalX1 = x;
+                    referencia_id_producto.keepSynced(true);
+                    try {
+                        Thread.sleep(1 * 200);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    if (referencia_id_producto != null) {
 
-                referencia_id_producto.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot snapshot) {
-                        if (snapshot.exists()) {
+                        int finalX1 = x;
 
-                            for (DataSnapshot ds : snapshot.getChildren()) {
+                        referencia_id_producto.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot snapshot) {
+                                if (snapshot.exists()) {
 
-                                Modelo_producto producto = ds.getValue(Modelo_producto.class);
+                                    for (DataSnapshot ds : snapshot.getChildren()) {
+
+                                        Modelo_producto producto = ds.getValue(Modelo_producto.class);
 
 
-                                String nombre = MainActivity.lista_seleccion_compra.get(finalX1).getNombre();
-                                String referencia_producto = id_referencia_producto;
-                                String vendedor_producto = MainActivity.Id_Usuario + "-" + id_referencia_producto;
-                                String costo_compra = MainActivity.lista_seleccion_compra.get(finalX1).getP_compra();
-                                String url = MainActivity.lista_seleccion_compra.get(finalX1).getUrl();
-                                int cantidad_seleccionada = Integer.parseInt(MainActivity.lista_seleccion_compra.get(finalX1).getSeleccion());
+                                        String nombre = MainActivity.lista_seleccion_compra.get(finalX1).getNombre();
+                                        String referencia_producto = id_referencia_producto;
+                                        String vendedor_producto = MainActivity.Id_Usuario + "-" + id_referencia_producto;
+                                        String costo_compra = MainActivity.lista_seleccion_compra.get(finalX1).getP_compra();
+                                        String url = MainActivity.lista_seleccion_compra.get(finalX1).getUrl();
+                                        int cantidad_seleccionada = Integer.parseInt(MainActivity.lista_seleccion_compra.get(finalX1).getSeleccion());
 
-                                int cantidad_inventario = Integer.parseInt(producto.getCantidad());
-                                int Cantidad = 0;
-                                Cantidad = cantidad_inventario + cantidad_seleccionada;
+                                        int cantidad_inventario = Integer.parseInt(producto.getCantidad());
+                                        int Cantidad = 0;
+                                        Cantidad = cantidad_inventario + cantidad_seleccionada;
 
-                                producto.setCantidad(Cantidad + "");
-                                DatabaseReference myRefe = FirebaseDatabase.getInstance().getReference();
-                                myRefe.child("Productos").child(producto.getId()).setValue(producto);
+                                        producto.setCantidad(Cantidad + "");
+                                        DatabaseReference myRefe = FirebaseDatabase.getInstance().getReference();
+                                        myRefe.child("Productos").child(producto.getId()).setValue(producto);
 
-                                //guardar datos de productos facturados
-                                DatabaseReference referencia = FirebaseDatabase.getInstance().getReference();
+                                        //guardar datos de productos facturados
+                                        DatabaseReference referencia = FirebaseDatabase.getInstance().getReference();
 
-                                Modelo_producto_facturacion_app_vendedor productos = new Modelo_producto_facturacion_app_vendedor();
-                                productos.setId_pedido(id_factura);
-                                productos.setId_producto_pedido(UUID.randomUUID().toString());
-                                productos.setNombre(nombre);
+                                        Modelo_producto_facturacion_app_vendedor productos = new Modelo_producto_facturacion_app_vendedor();
+                                        productos.setId_pedido(id_factura);
+                                        productos.setId_producto_pedido(UUID.randomUUID().toString());
+                                        productos.setNombre(nombre);
 //                                productos.setCodigo_barras(MainActivity.lista_seleccion.get(finalX2).getCodigo());
-                                productos.setId_referencia_vendedor(MainActivity.Id_Usuario);
-                                productos.setNombre_vendedor(MainActivity.Usuario);
-                                productos.setCantidad(cantidad_seleccionada + "");
-                                productos.setEstado(context.getString(R.string.Compra));
-                                productos.setId_referencia_producto(referencia_producto);
-                                productos.setVendedor_producto(vendedor_producto);
-                                productos.setCosto(costo_compra);
-                                productos.setVenta(costo_compra);
-                                String fecha= new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-                                productos.setFecha(fecha);
-                                productos.setNombre_vendedor(MainActivity.Usuario);
+                                        productos.setId_referencia_vendedor(MainActivity.Id_Usuario);
+                                        productos.setNombre_vendedor(MainActivity.Usuario);
+                                        productos.setCantidad(cantidad_seleccionada + "");
+                                        productos.setEstado(context.getString(R.string.Compra));
+                                        productos.setId_referencia_producto(referencia_producto);
+                                        productos.setVendedor_producto(vendedor_producto);
+                                        productos.setCosto(costo_compra);
+                                        productos.setVenta(costo_compra);
+                                        String fecha= new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+                                        productos.setFecha(fecha);
+                                        productos.setNombre_vendedor(MainActivity.Usuario);
 
 //                                productos.setRecaudo(context.getString(R.string.NoAplica));
-                                productos.setUrl(url);
-                                referencia.child("Factura_productos").child(productos.getId_producto_pedido()).setValue(productos);
+                                        productos.setUrl(url);
+                                        referencia.child("Factura_productos").child(productos.getId_producto_pedido()).setValue(productos);
 
-                                descripcion_compra = descripcion_compra + "\n" + "x" + cantidad_seleccionada + " " + nombre;
+                                        descripcion_compra = descripcion_compra + "\n" + "x" + cantidad_seleccionada + " " + nombre;
 
-                            }
+                                    }
 
-                            if (finalX1 + 1 == MainActivity.lista_seleccion_compra.size()) {
-                                //datos de factura de compra
+                                    if (finalX1 + 1 == MainActivity.lista_seleccion_compra.size()) {
+                                        //datos de factura de compra
 
-                                DatabaseReference myRefe = FirebaseDatabase.getInstance().getReference();
-                                Modelo_factura_cliente factura_cliente = new Modelo_factura_cliente();
-                                factura_cliente.setId(id_factura);
-                                factura_cliente.setTipo(context.getString(R.string.Compra));
-                                factura_cliente.setNombre(context.getString(R.string.Compras_bodega));
-                                factura_cliente.setTelefono("");
-                                factura_cliente.setDocumento("");
-                                factura_cliente.setFecha(fecha);
-                                factura_cliente.setId_vendedor("Bodega");
-                                factura_cliente.setVendedor(MainActivity.Usuario);
-                                myRefe.child("Factura_cliente").child(factura_cliente.getId()).setValue(factura_cliente);
+                                        DatabaseReference myRefe = FirebaseDatabase.getInstance().getReference();
+                                        Modelo_factura_cliente factura_cliente = new Modelo_factura_cliente();
+                                        factura_cliente.setId(id_factura);
+                                        factura_cliente.setTipo(context.getString(R.string.Compra));
+                                        factura_cliente.setNombre(context.getString(R.string.Compras_bodega));
+                                        factura_cliente.setTelefono("");
+                                        factura_cliente.setDocumento("");
+                                        factura_cliente.setFecha(fecha);
+                                        factura_cliente.setId_vendedor("Bodega");
+                                        factura_cliente.setVendedor(MainActivity.Usuario);
+                                        myRefe.child("Factura_cliente").child(factura_cliente.getId()).setValue(factura_cliente);
 
-                                Guardar_firebase guardar_historial = new Guardar_firebase();
-                                guardar_historial.guardar_historial(id_factura, context.getString(R.string.Compra), "", descripcion_compra, context);
+                                        Guardar_firebase guardar_historial = new Guardar_firebase();
+                                        guardar_historial.guardar_historial(id_factura, context.getString(R.string.Compra), "", descripcion_compra, context);
 
-                                MainActivity.lista_seleccion_compra.clear();
-                                if (Fragmento_agregar_inventario.textView_monto_seleccionado_carrito!=null)Fragmento_agregar_inventario.textView_monto_seleccionado_carrito.setText("Total: 0");
-                                Gson gson = new Gson();
-                                String jsonString = gson.toJson(MainActivity.lista_seleccion_compra);
-                                SharedPreferences pref = android.preference.PreferenceManager.getDefaultSharedPreferences(context);
-                                SharedPreferences.Editor editor = pref.edit();
-                                editor.putString(PREFERENCIA_SELECCION_COMPRA, jsonString);
-                                editor.apply();
+                                        MainActivity.lista_seleccion_compra.clear();
+                                        if (Fragmento_agregar_inventario.textView_monto_seleccionado_carrito!=null)Fragmento_agregar_inventario.textView_monto_seleccionado_carrito.setText("Total: 0");
+                                        Gson gson = new Gson();
+                                        String jsonString = gson.toJson(MainActivity.lista_seleccion_compra);
+                                        SharedPreferences pref = android.preference.PreferenceManager.getDefaultSharedPreferences(context);
+                                        SharedPreferences.Editor editor = pref.edit();
+                                        editor.putString(PREFERENCIA_SELECCION_COMPRA, jsonString);
+                                        editor.apply();
 
-                                Navigation.findNavController(vista).navigateUp();
-                            }
-                        }
+
+                                    }
+                                }
 
 
 //
 //                            }
 
-                    }
+                            }
 
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+                            }
+                        });
                     }
-                });
+                }
             }
-        }
+        }).start();
+
+            Navigation.findNavController(vista).navigateUp();
+
+
     }
     }
 

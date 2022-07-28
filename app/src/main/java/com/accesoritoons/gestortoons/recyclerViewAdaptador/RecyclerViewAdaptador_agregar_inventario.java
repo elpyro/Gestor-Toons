@@ -243,7 +243,10 @@ public class RecyclerViewAdaptador_agregar_inventario extends RecyclerView.Adapt
                         button_disminuir.setVisibility(View.GONE);
                         MainActivity.lista_seleccion.remove(x);
                         linearLayout_producto.setBackgroundColor(Color.parseColor("#112DC1AB"));
-                        if(Fragmento_carrito.adapador!=null) Fragmento_carrito.adapador.notifyDataSetChanged();
+                        try{
+                            if(Fragmento_carrito.adapador!=null) Fragmento_carrito.adapador.notifyDataSetChanged();
+                        }catch (Exception e){}
+
                         }else {
                         button_disminuir.setVisibility(View.VISIBLE);
                         MainActivity.lista_seleccion.get(x).setSeleccion(cantidad);
@@ -290,11 +293,11 @@ public class RecyclerViewAdaptador_agregar_inventario extends RecyclerView.Adapt
             total=total + valorseleccion;
         }
         NumberFormat formatoImporte = NumberFormat.getIntegerInstance(new Locale("es","ES"));
-        if(MainActivity.lista_seleccion.size()>0){
-            MainActivity.opcion_crear_pedido.setEnabled(true);
-        }else{
-            MainActivity.opcion_crear_pedido.setEnabled(false);
-        }
+//        if(MainActivity.lista_seleccion.size()>0){
+//            MainActivity.opcion_crear_pedido.setEnabled(true);
+//        }else{
+//            MainActivity.opcion_crear_pedido.setEnabled(false);
+//        }
 
         try {
             Fragmento_agregar_inventario.textView_monto_seleccionado_carrito.setText(formatoImporte.format(total)+"");

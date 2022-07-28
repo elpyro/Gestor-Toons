@@ -293,7 +293,7 @@ public class Fragment_detalle_factura extends Fragment implements PDFUtility_fac
         Query referencia= FirebaseDatabase.getInstance().getReference().child("Factura_cliente").orderByChild("id").equalTo(id_factura).limitToFirst(1);
         referencia.keepSynced(true);
                         try {
-                    Thread.sleep(1 * 500);
+                    Thread.sleep(1 * 200);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

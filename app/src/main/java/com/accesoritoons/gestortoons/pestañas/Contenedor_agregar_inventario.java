@@ -110,8 +110,18 @@ public class Contenedor_agregar_inventario extends Fragment {
         MainActivity.opcion_crear_pedido.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
-                RecyclerViewAdaptador_agregar_inventario.actulizar_total();
-                registrar_pedido();
+                if(MainActivity.lista_seleccion.size()>0){
+                    if(MainActivity.opcion_no_internet.isVisible()){
+                        Toast.makeText(context, context.getString(R.string.Necesitas_internet), Toast.LENGTH_SHORT).show();
+                    }else{
+                        RecyclerViewAdaptador_agregar_inventario.actulizar_total();
+                        registrar_pedido();
+                    }
+
+                }else{
+                    Toast.makeText(context, context.getString(R.string.Productos_no_selecionados), Toast.LENGTH_SHORT).show();
+                }
+
                 return false;
             }
 
@@ -124,82 +134,98 @@ public class Contenedor_agregar_inventario extends Fragment {
 
                 DatabaseReference myRefe = FirebaseDatabase.getInstance().getReference();
                 String id_pedido = UUID.randomUUID().toString();
+                Context context=getContext();
 
-                for (int x = 0; x < MainActivity.lista_seleccion.size(); x++) {
-                    Modelo_producto productos =  MainActivity.lista_seleccion.get(x);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
 
-                    Modelo_pedido pedido = new Modelo_pedido();
-                    pedido.setId_pedido(id_pedido);//ENTREGA UN ID DISTINTO);
-                    pedido.setId_producto_pedido( UUID.randomUUID().toString());
-                    pedido.setEstado(getString(R.string.Pedido_enviado));
-                    pedido.setReferencia_vendedor(id_usuario);
-                    pedido.setNombre_vendedor(nombre_usuario);
-                    pedido.setFecha(fecha_hora);
-                    pedido.setUsuario(MainActivity.Usuario);
-                    pedido.setCantidad(productos.getSeleccion());
-                    pedido.setReferencia_producto(productos.getId());
+                        for (int x = 0; x < MainActivity.lista_seleccion.size(); x++) {
+                            Modelo_producto productos =  MainActivity.lista_seleccion.get(x);
+
+                            Modelo_pedido pedido = new Modelo_pedido();
+                            pedido.setId_pedido(id_pedido);//ENTREGA UN ID DISTINTO);
+                            pedido.setId_producto_pedido( UUID.randomUUID().toString());
+                            pedido.setEstado(getString(R.string.Pedido_enviado));
+                            pedido.setReferencia_vendedor(id_usuario);
+                            pedido.setNombre_vendedor(nombre_usuario);
+                            pedido.setFecha(fecha_hora);
+                            pedido.setUsuario(MainActivity.Usuario);
+                            pedido.setCantidad(productos.getSeleccion());
+                            pedido.setReferencia_producto(productos.getId());
 
 
-                    //RESTA INVENTARIO
-                    Query referencia_id_producto= FirebaseDatabase.getInstance().getReference().child("Productos").orderByChild("id").equalTo(productos.getId());
+                            //RESTA INVENTARIO
+                            Query referencia_id_producto= FirebaseDatabase.getInstance().getReference().child("Productos").orderByChild("id").equalTo(productos.getId());
 //                    referencia_id_producto.keepSynced(true);
 //                    try {
-//                        Thread.sleep(1 * 500);
+//                        Thread.sleep(1 * 200);
 //                    } catch (InterruptedException e) {
 //                        e.printStackTrace();
 //                    }
-                    if(referencia_id_producto!=null) {
-                        int finalX1 = x;
-                        referencia_id_producto.addValueEventListener(new  ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot snapshot) {
-                                if(snapshot.exists()) {
-                                    for (DataSnapshot ds : snapshot.getChildren()) {
+                            if(referencia_id_producto!=null) {
+                                int finalX1 = x;
+                                referencia_id_producto.addValueEventListener(new  ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot snapshot) {
+                                        if(snapshot.exists()) {
+                                            for (DataSnapshot ds : snapshot.getChildren()) {
 
-                                        Modelo_producto producto = ds.getValue(Modelo_producto.class);
-                                        int cantidad_seleccionada = Integer.parseInt(productos.getSeleccion());
-                                        int cantidad_inventario = Integer.parseInt(producto.getCantidad());
-                                        int Cantidad = 0;
-                                        Cantidad=cantidad_inventario-cantidad_seleccionada;
+                                                Modelo_producto producto = ds.getValue(Modelo_producto.class);
+                                                int cantidad_seleccionada = Integer.parseInt(productos.getSeleccion());
+                                                int cantidad_inventario = Integer.parseInt(producto.getCantidad());
+                                                int Cantidad = 0;
+                                                Cantidad=cantidad_inventario-cantidad_seleccionada;
 
-                                        //verfica que hay existencia para regisrar el producto
-                                        if(Cantidad>-1){
-                                            producto.setCantidad(Cantidad+"");
-                                            DatabaseReference myRefe = FirebaseDatabase.getInstance().getReference();
-                                            myRefe.child("Productos").child(producto.getId()).setValue(producto);
-                                            myRefe.child("Pedidos").child(pedido.getId_producto_pedido()).setValue(pedido);
+                                                //verfica que hay existencia para regisrar el producto
+                                                if(Cantidad>-1){
+                                                    producto.setCantidad(Cantidad+"");
+                                                    DatabaseReference myRefe = FirebaseDatabase.getInstance().getReference();
+                                                    myRefe.child("Productos").child(producto.getId()).setValue(producto);
+                                                    myRefe.child("Pedidos").child(pedido.getId_producto_pedido()).setValue(pedido);
+                                                }
+                                            }
+                                            referencia_id_producto.removeEventListener(this);
                                         }
                                     }
-                                    referencia_id_producto.removeEventListener(this);
-                                }
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                    }
+                                });
                             }
+
+                        }
+                        getActivity().runOnUiThread(new Runnable() {
                             @Override
-                            public void onCancelled(DatabaseError databaseError) {
+                            public void run() {
+                                Toast.makeText(context, context.getString(R.string.Pedido_enviado), Toast.LENGTH_SHORT).show();
                             }
                         });
+
+                        //guardando HISTORIAL
+                        Modelo_historial historial = new Modelo_historial();
+                        historial.setId(UUID.randomUUID().toString());
+                        historial.setReferencia(id_pedido);
+                        historial.setActividad(context.getString(R.string.Pedido_enviado));
+                        historial.setVisible(id_usuario);
+                        historial.setFecha(fecha_hora);
+                        historial.setDescripcion(context.getString(R.string.Pedido_enviado) + ": " + nombre_usuario);
+                        historial.setUsuario(MainActivity.Usuario);
+                        myRefe.child("Historial").child(historial.getId()).setValue(historial);
+
+                        MainActivity.lista_seleccion.clear();
+
+                        Gson gson = new Gson();
+                        String jsonString = gson.toJson(MainActivity.lista_seleccion);
+                        SharedPreferences pref = android.preference.PreferenceManager.getDefaultSharedPreferences(context);
+                        SharedPreferences.Editor editor = pref.edit();
+                        editor.putString(PREFERENCIA_SELECCION, jsonString);
+                        editor.apply();
+
                     }
+                }).start();
 
-                }
-                Toast.makeText(getContext(), getString(R.string.Pedido_enviado), Toast.LENGTH_SHORT).show();
-                //guardando HISTORIAL
-                Modelo_historial historial = new Modelo_historial();
-                historial.setId(UUID.randomUUID().toString());
-                historial.setReferencia(id_pedido);
-                historial.setActividad(getString(R.string.Pedido_enviado));
-                historial.setVisible(id_usuario);
-                historial.setFecha(fecha_hora);
-                historial.setDescripcion(getString(R.string.Pedido_enviado) + ": " + nombre_usuario);
-                historial.setUsuario(MainActivity.Usuario);
-                myRefe.child("Historial").child(historial.getId()).setValue(historial);
-                Navigation.findNavController(vista).navigateUp();
-                MainActivity.lista_seleccion.clear();
-
-                Gson gson = new Gson();
-                String jsonString = gson.toJson(MainActivity.lista_seleccion);
-                SharedPreferences pref = android.preference.PreferenceManager.getDefaultSharedPreferences(context);
-                SharedPreferences.Editor editor = pref.edit();
-                editor.putString(PREFERENCIA_SELECCION, jsonString);
-                editor.apply();
+                    Navigation.findNavController(vista).navigateUp();
 
             }
             }

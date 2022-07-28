@@ -27,6 +27,7 @@ import com.accesoritoons.gestortoons.modelos.Modelo_producto_facturacion_app_ven
 
 import com.accesoritoons.gestortoons.modelos.Modelo_recaudos_seleccionados;
 import com.accesoritoons.gestortoons.recyclerViewAdaptador.RecyclerViewAdaptador_productos_facturados;
+import com.bumptech.glide.Glide;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -134,7 +135,7 @@ public class Fragment_lista_recaudos extends Fragment {
             Query referencia_id_producto = FirebaseDatabase.getInstance().getReference().child("Factura_productos").orderByChild("id_producto_pedido").equalTo(Fragment_lista_recaudos.Lista_productos_seleccionados.get(x).getId());
             referencia_id_producto.keepSynced(true);
             try {
-                Thread.sleep(1 * 500);
+                Thread.sleep(1 * 200);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -290,6 +291,7 @@ public class Fragment_lista_recaudos extends Fragment {
         MainActivity.opcion_realizar_recaudo.setVisible(false);
         MainActivity.vista_recaudo=false;
         referencia.removeEventListener(oyente);
+        Glide.get(context).clearMemory();//clear memory
         referencia=null;
         vista=null;
     }

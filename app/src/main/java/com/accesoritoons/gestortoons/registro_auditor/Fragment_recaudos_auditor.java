@@ -76,7 +76,7 @@ public class Fragment_recaudos_auditor extends Fragment {
         referencia= FirebaseDatabase.getInstance().getReference().child("Factura_productos").orderByChild("id_administrador_recaudo").equalTo(MainActivity.Id_Usuario).limitToLast(500);
                 referencia.keepSynced(true);               
         try {
-            Thread.sleep(1 * 500);
+            Thread.sleep(1 * 200);
         } catch (InterruptedException e) {
             e.printStackTrace();
         };

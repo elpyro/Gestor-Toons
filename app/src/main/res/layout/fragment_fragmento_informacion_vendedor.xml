@@ -229,26 +229,29 @@
                         android:id="@+id/button_inventario"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:layout_margin="3dp"
-                        android:text="@string/Invetario" />
+                        android:layout_weight="1"
+                        android:text="@string/Invetario"
+                        android:textSize="12sp" />
 
                     <Button
                         android:id="@+id/button_por_recaudo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:layout_margin="3dp"
-                        android:text="@string/Recaudo" />
+                        android:layout_weight="1"
+                        android:text="@string/Recaudo"
+                        android:textSize="12sp" />
 
                     <Button
                         android:id="@+id/button_recaudos"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:layout_margin="3dp"
+                        android:layout_weight="1"
 
-                        android:text="@string/Recaudado" />
+                        android:text="@string/Recaudado"
+                        android:textSize="12sp" />
                 </LinearLayout>
 
             </LinearLayout>

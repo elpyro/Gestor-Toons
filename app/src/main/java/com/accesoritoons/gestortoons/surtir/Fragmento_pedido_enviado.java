@@ -169,7 +169,7 @@ public class Fragmento_pedido_enviado extends Fragment {
         Query dataQuery = myRefe.child("Usuarios").orderByChild("id").equalTo(id_vendedor).limitToFirst(1);
         dataQuery.keepSynced(true);
         try {
-            Thread.sleep(1 * 500);
+            Thread.sleep(1 * 200);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -207,16 +207,16 @@ public class Fragmento_pedido_enviado extends Fragment {
 
                                 Query referencia_id_producto= FirebaseDatabase.getInstance().getReference().child("Productos").orderByChild("id").equalTo(id_referencia_producto).limitToFirst(1);
 
-                                referencia_id_producto.keepSynced(true);
-                                try {
-                                    Thread.sleep(1 * 500);
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                }
+//                                referencia_id_producto.keepSynced(true);
+//                                try {
+//                                    Thread.sleep(1 * 200);
+//                                } catch (InterruptedException e) {
+//                                    e.printStackTrace();
+//                                }
                                 if(referencia_id_producto!=null) {
 
                                     int finalX = x;
-                                    referencia_id_producto.addListenerForSingleValueEvent(new  ValueEventListener() {
+                                    referencia_id_producto.addValueEventListener(new  ValueEventListener() {
                                         @Override
                                         public void onDataChange(DataSnapshot snapshot) {
                                             if(snapshot.exists()) {
@@ -265,6 +265,7 @@ public class Fragmento_pedido_enviado extends Fragment {
 
 
                                                 }
+                                                referencia_id_producto.removeEventListener(this);
 
 
                                             }
@@ -309,7 +310,7 @@ public class Fragmento_pedido_enviado extends Fragment {
         super.onResume();
         MainActivity.opcion_compartir_logo.setVisible(true);
         lista_productos_recibidos.clear();
-        MainActivity.opcion_agregar_inventario.setVisible(false);
+//        MainActivity.opcion_agregar_inventario.setVisible(false);
         cargar_pedido_enviado(id_pedido);
     }
 
@@ -327,29 +328,29 @@ public class Fragmento_pedido_enviado extends Fragment {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                        cargado = cargado + 1;
-                        if (cargado > 1) {
-                            try{
-                                referencia.removeEventListener(this);
-                                lista_productos.clear();
-
-                                recview_pedidos.setVisibility(View.VISIBLE);
-                                textView_recibido.setVisibility(View.VISIBLE);
-                                myShimmerTextView.setVisibility(View.GONE);
-
-                                RecyclerViewAdaptador_producto_enviado adapador = new RecyclerViewAdaptador_producto_enviado(lista_productos);
-                                recview_pedidos.setAdapter(adapador);
-
-                            }catch (Exception e){}
-
-                            try {
-                                Thread.sleep(1 * 500);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                            cargar_pedido_enviado(id_pedido);
-                            return;
-                        }
+//                        cargado = cargado + 1;
+//                        if (cargado > 1) {
+//                            try{
+//                                referencia.removeEventListener(this);
+//                                lista_productos.clear();
+//
+//                                recview_pedidos.setVisibility(View.VISIBLE);
+//                                textView_recibido.setVisibility(View.VISIBLE);
+//                                myShimmerTextView.setVisibility(View.GONE);
+//
+//                                RecyclerViewAdaptador_producto_enviado adapador = new RecyclerViewAdaptador_producto_enviado(lista_productos);
+//                                recview_pedidos.setAdapter(adapador);
+//
+//                            }catch (Exception e){}
+//
+//                            try {
+//                                Thread.sleep(1 * 200);
+//                            } catch (InterruptedException e) {
+//                                e.printStackTrace();
+//                            }
+//                            cargar_pedido_enviado(id_pedido);
+//                            return;
+//                        }
                         lista_producto_pedido = new ArrayList<>();
                         if (snapshot.exists()) {
                             for (DataSnapshot ds : snapshot.getChildren()) {
@@ -363,7 +364,7 @@ public class Fragmento_pedido_enviado extends Fragment {
                                 Query referencia2 = FirebaseDatabase.getInstance().getReference().child("Productos").orderByChild("id").equalTo(lista_producto_pedido.get(x).getReferencia_producto()).limitToFirst(1);
 //                                referencia2.keepSynced(true);
 //                                try {
-//                                    Thread.sleep(1 * 500);
+//                                    Thread.sleep(1 * 200);
 //                                } catch (InterruptedException e) {
 //                                    e.printStackTrace();
 //                                }

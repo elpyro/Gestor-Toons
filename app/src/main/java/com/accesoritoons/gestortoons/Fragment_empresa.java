@@ -110,7 +110,7 @@ public class Fragment_empresa extends Fragment {
         Query dataQuery = myRefe.child("Empresa").orderByChild("id").equalTo("1").limitToFirst(1);
         dataQuery.keepSynced(true);
         try {
-            Thread.sleep(1 * 500);
+            Thread.sleep(1 * 200);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

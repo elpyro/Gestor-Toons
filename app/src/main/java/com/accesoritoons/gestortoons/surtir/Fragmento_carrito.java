@@ -85,6 +85,7 @@ public class Fragmento_carrito extends Fragment {
                 MainActivity.opcion_crear_pedido.setEnabled(false);
             }
 
+            referencia.keepSynced(true);
             if(referencia!=null){
                 oyente=referencia.addValueEventListener(new ValueEventListener() {
                     @Override

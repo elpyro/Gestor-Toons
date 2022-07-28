@@ -89,13 +89,14 @@ public class Fragmento_agregar_inventario extends Fragment {
         super.onResume();
 
 
-        if(MainActivity.lista_seleccion.size()>0){
+//        if(MainActivity.lista_seleccion.size()>0){
             MainActivity.opcion_crear_pedido.setEnabled(true);
-        }else{
-            MainActivity.opcion_crear_pedido.setEnabled(false);
-        }
+//        }else{
+//            MainActivity.opcion_crear_pedido.setEnabled(false);
+//        }
 
         referencia= FirebaseDatabase.getInstance().getReference().child("Productos").orderByChild("cliente_mis_productos").equalTo("Accesory Toons");
+        referencia.keepSynced(true);
         if(referencia!=null){
             oyente=referencia.addValueEventListener(new ValueEventListener() {
                 @Override

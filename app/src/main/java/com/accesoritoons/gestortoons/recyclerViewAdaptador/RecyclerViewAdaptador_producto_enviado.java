@@ -193,11 +193,11 @@ public class RecyclerViewAdaptador_producto_enviado extends RecyclerView.Adapter
                             }
                         }
                     }
-                    if (lista_productos_recibidos.lista_productos_recibidos.size()>0)  {
-                        MainActivity.opcion_agregar_inventario.setVisible(true);
-                    }else{
-                        MainActivity.opcion_agregar_inventario.setVisible(false);
-                    }
+//                    if (lista_productos_recibidos.lista_productos_recibidos.size()>0)  {
+//                        MainActivity.opcion_agregar_inventario.setVisible(true);
+//                    }else{
+//                        MainActivity.opcion_agregar_inventario.setVisible(false);
+//                    }
 
                 }
             });
