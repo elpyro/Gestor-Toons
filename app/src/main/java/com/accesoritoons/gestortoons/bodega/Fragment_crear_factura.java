@@ -77,6 +77,7 @@ public class Fragment_crear_factura extends Fragment implements PDFUtility_factu
     RadioButton radioButton_compartir,radioButton_whatapp, radioButton_nignuno;
     ValueEventListener oyente;
     Query referencia_productos;
+    boolean hiloActivo=false;
     NumberFormat formatoImporte = NumberFormat.getIntegerInstance(new Locale("es","ES"));
     private  final String PREFERENCIA_SELECCION_VENTA_MAYOR_BODEGA = "PREFERENCIA_SELECCION_VENTA_MAYOR_BODEGA";
 
@@ -138,165 +139,168 @@ public class Fragment_crear_factura extends Fragment implements PDFUtility_factu
                     descripcion_compra=textView_total.getText().toString().trim();
                     Context context=getContext();
 
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            for (int x = 0; x < MainActivity.lista_seleccion_venta_mayor_bodega.size(); x++) {
+                    if (!hiloActivo) {
+                        hiloActivo = true;
 
-                                String id_referencia_producto=MainActivity.lista_seleccion_venta_mayor_bodega.get(x).getId();
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                for (int x = 0; x < MainActivity.lista_seleccion_venta_mayor_bodega.size(); x++) {
 
-                                Query referencia_id_producto= FirebaseDatabase.getInstance().getReference().child("Productos").orderByChild("id").equalTo(id_referencia_producto);
+                                    String id_referencia_producto = MainActivity.lista_seleccion_venta_mayor_bodega.get(x).getId();
 
-                                referencia_id_producto.keepSynced(true);
+                                    Query referencia_id_producto = FirebaseDatabase.getInstance().getReference().child("Productos").orderByChild("id").equalTo(id_referencia_producto);
 
-                                try {
-                                    Thread.sleep(1 * 250);
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                }
-                                if(referencia_id_producto!=null) {
+                                    referencia_id_producto.keepSynced(true);
 
-                                    int finalX1 = x;
+                                    try {
+                                        Thread.sleep(1 * 250);
+                                    } catch (InterruptedException e) {
+                                        e.printStackTrace();
+                                    }
+                                    if (referencia_id_producto != null) {
 
-                                    referencia_id_producto.addListenerForSingleValueEvent(new  ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(DataSnapshot snapshot) {
-                                            if(snapshot.exists()) {
+                                        int finalX1 = x;
 
-                                                for (DataSnapshot ds : snapshot.getChildren()) {
+                                        referencia_id_producto.addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(DataSnapshot snapshot) {
+                                                if (snapshot.exists()) {
 
-                                                    Modelo_producto producto = ds.getValue(Modelo_producto.class);
+                                                    for (DataSnapshot ds : snapshot.getChildren()) {
 
-                                                    String nombre=MainActivity.lista_seleccion_venta_mayor_bodega.get(finalX1).getNombre();
-                                                    String referencia_producto=id_referencia_producto;
-                                                    String vendedor_producto=MainActivity.Id_Usuario + "-" + id_referencia_producto;
-                                                    String costo_compra=MainActivity.lista_seleccion_venta_mayor_bodega.get(finalX1).getP_compra();
-                                                    String precio_venta=MainActivity.lista_seleccion_venta_mayor_bodega.get(finalX1).getP_detal();
-                                                    String categoria=MainActivity.lista_seleccion_venta_mayor_bodega.get(finalX1).getCliente_mis_productos();
-                                                    String url=MainActivity.lista_seleccion_venta_mayor_bodega.get(finalX1).getUrl();
-                                                    int cantidad_seleccionada = Integer.parseInt(MainActivity.lista_seleccion_venta_mayor_bodega.get(finalX1).getSeleccion());
+                                                        Modelo_producto producto = ds.getValue(Modelo_producto.class);
 
-                                                    //RESTA INVENTARIO
-                                                    int cantidad_inventario = Integer.parseInt(producto.getCantidad());
-                                                    int Cantidad = 0;
-                                                    Cantidad=cantidad_inventario-cantidad_seleccionada;
+                                                        String nombre = MainActivity.lista_seleccion_venta_mayor_bodega.get(finalX1).getNombre();
+                                                        String referencia_producto = id_referencia_producto;
+                                                        String vendedor_producto = MainActivity.Id_Usuario + "-" + id_referencia_producto;
+                                                        String costo_compra = MainActivity.lista_seleccion_venta_mayor_bodega.get(finalX1).getP_compra();
+                                                        String precio_venta = MainActivity.lista_seleccion_venta_mayor_bodega.get(finalX1).getP_detal();
+                                                        String categoria = MainActivity.lista_seleccion_venta_mayor_bodega.get(finalX1).getCliente_mis_productos();
+                                                        String url = MainActivity.lista_seleccion_venta_mayor_bodega.get(finalX1).getUrl();
+                                                        int cantidad_seleccionada = Integer.parseInt(MainActivity.lista_seleccion_venta_mayor_bodega.get(finalX1).getSeleccion());
+
+                                                        //RESTA INVENTARIO
+                                                        int cantidad_inventario = Integer.parseInt(producto.getCantidad());
+                                                        int Cantidad = 0;
+                                                        Cantidad = cantidad_inventario - cantidad_seleccionada;
 
 
+                                                        //guardar datos de productos facturados
+                                                        DatabaseReference referencia = FirebaseDatabase.getInstance().getReference();
 
-                                                    //guardar datos de productos facturados
-                                                    DatabaseReference referencia = FirebaseDatabase.getInstance().getReference();
+                                                        Modelo_producto_facturacion_app_vendedor productos = new Modelo_producto_facturacion_app_vendedor();
+                                                        productos.setId_pedido(id_factura);
+                                                        productos.setId_producto_pedido(UUID.randomUUID().toString());
+                                                        productos.setNombre(nombre);
+                                                        // productos.setCodigo_barras(MainActivity.lista_seleccion.get(finalX1).getCodigo());
+                                                        productos.setId_referencia_vendedor(MainActivity.Id_Usuario);
+                                                        productos.setCantidad(cantidad_seleccionada + "");
+                                                        productos.setEstado(context.getString(R.string.Venta_bodega));
+                                                        productos.setId_referencia_producto(referencia_producto);
+                                                        productos.setVendedor_producto(vendedor_producto);
+                                                        productos.setFecha(fecha.substring(0, 10));
+                                                        productos.setCliente_mis_productos(categoria);
+                                                        productos.setCosto(costo_compra);
+                                                        productos.setVenta(precio_venta);
+                                                        productos.setRecaudo(MainActivity.Usuario);
+                                                        productos.setId_administrador_recaudo(MainActivity.Id_Usuario);
+                                                        productos.setFecha_recaudo(fecha.substring(0, 10));
+                                                        productos.setNombre_vendedor("Bodega");
+                                                        productos.setUrl(url);
+                                                        productos.setVendedor(MainActivity.Usuario);
 
-                                                    Modelo_producto_facturacion_app_vendedor productos = new Modelo_producto_facturacion_app_vendedor();
-                                                    productos.setId_pedido(id_factura);
-                                                    productos.setId_producto_pedido(UUID.randomUUID().toString());
-                                                    productos.setNombre(nombre);
-                                                    // productos.setCodigo_barras(MainActivity.lista_seleccion.get(finalX1).getCodigo());
-                                                    productos.setId_referencia_vendedor(MainActivity.Id_Usuario);
-                                                    productos.setCantidad(cantidad_seleccionada+"");
-                                                    productos.setEstado(context.getString(R.string.Venta_bodega));
-                                                    productos.setId_referencia_producto(referencia_producto);
-                                                    productos.setVendedor_producto(vendedor_producto);
-                                                    productos.setFecha(fecha.substring(0,10));
-                                                    productos.setCliente_mis_productos(categoria);
-                                                    productos.setCosto(costo_compra);
-                                                    productos.setVenta(precio_venta);
-                                                    productos.setRecaudo(MainActivity.Usuario);
-                                                    productos.setId_administrador_recaudo(MainActivity.Id_Usuario);
-                                                    productos.setFecha_recaudo(fecha.substring(0,10));
-                                                    productos.setNombre_vendedor("Bodega");
-                                                    productos.setUrl(url);
-                                                    productos.setVendedor(MainActivity.Usuario);
+                                                        //verfica que hay existencia para regisrar el producto
+                                                        if (Cantidad > -1) {
+                                                            producto.setCantidad(Cantidad + "");
+                                                            DatabaseReference myRefe = FirebaseDatabase.getInstance().getReference();
+                                                            myRefe.child("Productos").child(producto.getId()).setValue(producto);
+                                                            referencia.child("Factura_productos").child(productos.getId_producto_pedido()).setValue(productos);
+                                                        }
 
-                                                    //verfica que hay existencia para regisrar el producto
-                                                    if(Cantidad>-1){
-                                                        producto.setCantidad(Cantidad+"");
+
+                                                        descripcion_compra = descripcion_compra + "\n" + "x" + cantidad_seleccionada + " $" + precio_venta + " " + nombre;
+
+
+                                                        int subtotal = cantidad_seleccionada * Integer.parseInt(precio_venta);
+                                                        total = total + subtotal;
+                                                        productos_para_pdf.add(new Modelo_productos_para_facturar(nombre, cantidad_seleccionada + "", precio_venta, subtotal + ""));
+
+                                                    }
+
+                                                    if (finalX1 + 1 == MainActivity.lista_seleccion_venta_mayor_bodega.size()) {
+                                                        //datos de factura de compra
+
                                                         DatabaseReference myRefe = FirebaseDatabase.getInstance().getReference();
-                                                        myRefe.child("Productos").child(producto.getId()).setValue(producto);
-                                                        referencia.child("Factura_productos").child(productos.getId_producto_pedido()).setValue(productos);
-                                                    }
+                                                        Modelo_factura_cliente factura_cliente = new Modelo_factura_cliente();
+                                                        factura_cliente.setId(id_factura);
+                                                        factura_cliente.setTipo(context.getString(R.string.Venta_bodega));
+                                                        String nombre_cliente = context.getString(R.string.Anonimo);
+                                                        if (!editText_nombre.getText().toString().equals(""))
+                                                            nombre_cliente = editText_nombre.getText().toString().trim();
+                                                        factura_cliente.setNombre(nombre_cliente);
+                                                        factura_cliente.setTelefono(editText_telefono.getText().toString().trim());
+                                                        factura_cliente.setDocumento(editText_documento.getText().toString().trim());
+                                                        factura_cliente.setFecha(fecha);
+                                                        factura_cliente.setDireccion(editTextTextMultiLine_direccion.getText().toString().trim());
+                                                        factura_cliente.setId_vendedor("Bodega");
+                                                        factura_cliente.setVendedor(MainActivity.Usuario);
+                                                        myRefe.child("Factura_cliente").child(factura_cliente.getId()).setValue(factura_cliente);
 
 
-                                                    descripcion_compra= descripcion_compra + "\n" +"x"+cantidad_seleccionada+" $"+precio_venta+" "+nombre;
+                                                        Guardar_firebase nube = new Guardar_firebase();
+                                                        nube.guardar_historial(id_factura, context.getString(R.string.Venta_bodega), "", descripcion_compra, context);
+
+                                                        //datos para la factura pdf
+                                                        datos_cliente.add(new Modelo_factura_cliente(id_factura, nombre_cliente, editText_telefono.getText().toString().trim(), editText_documento.getText().toString().trim(), fecha, MainActivity.Id_Usuario, "", editTextTextMultiLine_direccion.getText().toString().trim(), MainActivity.Usuario, ""));
+                                                        String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/Factura_Toons.pdf";
+
+                                                        try {
+                                                            PDFUtility_factura_bodega crear = new PDFUtility_factura_bodega();
+                                                            productos_para_pdf.sort(Comparator.comparing(Modelo_productos_para_facturar::getNombre));
+                                                            crear.crearPdf(context, Fragment_crear_factura.this, productos_para_pdf, datos_cliente, total + "", path, true);
+
+                                                        } catch (Exception e) {
+                                                            Toast.makeText(context, "Error Creating Pdf " + e, Toast.LENGTH_SHORT).show();
+                                                        }
 
 
-                                                    int subtotal=cantidad_seleccionada * Integer.parseInt(precio_venta);
-                                                    total=total+subtotal;
-                                                    productos_para_pdf.add(new Modelo_productos_para_facturar(nombre, cantidad_seleccionada+"",precio_venta,subtotal+""));
+                                                        MainActivity.lista_seleccion_venta_mayor_bodega.clear();
 
-                                                }
-
-                                                if (finalX1+1==MainActivity.lista_seleccion_venta_mayor_bodega.size()) {
-                                                    //datos de factura de compra
-
-                                                    DatabaseReference myRefe = FirebaseDatabase.getInstance().getReference();
-                                                    Modelo_factura_cliente factura_cliente = new Modelo_factura_cliente();
-                                                    factura_cliente.setId(id_factura);
-                                                    factura_cliente.setTipo(context.getString(R.string.Venta_bodega));
-                                                    String nombre_cliente=context.getString(R.string.Anonimo);
-                                                    if(!editText_nombre.getText().toString().equals("")) nombre_cliente=editText_nombre.getText().toString().trim();
-                                                    factura_cliente.setNombre(nombre_cliente);
-                                                    factura_cliente.setTelefono(editText_telefono.getText().toString().trim());
-                                                    factura_cliente.setDocumento(editText_documento.getText().toString().trim());
-                                                    factura_cliente.setFecha(fecha);
-                                                    factura_cliente.setDireccion(editTextTextMultiLine_direccion.getText().toString().trim());
-                                                    factura_cliente.setId_vendedor("Bodega");
-                                                    factura_cliente.setVendedor(MainActivity.Usuario);
-                                                    myRefe.child("Factura_cliente").child(factura_cliente.getId()).setValue(factura_cliente);
+                                                        Gson gson = new Gson();
+                                                        String jsonString = gson.toJson(MainActivity.lista_seleccion_venta_mayor_bodega);
+                                                        SharedPreferences pref = android.preference.PreferenceManager.getDefaultSharedPreferences(context);
+                                                        SharedPreferences.Editor editor = pref.edit();
+                                                        editor.putString(PREFERENCIA_SELECCION_VENTA_MAYOR_BODEGA, jsonString);
+                                                        editor.apply();
 
 
-                                                    Guardar_firebase nube = new Guardar_firebase();
-                                                    nube.guardar_historial(id_factura, context.getString(R.string.Venta_bodega), "", descripcion_compra, context);
+                                                        if (radioButton_compartir.isChecked()) {
 
-                                                    //datos para la factura pdf
-                                                    datos_cliente.add(new Modelo_factura_cliente(id_factura,nombre_cliente,editText_telefono.getText().toString().trim(),editText_documento.getText().toString().trim(),fecha,MainActivity.Id_Usuario,"",editTextTextMultiLine_direccion.getText().toString().trim(),MainActivity.Usuario,""));
-                                                    String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/Factura_Toons.pdf";
+                                                            Intent intent = new Intent(context, Vista_pdf.class);
+                                                            getActivity().onBackPressed();
+                                                            intent.putExtra("path", path);
+                                                            startActivity(intent);
 
-                                                    try {
-                                                        PDFUtility_factura_bodega crear =new PDFUtility_factura_bodega();
-                                                        productos_para_pdf.sort(Comparator.comparing(Modelo_productos_para_facturar::getNombre));
-                                                        crear.crearPdf(context,Fragment_crear_factura.this, productos_para_pdf, datos_cliente,total+"",path,true);
+                                                        } else if (radioButton_whatapp.isChecked()) {
+                                                            Navigation.findNavController(vista).navigateUp();
+                                                            openWhatsApp();
 
-                                                    }catch (Exception e)
-                                                    {
-                                                        Toast.makeText(context,"Error Creating Pdf "+e,Toast.LENGTH_SHORT).show();
-                                                    }
-
-
-                                                    MainActivity.lista_seleccion_venta_mayor_bodega.clear();
-
-                                                    Gson gson = new Gson();
-                                                    String jsonString = gson.toJson(MainActivity.lista_seleccion_venta_mayor_bodega);
-                                                    SharedPreferences pref = android.preference.PreferenceManager.getDefaultSharedPreferences(context);
-                                                    SharedPreferences.Editor editor = pref.edit();
-                                                    editor.putString(PREFERENCIA_SELECCION_VENTA_MAYOR_BODEGA, jsonString);
-                                                    editor.apply();
-
-
-                                                    if (radioButton_compartir.isChecked()){
-
-                                                        Intent intent=new Intent(context, Vista_pdf.class);
-                                                        getActivity().onBackPressed();
-                                                        intent.putExtra("path",path);
-                                                        startActivity(intent);
-
-                                                    }else if (radioButton_whatapp.isChecked()) {
-                                                        Navigation.findNavController(vista).navigateUp();
-                                                        openWhatsApp();
+                                                        }
 
                                                     }
-
                                                 }
                                             }
-                                        }
-                                        @Override
-                                        public void onCancelled(DatabaseError databaseError) {
-                                        }
-                                    });
+
+                                            @Override
+                                            public void onCancelled(DatabaseError databaseError) {
+                                            }
+                                        });
+                                    }
                                 }
                             }
-                        }
-                    }).start();
-
+                        }).start();
+                    }
                 if (radioButton_nignuno.isChecked()){
                     Navigation.findNavController(vista).navigateUp();
                     Navigation.findNavController(vista).navigateUp();
