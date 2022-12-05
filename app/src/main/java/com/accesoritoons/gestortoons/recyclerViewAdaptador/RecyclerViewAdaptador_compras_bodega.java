@@ -265,9 +265,12 @@ public class RecyclerViewAdaptador_compras_bodega extends RecyclerView.Adapter<R
         }
 
         if(MainActivity.lista_seleccion_compra.size()>0){
+            MainActivity.opcion_compartir_logo.setVisible(true);
             MainActivity.opcion_comprar.setEnabled(true);
+
         }else{
             MainActivity.opcion_comprar.setEnabled(false);
+            MainActivity.opcion_compartir_logo.setVisible(false);
         }
 
         NumberFormat formatoImporte = NumberFormat.getIntegerInstance(new Locale("es","ES"));

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +20,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.accesoritoons.gestortoons.Activity_scanner;
 import com.accesoritoons.gestortoons.MainActivity;
 import com.accesoritoons.gestortoons.R;
+import com.accesoritoons.gestortoons.Vista_pdf;
 import com.accesoritoons.gestortoons.metodos.Guardar_firebase;
 import com.accesoritoons.gestortoons.modelos.Modelo_factura_cliente;
 import com.accesoritoons.gestortoons.modelos.Modelo_historial;
@@ -26,6 +28,9 @@ import com.accesoritoons.gestortoons.modelos.Modelo_pedido;
 import com.accesoritoons.gestortoons.modelos.Modelo_producto;
 
 import com.accesoritoons.gestortoons.modelos.Modelo_producto_facturacion_app_vendedor;
+import com.accesoritoons.gestortoons.modelos.Modelo_productos_para_facturar;
+import com.accesoritoons.gestortoons.reportes_pdf.PDFUtility_factura_bodega;
+import com.accesoritoons.gestortoons.surtir.Fragment_detalle_factura;
 import com.accesoritoons.gestortoons.surtir.Fragmento_agregar_inventario;
 import com.accesoritoons.gestortoons.surtir.Fragmento_inventario_vendedor;
 import com.google.android.material.tabs.TabLayout;
@@ -37,12 +42,14 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.UUID;
 
-public class Contenedor_compras_bodega extends Fragment {
+public class Contenedor_compras_bodega extends Fragment  implements PDFUtility_factura_bodega.OnDocumentClose{
 
     Context context;
     View vista;
@@ -51,6 +58,8 @@ public class Contenedor_compras_bodega extends Fragment {
     private ViewPager2 viewPager2;
     public static boolean compra_activa=false;
     String descripcion_compra="", id_factura;
+    ArrayList<Modelo_productos_para_facturar> productos_para_pdf = new ArrayList<>();
+    ArrayList<Modelo_factura_cliente>  datos_cliente = new ArrayList<>();
 
 
     private  final String PREFERENCIA_SELECCION_COMPRA = "PREFERENCIA_SELECCION_COMPRA";
@@ -84,6 +93,7 @@ public class Contenedor_compras_bodega extends Fragment {
 
         MainActivity.opcion_comprar.setVisible(true);
         MainActivity.opcion_comprar.setEnabled(false);
+      
 
         compra_activa=true;
 
@@ -91,6 +101,13 @@ public class Contenedor_compras_bodega extends Fragment {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
             registrar_compra();
+                return false;
+            }
+        });
+        MainActivity.opcion_compartir_logo.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                crear_pdf();
                 return false;
             }
         });
@@ -124,6 +141,37 @@ public class Contenedor_compras_bodega extends Fragment {
         }
         return vista;
     }
+
+    private void crear_pdf() {
+        //datos para la factura pdf
+        ArrayList<Modelo_factura_cliente>  datos_cliente = new ArrayList<>();
+        int cuenta_total_factura=0;
+        for (int x = 0; x < MainActivity.lista_seleccion_compra.size(); x++) {
+            int precio = Integer.parseInt(MainActivity.lista_seleccion_compra.get(x).getP_compra());
+            int cantidad = Integer.parseInt(MainActivity.lista_seleccion_compra.get(x).getCantidad());
+            int total = precio * cantidad;
+            cuenta_total_factura = cuenta_total_factura + total;
+            productos_para_pdf.add(new Modelo_productos_para_facturar(MainActivity.lista_seleccion_compra.get(x).getNombre(), cantidad + "", precio+"", total + ""));
+        }
+
+        String fecha= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss aa").format(new Date());
+        datos_cliente.add(new Modelo_factura_cliente("0000000","Compra","","",fecha.substring(0, 10),"","","","",""));
+        String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/Factura_Toons.pdf";
+        try {
+            PDFUtility_factura_bodega crear =new PDFUtility_factura_bodega();
+            productos_para_pdf.sort(Comparator.comparing(Modelo_productos_para_facturar::getNombre));
+            crear.crearPdf(getContext(), Contenedor_compras_bodega.this,     productos_para_pdf, datos_cliente,cuenta_total_factura+"",path,true);
+
+            Intent intent = new Intent(context, Vista_pdf.class);
+            getActivity().onBackPressed();
+            intent.putExtra("path", path);
+            startActivity(intent);
+        }catch (Exception e)
+        {
+            Toast.makeText(context,"Error Creating Pdf"+e,Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
     public void registrar_compra() {
 
@@ -278,7 +326,13 @@ public class Contenedor_compras_bodega extends Fragment {
         MainActivity.opcion_comprar.setVisible(false);
         MainActivity.opcion_comprar.setEnabled(false);
         MainActivity.opcion_scanner.setVisible(false);
+        MainActivity.opcion_compartir_logo.setVisible(false);
         compra_activa=false;
         vista=null;
+    }
+
+    @Override
+    public void onPDFDocumentClose(File file) {
+
     }
 }
