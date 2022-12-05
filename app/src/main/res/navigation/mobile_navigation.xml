@@ -38,10 +38,7 @@
             android:id="@+id/action_fragmento_nuevo_producto_to_fragmento_foto_apliada"
             app:destination="@id/fragmento_foto_apliada" />
     </fragment>
-    <activity
-        android:id="@+id/activity_pruebas"
-        android:name="com.accesoritoons.gestortoons.Activity_pruebas"
-        android:label="Activity_pruebas" />
+
     <activity
         android:id="@+id/activity_simple_foto"
         android:name="com.accesoritoons.gestortoons.Activity_simple_foto"
@@ -194,6 +191,16 @@
         android:name="com.accesoritoons.gestortoons.registro_auditor.Fragment_recaudos_auditor"
         android:label="@string/Recaudado"
         tools:layout="@layout/fragment_recaudos_auditor" />
+    <fragment
+        android:id="@+id/fragmentoClientes"
+        android:name="com.accesoritoons.gestortoons.FragmentoClientes"
+        android:label="Clientes"
+        tools:layout="@layout/fragment_fragmento_clientes" />
+    <fragment
+        android:id="@+id/fragmentoNuevoCliente"
+        android:name="com.accesoritoons.gestortoons.FragmentoNuevoCliente"
+        android:label="Nuevo Cliente"
+        tools:layout="@layout/fragment_fragmento_nuevo_cliente" />
 
 
 </navigation>

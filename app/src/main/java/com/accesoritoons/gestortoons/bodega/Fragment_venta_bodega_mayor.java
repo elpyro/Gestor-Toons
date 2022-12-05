@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,7 +47,7 @@ public class Fragment_venta_bodega_mayor extends Fragment {
     SearchView searchView_produtos;
     Query referencia;
     ArrayList<Modelo_producto> lista ;
-
+    private Button button_borrar_seleccion;
     View vista;
     Context context;
     public static TextView textView_monto_seleccionado_carrito;
@@ -61,7 +62,7 @@ public class Fragment_venta_bodega_mayor extends Fragment {
         context=getContext();
         vista= inflater.inflate(R.layout.fragment_fragmento_agregar_inventario, container, false);
         textView_monto_seleccionado_carrito=(TextView)vista.findViewById(R.id.textView_monto_seleccionado);
-
+        button_borrar_seleccion=vista.findViewById(R.id.button_borrar_seleccion);
         recview=(RecyclerView)vista.findViewById(R.id.recycler_inventario);
         recview.setHasFixedSize(true);
         recview.setLayoutManager(new LinearLayoutManager(context));
@@ -77,7 +78,13 @@ try{
 }catch (Exception e){}
 
 
-
+        button_borrar_seleccion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MainActivity.lista_seleccion_venta_mayor_bodega.clear();
+                onResume();
+            }
+        });
 
         MainActivity.opcion_scanner.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override

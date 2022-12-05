@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +44,7 @@ public class Fragmento_agregar_inventario extends Fragment {
     RecyclerView recview;
     SearchView searchView_produtos;
     Query referencia;
+    private Button      button_borrar_seleccion;
     private ValueEventListener oyente;
     ArrayList<Modelo_producto> lista ;
     public static ArrayList<Modelo_producto> lista_produtos_completa ;
@@ -63,7 +65,7 @@ public class Fragmento_agregar_inventario extends Fragment {
         recview.setHasFixedSize(true);
         recview.setLayoutManager(new LinearLayoutManager(context));
         searchView_produtos=(SearchView)vista.findViewById(R.id.searchview);
-
+        button_borrar_seleccion=vista.findViewById(R.id.button_borrar_seleccion);
         MainActivity.opcion_nuevo_producto.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
@@ -122,12 +124,28 @@ public class Fragmento_agregar_inventario extends Fragment {
                             lista.sort(Comparator.comparing(Modelo_producto::getNombre));
                             RecyclerViewAdaptador_compras_bodega adapador= new RecyclerViewAdaptador_compras_bodega(lista);
                             recview.setAdapter(adapador);
+                            //Todo acomoda este codigo
+
+                            button_borrar_seleccion.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    MainActivity.lista_seleccion_compra.clear();
+                                    onResume();
+                                }
+                            });
 
                         }else{
                             RecyclerViewAdaptador_agregar_inventario.actulizar_total();
                             lista.sort(Comparator.comparing(Modelo_producto::getNombre));
                             RecyclerViewAdaptador_agregar_inventario adapador= new RecyclerViewAdaptador_agregar_inventario(lista);
                             recview.setAdapter(adapador);
+                            button_borrar_seleccion.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    MainActivity.lista_seleccion.clear();
+                                    onResume();
+                                }
+                            });
                         }
 //                        referencia.removeEventListener(this);
 

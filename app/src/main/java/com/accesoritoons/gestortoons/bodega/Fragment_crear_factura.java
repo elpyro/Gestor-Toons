@@ -22,6 +22,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -53,8 +54,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.EventListener;
-import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
 
@@ -62,12 +61,13 @@ import java.util.UUID;
 public class Fragment_crear_factura extends Fragment implements PDFUtility_factura_bodega.OnDocumentClose {
 
 
+    public static String nombreCliente, telefono, documento, direccion;
+    public static TextView textView_total;
     public static RecyclerView recview;
     public static SearchView searchView_produtos;
     View vista;
     Context context;
-    EditText editText_nombre, editText_telefono, editText_documento,editTextTextMultiLine_direccion;
-    public static TextView textView_total;
+    private EditText editText_nombre, editText_telefono, editText_documento, editText_direccion;
     ArrayList<Modelo_producto> lista_inventario;
     int total=0;
     ArrayList<Modelo_producto> lista_productos=new ArrayList<>();
@@ -77,6 +77,7 @@ public class Fragment_crear_factura extends Fragment implements PDFUtility_factu
     RadioButton radioButton_compartir,radioButton_whatapp, radioButton_nignuno;
     ValueEventListener oyente;
     Query referencia_productos;
+    private ImageButton imageButton_clientes;
     boolean hiloActivo=false;
     NumberFormat formatoImporte = NumberFormat.getIntegerInstance(new Locale("es","ES"));
     private  final String PREFERENCIA_SELECCION_VENTA_MAYOR_BODEGA = "PREFERENCIA_SELECCION_VENTA_MAYOR_BODEGA";
@@ -96,9 +97,9 @@ public class Fragment_crear_factura extends Fragment implements PDFUtility_factu
         radioButton_compartir=vista.findViewById(R.id.radioButton_compartir);
         radioButton_whatapp=vista.findViewById(R.id.radioButton_whatapp);
         radioButton_nignuno=vista.findViewById(R.id.radioButton_ninguno);
-        editTextTextMultiLine_direccion=vista.findViewById(R.id.editTextTextMultiLine_direccion);
+        editText_direccion =vista.findViewById(R.id.editTextTextMultiLine_direccion);
+        imageButton_clientes=vista.findViewById(R.id.imageButton_clientes);
 
-        MainActivity.opcion_confirmar.setVisible(true);
 
         //ocultar teclado
         try {
@@ -107,6 +108,12 @@ public class Fragment_crear_factura extends Fragment implements PDFUtility_factu
 
         }catch (Exception e){}
 
+        imageButton_clientes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Navigation.findNavController(vista).navigate(R.id.fragmentoClientes);
+            }
+        });
 
         MainActivity.opcion_confirmar.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
@@ -141,6 +148,7 @@ public class Fragment_crear_factura extends Fragment implements PDFUtility_factu
 
                     if (!hiloActivo) {
                         hiloActivo = true;
+
 
                         new Thread(new Runnable() {
                             @Override
@@ -242,7 +250,7 @@ public class Fragment_crear_factura extends Fragment implements PDFUtility_factu
                                                         factura_cliente.setTelefono(editText_telefono.getText().toString().trim());
                                                         factura_cliente.setDocumento(editText_documento.getText().toString().trim());
                                                         factura_cliente.setFecha(fecha);
-                                                        factura_cliente.setDireccion(editTextTextMultiLine_direccion.getText().toString().trim());
+                                                        factura_cliente.setDireccion(editText_direccion.getText().toString().trim());
                                                         factura_cliente.setId_vendedor("Bodega");
                                                         factura_cliente.setVendedor(MainActivity.Usuario);
                                                         myRefe.child("Factura_cliente").child(factura_cliente.getId()).setValue(factura_cliente);
@@ -252,7 +260,7 @@ public class Fragment_crear_factura extends Fragment implements PDFUtility_factu
                                                         nube.guardar_historial(id_factura, context.getString(R.string.Venta_bodega), "", descripcion_compra, context);
 
                                                         //datos para la factura pdf
-                                                        datos_cliente.add(new Modelo_factura_cliente(id_factura, nombre_cliente, editText_telefono.getText().toString().trim(), editText_documento.getText().toString().trim(), fecha, MainActivity.Id_Usuario, "", editTextTextMultiLine_direccion.getText().toString().trim(), MainActivity.Usuario, ""));
+                                                        datos_cliente.add(new Modelo_factura_cliente(id_factura, nombre_cliente, editText_telefono.getText().toString().trim(), editText_documento.getText().toString().trim(), fecha, MainActivity.Id_Usuario, "", editText_direccion.getText().toString().trim(), MainActivity.Usuario, ""));
                                                         String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/Factura_Toons.pdf";
 
                                                         try {
@@ -266,6 +274,10 @@ public class Fragment_crear_factura extends Fragment implements PDFUtility_factu
 
 
                                                         MainActivity.lista_seleccion_venta_mayor_bodega.clear();
+                                                        nombreCliente="";
+                                                        telefono="";
+                                                        documento="";
+                                                        direccion="";
 
                                                         Gson gson = new Gson();
                                                         String jsonString = gson.toJson(MainActivity.lista_seleccion_venta_mayor_bodega);
@@ -365,6 +377,11 @@ public class Fragment_crear_factura extends Fragment implements PDFUtility_factu
     public void onResume() {
         super.onResume();
         MainActivity.opcion_factura.setVisible(false);
+        MainActivity.opcion_confirmar.setVisible(true);
+        editText_nombre.setText(nombreCliente);
+        editText_telefono.setText(telefono);
+        editText_documento.setText(documento);
+        editText_direccion.setText(direccion);
         cargar_inventario();
     }
 
@@ -446,6 +463,7 @@ public class Fragment_crear_factura extends Fragment implements PDFUtility_factu
             InputMethodManager input = (InputMethodManager) (getActivity().getSystemService(getContext().INPUT_METHOD_SERVICE));
             input.hideSoftInputFromWindow(vista.getWindowToken(), 0);
             Glide.get(context).clearMemory();//clear memory
+
         }catch (Exception e){}
 
         MainActivity.opcion_confirmar.setVisible(false);

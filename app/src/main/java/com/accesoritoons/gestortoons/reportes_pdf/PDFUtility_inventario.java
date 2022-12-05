@@ -349,101 +349,102 @@ final class PDFUtility_inventario
 
         int total_vendedor =0;
 
-        for (int i = 0; i < size; i++)
-        {
+        for (int i = 0; i < size; i++) {
 
             cell_color = alternate ? lt_gray : BaseColor.WHITE;
 
             //total de cliente
-            if(!cliente_diferente.equals(dataTable.get(i).getId_vendedor())){
+            if (!dataTable.get(i).getSubtotal().equals("0")) {
 
-                PdfPCell celda_cliente;
-                {
+                if (!cliente_diferente.equals(dataTable.get(i).getId_vendedor())) {
 
-                    celda_cliente = new PdfPCell(new Phrase(dataTable.get(i-1).getNombre_vendedor()+"\n"+ dataTable.get(i-1).getTipo_vendedor(), FONT_COLUMN));
+                    PdfPCell celda_cliente;
+                    {
 
-                    celda_cliente.setHorizontalAlignment(Element.ALIGN_CENTER);
-                    celda_cliente.setVerticalAlignment(Element.ALIGN_MIDDLE);
-                    celda_cliente.setBackgroundColor(BaseColor.YELLOW);
-                    celda_cliente.setPadding(10f);
-                    celda_cliente.setBorder(PdfPCell.NO_BORDER);
-                    table1.addCell(celda_cliente);
+                        celda_cliente = new PdfPCell(new Phrase(dataTable.get(i - 1).getNombre_vendedor() + "\n" + dataTable.get(i - 1).getTipo_vendedor(), FONT_COLUMN));
 
-                    celda_cliente = new PdfPCell(new Phrase("", FONT_COLUMN));
-                    celda_cliente.setHorizontalAlignment(Element.ALIGN_CENTER);
-                    celda_cliente.setVerticalAlignment(Element.ALIGN_MIDDLE);
-                    celda_cliente.setBackgroundColor(BaseColor.YELLOW);
-                    celda_cliente.setPadding(0f);
-                    celda_cliente.setBorder(PdfPCell.NO_BORDER);
-                    table1.addCell(celda_cliente);
+                        celda_cliente.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        celda_cliente.setVerticalAlignment(Element.ALIGN_MIDDLE);
+                        celda_cliente.setBackgroundColor(BaseColor.YELLOW);
+                        celda_cliente.setPadding(10f);
+                        celda_cliente.setBorder(PdfPCell.NO_BORDER);
+                        table1.addCell(celda_cliente);
 
-                    celda_cliente = new PdfPCell(new Phrase("Total", FONT_COLUMN));
-                    celda_cliente.setHorizontalAlignment(Element.ALIGN_CENTER);
-                    celda_cliente.setVerticalAlignment(Element.ALIGN_MIDDLE);
-                    celda_cliente.setBackgroundColor(BaseColor.YELLOW);
-                    celda_cliente.setPadding(0f);
-                    celda_cliente.setBorder(PdfPCell.NO_BORDER);
-                    table1.addCell(celda_cliente);
+                        celda_cliente = new PdfPCell(new Phrase("", FONT_COLUMN));
+                        celda_cliente.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        celda_cliente.setVerticalAlignment(Element.ALIGN_MIDDLE);
+                        celda_cliente.setBackgroundColor(BaseColor.YELLOW);
+                        celda_cliente.setPadding(0f);
+                        celda_cliente.setBorder(PdfPCell.NO_BORDER);
+                        table1.addCell(celda_cliente);
 
-                    celda_cliente = new PdfPCell(new Phrase(formatoImporte.format(total_vendedor)+"", FONT_COLUMN));
-                    celda_cliente.setPadding(0f);
-                    celda_cliente.setHorizontalAlignment(Element.ALIGN_CENTER);
-                    celda_cliente.setVerticalAlignment(Element.ALIGN_MIDDLE);
-                    celda_cliente.setBackgroundColor(BaseColor.YELLOW);
-                    celda_cliente.setBorder(PdfPCell.NO_BORDER);
-                    table1.addCell(celda_cliente);
-                    total_vendedor=0;
+                        celda_cliente = new PdfPCell(new Phrase("Total", FONT_COLUMN));
+                        celda_cliente.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        celda_cliente.setVerticalAlignment(Element.ALIGN_MIDDLE);
+                        celda_cliente.setBackgroundColor(BaseColor.YELLOW);
+                        celda_cliente.setPadding(0f);
+                        celda_cliente.setBorder(PdfPCell.NO_BORDER);
+                        table1.addCell(celda_cliente);
 
+                        celda_cliente = new PdfPCell(new Phrase(formatoImporte.format(total_vendedor) + "", FONT_COLUMN));
+                        celda_cliente.setPadding(0f);
+                        celda_cliente.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        celda_cliente.setVerticalAlignment(Element.ALIGN_MIDDLE);
+                        celda_cliente.setBackgroundColor(BaseColor.YELLOW);
+                        celda_cliente.setBorder(PdfPCell.NO_BORDER);
+                        table1.addCell(celda_cliente);
+                        total_vendedor = 0;
+
+                    }
+                    cliente_diferente = dataTable.get(i).getId_vendedor();
                 }
-                cliente_diferente=dataTable.get(i).getId_vendedor();
+
+                cell = new PdfPCell(new Phrase(dataTable.get(i).getNombre(), FONT_CELL));
+                cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+                cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+                cell.setPaddingLeft(left_right_Padding);
+                cell.setPaddingRight(left_right_Padding);
+                cell.setPaddingTop(top_bottom_Padding);
+                cell.setPaddingBottom(top_bottom_Padding);
+                cell.setBackgroundColor(cell_color);
+                table1.addCell(cell);
+
+                cell = new PdfPCell(new Phrase(dataTable.get(i).getCantidad(), FONT_CELL));
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+                cell.setPaddingLeft(left_right_Padding);
+                cell.setPaddingRight(left_right_Padding);
+                cell.setPaddingTop(top_bottom_Padding);
+                cell.setPaddingBottom(top_bottom_Padding);
+                cell.setBackgroundColor(cell_color);
+                table1.addCell(cell);
+
+                cell = new PdfPCell(new Phrase(formatoImporte.format(Integer.parseInt(dataTable.get(i).getCosto())), FONT_CELL));
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+                cell.setPaddingLeft(left_right_Padding);
+                cell.setPaddingRight(left_right_Padding);
+                cell.setPaddingTop(top_bottom_Padding);
+                cell.setPaddingBottom(top_bottom_Padding);
+                cell.setBackgroundColor(cell_color);
+                table1.addCell(cell);
+                cell = new PdfPCell(new Phrase(formatoImporte.format(Integer.parseInt(dataTable.get(i).getSubtotal())), FONT_CELL));
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+                cell.setPaddingLeft(left_right_Padding);
+                cell.setPaddingRight(left_right_Padding);
+                cell.setPaddingTop(top_bottom_Padding);
+                cell.setPaddingBottom(top_bottom_Padding);
+                cell.setBackgroundColor(cell_color);
+                table1.addCell(cell);
+
+                total_vendedor = total_vendedor + Integer.parseInt(dataTable.get(i).getSubtotal());
+                total_inventario = total_inventario + Integer.parseInt(dataTable.get(i).getSubtotal());
+                alternate = !alternate;
+
+
             }
-
-            cell = new PdfPCell(new Phrase(dataTable.get(i).getNombre(), FONT_CELL));
-            cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-            cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-            cell.setPaddingLeft(left_right_Padding);
-            cell.setPaddingRight(left_right_Padding);
-            cell.setPaddingTop(top_bottom_Padding);
-            cell.setPaddingBottom(top_bottom_Padding);
-            cell.setBackgroundColor(cell_color);
-            table1.addCell(cell);
-
-            cell = new PdfPCell(new Phrase(dataTable.get(i).getCantidad(), FONT_CELL));
-            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-            cell.setPaddingLeft(left_right_Padding);
-            cell.setPaddingRight(left_right_Padding);
-            cell.setPaddingTop(top_bottom_Padding);
-            cell.setPaddingBottom(top_bottom_Padding);
-            cell.setBackgroundColor(cell_color);
-            table1.addCell(cell);
-
-            cell = new PdfPCell(new Phrase(formatoImporte.format(Integer.parseInt(dataTable.get(i).getCosto())), FONT_CELL));
-            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-            cell.setPaddingLeft(left_right_Padding);
-            cell.setPaddingRight(left_right_Padding);
-            cell.setPaddingTop(top_bottom_Padding);
-            cell.setPaddingBottom(top_bottom_Padding);
-            cell.setBackgroundColor(cell_color);
-            table1.addCell(cell);
-            cell = new PdfPCell(new Phrase(formatoImporte.format(Integer.parseInt(dataTable.get(i).getSubtotal())), FONT_CELL));
-            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-            cell.setPaddingLeft(left_right_Padding);
-            cell.setPaddingRight(left_right_Padding);
-            cell.setPaddingTop(top_bottom_Padding);
-            cell.setPaddingBottom(top_bottom_Padding);
-            cell.setBackgroundColor(cell_color);
-            table1.addCell(cell);
-
-            total_vendedor= total_vendedor+Integer.parseInt(dataTable.get(i).getSubtotal());
-            total_inventario=total_inventario+Integer.parseInt(dataTable.get(i).getSubtotal());
-            alternate = !alternate;
-
-
         }
-
         PdfPCell celda_cliente;
         {
             int ultimo_elemento=dataTable.size()-1;

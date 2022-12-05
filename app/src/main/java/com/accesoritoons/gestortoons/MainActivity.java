@@ -222,12 +222,24 @@ public class MainActivity extends AppCompatActivity {
         opcion_no_internet=menu.findItem(R.id.no_internet);
         opcion_realizar_recaudo=menu.findItem(R.id.realizar_recaudo);
 
+
+        //Todo modificado para funcionar sin internet momentaneamente
         DatabaseReference connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected");
         connectedRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 boolean connected = snapshot.getValue(Boolean.class);
                 if (connected) {
+//                    MainActivity.opcion_no_internet.setVisible(false);
+//                    MainActivity.opcion_factura.setEnabled(true);
+//                    MainActivity.opcion_confirmar.setEnabled(true);
+//                    MainActivity.opcion_crear_pedido.setEnabled(true);
+//                    MainActivity.opcion_realizar_recaudo.setEnabled(true);
+//                    MainActivity.opcion_cambiar_cantidad.setEnabled(true);
+//                    MainActivity.opcion_agregar_inventario.setEnabled(true);
+
+                }
+                else {
                     MainActivity.opcion_no_internet.setVisible(false);
                     MainActivity.opcion_factura.setEnabled(true);
                     MainActivity.opcion_confirmar.setEnabled(true);
@@ -235,16 +247,14 @@ public class MainActivity extends AppCompatActivity {
                     MainActivity.opcion_realizar_recaudo.setEnabled(true);
                     MainActivity.opcion_cambiar_cantidad.setEnabled(true);
                     MainActivity.opcion_agregar_inventario.setEnabled(true);
-
-                }
-                else {
-                    MainActivity.opcion_no_internet.setVisible(true);
-                    MainActivity.opcion_factura.setEnabled(false);
-                    MainActivity.opcion_confirmar.setEnabled(false);
-                    MainActivity.opcion_crear_pedido.setEnabled(false);
-                    MainActivity.opcion_realizar_recaudo.setEnabled(false);
-                    MainActivity.opcion_cambiar_cantidad.setEnabled(false);
-                    MainActivity.opcion_agregar_inventario.setEnabled(false);
+//
+//                    MainActivity.opcion_no_internet.setVisible(true);
+//                    MainActivity.opcion_factura.setEnabled(false);
+//                    MainActivity.opcion_confirmar.setEnabled(false);
+//                    MainActivity.opcion_crear_pedido.setEnabled(false);
+//                    MainActivity.opcion_realizar_recaudo.setEnabled(false);
+//                    MainActivity.opcion_cambiar_cantidad.setEnabled(false);
+//                    MainActivity.opcion_agregar_inventario.setEnabled(false);
 
                     ; } }
             @Override public void onCancelled(DatabaseError error) {
