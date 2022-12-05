@@ -148,7 +148,7 @@ public class Contenedor_compras_bodega extends Fragment  implements PDFUtility_f
         int cuenta_total_factura=0;
         for (int x = 0; x < MainActivity.lista_seleccion_compra.size(); x++) {
             int precio = Integer.parseInt(MainActivity.lista_seleccion_compra.get(x).getP_compra());
-            int cantidad = Integer.parseInt(MainActivity.lista_seleccion_compra.get(x).getCantidad());
+            int cantidad = Integer.parseInt(MainActivity.lista_seleccion_compra.get(x).getSeleccion());
             int total = precio * cantidad;
             cuenta_total_factura = cuenta_total_factura + total;
             productos_para_pdf.add(new Modelo_productos_para_facturar(MainActivity.lista_seleccion_compra.get(x).getNombre(), cantidad + "", precio+"", total + ""));
