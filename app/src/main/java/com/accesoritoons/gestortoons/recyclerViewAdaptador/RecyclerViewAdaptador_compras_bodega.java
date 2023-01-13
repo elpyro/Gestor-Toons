@@ -200,13 +200,37 @@ public class RecyclerViewAdaptador_compras_bodega extends RecyclerView.Adapter<R
                     //ACCIONES AL CAMBIAR SELECCION DE PRODUCTOS (VALORES SUPERIORES A "")
                     actulizar_total();
                     agregar_lista_seleccion_compra(textView_id.getText().toString(), textView_nombre.getText().toString(),textView_costo.getText().toString(),editText_cantidad.getText().toString(), textView_cantidad.getText().toString(), textView_url_producto.getText().toString(), textView_categoria.getText().toString());
-
+                    existencias();
                 }
             });
         }catch (Exception e){
                 Toast.makeText(context, "error: "+e, Toast.LENGTH_SHORT).show();
             }
         }
+
+       private void existencias() {
+
+
+           int exitencia, seleccion,total=0;
+           if (editText_cantidad.getText().toString().equals("0")||editText_cantidad.getText().toString()==null||editText_cantidad.getText().toString().equals("")){
+               textView_cantidad.setText(textView_cantidad_original_invisible.getText().toString());
+           }else{
+               seleccion= Integer.parseInt(editText_cantidad.getText().toString());
+               exitencia= Integer.parseInt(textView_cantidad_original_invisible.getText().toString());
+
+               total=exitencia + seleccion;
+               if(total<0){
+                   editText_cantidad.setText(textView_cantidad_original_invisible.getText().toString());
+                   textView_cantidad.setText("0");
+               }else{
+                   textView_cantidad.setText(total+"");
+               }
+
+           }
+
+       }
+
+
         public void agregar_lista_seleccion_compra(String id, String nombre, String precio, String cantidad, String existencias, String url_imagen, String categoria){
             boolean existe=false;
             linearLayout_producto.setBackgroundColor(Color.parseColor("#A8003335"));

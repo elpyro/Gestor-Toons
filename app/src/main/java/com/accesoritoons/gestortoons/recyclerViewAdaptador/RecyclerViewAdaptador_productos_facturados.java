@@ -222,6 +222,7 @@ public class RecyclerViewAdaptador_productos_facturados extends RecyclerView.Ada
                             Guardar_firebase eliminar =new Guardar_firebase();
                             boolean compra= false;
                             if (Fragment_detalle_factura.textView_actividad.getText().equals(context.getString(R.string.Compra))) compra=true;
+
                             eliminar.eliminar_producto_factura(TextView_referencia_producto.getText().toString(),id_producto_pedido.getText().toString(),textView_cantidad.getText().toString(), compra);
                             String descripcion, actividad;
                             if (compra==true){

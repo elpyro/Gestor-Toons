@@ -3,6 +3,7 @@ package com.accesoritoons.gestortoons.surtir;
 import static android.content.ContentValues.TAG;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
@@ -58,7 +60,7 @@ public class Fragment_detalle_factura extends Fragment implements PDFUtility_fac
     String id_factura, nombre, telefono, direccion, documento;
     public static String cliente_diamante="false";
     RecyclerView recyclerView_productos;
-    Button button_agregar;
+    Button button_agregar, button_devolucion;
 
     public static String producto_scaneado="", id_producto_factura;
     public static TextView total_factura;
@@ -72,22 +74,12 @@ public class Fragment_detalle_factura extends Fragment implements PDFUtility_fac
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Fragment_lista_recaudos.textView_total_recaudos=null;
-        context=getContext();
-        vista=inflater.inflate(R.layout.fragment_detalle_factura, container, false);
-        textView_id=vista.findViewById(R.id.textView_id);
-        textView_documento=vista.findViewById(R.id.textView_documento);
-        textview_nombre_cliente=vista.findViewById(R.id.textview_nombre_cliente);
-        textView_telefono=vista.findViewById(R.id.textView_telefono);
-        textView_actividad=vista.findViewById(R.id.texview_actividad);
-        total_factura=vista.findViewById(R.id.textView_total);
-        textView_fecha=vista.findViewById(R.id.textView_fecha);
-        textView_direccion=vista.findViewById(R.id.textView_direccion);
-        textView_vendedor=vista.findViewById(R.id.textView_vendedor);
-        button_agregar=vista.findViewById(R.id.button_agregar);
-        recyclerView_productos=vista.findViewById(R.id.recycler_productos);
-        recyclerView_productos.setLayoutManager(new LinearLayoutManager(context));
 
+        vista=inflater.inflate(R.layout.fragment_detalle_factura, container, false);
+
+        inicializando();
+
+        button_devolucion.setOnClickListener(view -> devolverTodosProudctos());
         button_agregar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -144,6 +136,73 @@ public class Fragment_detalle_factura extends Fragment implements PDFUtility_fac
 
 
         return vista;
+    }
+
+    private void devolverTodosProudctos() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Devolver factura");
+        builder.setMessage("¿Estas seguro de eliminar todos los pruductos? \n Seran agregados nuevamente al inventario");
+
+        builder.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                Guardar_firebase eliminar =new Guardar_firebase();
+                String descripcion, actividad;
+                boolean compra= false;
+
+                if(textView_actividad.getText().toString().equals("Compra")) compra=true;
+                for (int x = 0; x < lista_productos_facturados.size(); x++) {
+                    Modelo_producto_facturacion_app_vendedor factura = lista_productos_facturados.get(x);
+
+                    eliminar.eliminar_producto_factura(factura.getId_referencia_producto(),factura.getId_producto_pedido(),factura.getCantidad(), compra);
+
+                    if (compra==true){
+                        actividad=context.getString(R.string.Devolucion_proveedor);
+                        descripcion= context.getString(R.string.restar_inventario);
+                    }else{
+                        actividad=context.getString(R.string.Devolucion_bodega);
+                        descripcion=context.getString(R.string.Agregar_inventario);
+                    }
+
+                    if (x +1 == lista_productos_facturados.size()){
+                        descripcion=descripcion+": Factura  devuelta de: "+textview_nombre_cliente.getText().toString();
+                       if (textView_id.getText().toString()!=null) eliminar.guardar_historial(textView_id.getText().toString(),actividad,MainActivity.Id_Usuario,descripcion,context);
+                       textview_nombre_cliente.setText(textview_nombre_cliente.getText().toString()+" Devolucion ("+lista_productos_facturados.size()+" productos)");
+                    }
+
+                }
+
+
+            }
+        });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+    }
+
+    private void inicializando() {
+        Fragment_lista_recaudos.textView_total_recaudos=null;
+        context=getContext();
+        textView_id=vista.findViewById(R.id.textView_id);
+        textView_documento=vista.findViewById(R.id.textView_documento);
+        textview_nombre_cliente=vista.findViewById(R.id.textview_nombre_cliente);
+        textView_telefono=vista.findViewById(R.id.textView_telefono);
+        textView_actividad=vista.findViewById(R.id.texview_actividad);
+        total_factura=vista.findViewById(R.id.textView_total);
+        textView_fecha=vista.findViewById(R.id.textView_fecha);
+        textView_direccion=vista.findViewById(R.id.textView_direccion);
+        textView_vendedor=vista.findViewById(R.id.textView_vendedor);
+        button_agregar=vista.findViewById(R.id.button_agregar);
+        button_devolucion=vista.findViewById(R.id.button_devolucion);
+        recyclerView_productos=vista.findViewById(R.id.recycler_productos);
+        recyclerView_productos.setLayoutManager(new LinearLayoutManager(context));
+
     }
 
     private void crear_pdf() {

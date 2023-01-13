@@ -250,8 +250,11 @@ public class RecyclerViewAdaptador_ventas_bodega extends RecyclerView.Adapter<Re
 
                total=exitencia-seleccion;
                if(total<0){
-                   editText_cantidad.setText(textView_cantidad_original_invisible.getText().toString());
-                   textView_cantidad.setText("0");
+
+                   // Colocar este texto si no se quiere factuar productos fuera de existencia
+
+//                   editText_cantidad.setText(textView_cantidad_original_invisible.getText().toString());
+//                   textView_cantidad.setText("0");
                }else{
                    textView_cantidad.setText(total+"");
                }

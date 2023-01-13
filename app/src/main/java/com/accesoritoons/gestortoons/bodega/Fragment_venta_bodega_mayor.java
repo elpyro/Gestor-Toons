@@ -157,7 +157,7 @@ try{
                     if (snapshot.exists()){
                         lista=new ArrayList<>();
                         for(DataSnapshot ds:snapshot.getChildren()){
-                            if (!ds.getValue(Modelo_producto.class).getCantidad().equals("0")) lista.add(ds.getValue(Modelo_producto.class));
+                           lista.add(ds.getValue(Modelo_producto.class));
                         }
                         lista_produtos_completa=lista;
                         lista.sort(Comparator.comparing(Modelo_producto::getNombre));

@@ -290,7 +290,7 @@ public class Guardar_firebase extends Application {
         referencia= FirebaseDatabase.getInstance().getReference().child("Factura_productos").orderByChild("id_producto_pedido").equalTo(id_producto_factura).limitToFirst(1);
                 referencia.keepSynced(true);
         try {
-            Thread.sleep(1 * 200);
+            Thread.sleep(1 * 100);
         } catch (InterruptedException e) {
             e.printStackTrace();
         };
@@ -317,7 +317,7 @@ public class Guardar_firebase extends Application {
         Query referencia_id_producto= FirebaseDatabase.getInstance().getReference().child("Productos").orderByChild("id").equalTo(id_producto);
         referencia_id_producto.keepSynced(true);
         try {
-            Thread.sleep(1 * 200);
+            Thread.sleep(1 * 100);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

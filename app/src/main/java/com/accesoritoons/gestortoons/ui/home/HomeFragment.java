@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -64,6 +65,7 @@ public class HomeFragment extends Fragment {
     Query referencia;
     View root;
     ImageView imageView_scann;
+    private Button button_venta_bodega;
     ArrayList<Modelo_historial> lista;
 
     //https://www.youtube.com/watch?v=IwdjCApjIzA&t=442s autenticacion
@@ -91,13 +93,14 @@ public class HomeFragment extends Fragment {
 
 
         imageView_scann=(ImageView)root.findViewById(R.id.imageView_scan);
+        button_venta_bodega=(Button)root.findViewById(R.id.button_venta_bodega);
         recview=(RecyclerView)root.findViewById(R.id.recycler_historial);
 
 //                   recview.setHasFixedSize(true);
         recview.setLayoutManager(new LinearLayoutManager(getContext()));
         searchView_perfiles=(SearchView)root.findViewById(R.id.search_historial);
 
-
+        button_venta_bodega.setOnClickListener(view ->     Navigation.findNavController(root).navigate(R.id.fragment_venta_bodega));
         imageView_scann.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -106,6 +109,7 @@ public class HomeFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
 
         //LOGIN
         firebaseAutenticacion = FirebaseAuth.getInstance();

@@ -843,9 +843,12 @@ public class Activity_vista_pdf extends AppCompatActivity implements PDFUtility_
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if (snapshot.exists()){
                         for(DataSnapshot ds:snapshot.getChildren()){
-                            int finalCosto= Integer.parseInt(ds.getValue(Modelo_producto.class).getP_compra());
-                            int subtotal=Integer.parseInt(ds.getValue(Modelo_producto.class).getCantidad())*finalCosto;
-                            lista_registros.add(new Modelo_registro_inventario_productos(ds.getValue(Modelo_producto.class).getNombre(), ds.getValue(Modelo_producto.class).getCantidad(), finalCosto +"",subtotal+"","1","Accesory Toons","Bodega"));
+                            int existenciasDisponibles = Integer.parseInt((ds.getValue(Modelo_producto.class).getCantidad()));
+                            if (existenciasDisponibles>0) {
+                                int finalCosto = Integer.parseInt(ds.getValue(Modelo_producto.class).getP_compra());
+                                int subtotal = Integer.parseInt(ds.getValue(Modelo_producto.class).getCantidad()) * finalCosto;
+                                lista_registros.add(new Modelo_registro_inventario_productos(ds.getValue(Modelo_producto.class).getNombre(), ds.getValue(Modelo_producto.class).getCantidad(), finalCosto + "", subtotal + "", "1", "Accesory Toons", "Bodega"));
+                            }
                         }
                         crear_pdf();
 

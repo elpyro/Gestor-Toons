@@ -143,7 +143,8 @@ public class Fragment_crear_factura extends Fragment implements PDFUtility_factu
                     RecyclerViewAdaptador_ventas_bodega.actulizar_total();
                     String fecha= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss aa").format(new Date());
                     String id_factura= UUID.randomUUID().toString();
-                    descripcion_compra=textView_total.getText().toString().trim();
+                    if (editText_nombre.getText().toString().equals(""))editText_nombre.setText("Anonimo");
+                    descripcion_compra=textView_total.getText().toString().trim()+"\n"+editText_nombre.getText().toString();
                     Context context=getContext();
 
                     if (!hiloActivo) {
@@ -162,7 +163,7 @@ public class Fragment_crear_factura extends Fragment implements PDFUtility_factu
                                     referencia_id_producto.keepSynced(true);
 
                                     try {
-                                        Thread.sleep(1 * 250);
+                                        Thread.sleep(1 * 100);
                                     } catch (InterruptedException e) {
                                         e.printStackTrace();
                                     }
@@ -219,12 +220,12 @@ public class Fragment_crear_factura extends Fragment implements PDFUtility_factu
                                                         productos.setVendedor(MainActivity.Usuario);
 
                                                         //verfica que hay existencia para regisrar el producto
-                                                        if (Cantidad > -1) {
+//                                                        if (Cantidad > -1) {
                                                             producto.setCantidad(Cantidad + "");
                                                             DatabaseReference myRefe = FirebaseDatabase.getInstance().getReference();
                                                             myRefe.child("Productos").child(producto.getId()).setValue(producto);
                                                             referencia.child("Factura_productos").child(productos.getId_producto_pedido()).setValue(productos);
-                                                        }
+                                                        //}
 
 
                                                         descripcion_compra = descripcion_compra + "\n" + "x" + cantidad_seleccionada + " $" + precio_venta + " " + nombre;
