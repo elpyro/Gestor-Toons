@@ -917,12 +917,19 @@ public class Activity_vista_pdf extends AppCompatActivity implements PDFUtility_
                                         bandera = true;
                                     } else if (fecha_registro.compareTo(fecha_desde) == 0 || fecha_registro.compareTo(fecha_hasta) == 0)
                                         bandera = true;
-
+                                    String estado ="Error";
+                                    int cant=0;
+                                    int venta=0;
                                     if (bandera == true) {
                                         int costo = Integer.parseInt(ds.getValue(Modelo_reporte_ganancias.class).getCosto());
-                                        int venta = Integer.parseInt(ds.getValue(Modelo_reporte_ganancias.class).getVenta());
-                                        int cant = Integer.parseInt(ds.getValue(Modelo_reporte_ganancias.class).getCantidad());
-                                        String estado = ds.getValue(Modelo_reporte_ganancias.class).getEstado();
+                                   try {
+                                        venta = Integer.parseInt(ds.getValue(Modelo_reporte_ganancias.class).getVenta());
+                                        cant = Integer.parseInt(ds.getValue(Modelo_reporte_ganancias.class).getCantidad());
+                                        estado = ds.getValue(Modelo_reporte_ganancias.class).getEstado();
+                                    }catch (Exception e){
+                                       Toast.makeText(context, "Error "+ds.getValue(Modelo_reporte_ganancias.class).getReferencia(), Toast.LENGTH_SHORT).show();
+                                    }
+
                                         int ganancia = 0;
 
                                         if (estado.equals("Ventas")) {

@@ -219,12 +219,8 @@ public class RecyclerViewAdaptador_compras_bodega extends RecyclerView.Adapter<R
                exitencia= Integer.parseInt(textView_cantidad_original_invisible.getText().toString());
 
                total=exitencia + seleccion;
-               if(total<0){
-                   editText_cantidad.setText(textView_cantidad_original_invisible.getText().toString());
-                   textView_cantidad.setText("0");
-               }else{
-                   textView_cantidad.setText(total+"");
-               }
+               textView_cantidad.setText(total+"");
+
 
            }
 
